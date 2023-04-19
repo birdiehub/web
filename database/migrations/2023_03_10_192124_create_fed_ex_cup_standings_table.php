@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('fed_ex_cup_standings', function (Blueprint $table) {
             $table->unsignedBigInteger('player_id');
             $table->string('fed_ex_cup_id');
-            $table->integer('total');
-            $table->string('total_label', 50);
+            $table->integer('points');
             $table->integer('rank');
             $table->timestamps();
             $table->primary(['player_id', 'fed_ex_cup_id']);

@@ -17,7 +17,6 @@ return new class extends Migration
         Schema::create('fed_ex_cups', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('title', 100);
-            $table->string('description', 255)->nullable();
             $table->string('season', 12)->nullable();
             $table->timestamps();
         });
