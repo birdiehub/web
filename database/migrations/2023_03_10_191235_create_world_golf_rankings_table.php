@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('world_golf_rankings', function (Blueprint $table) {
             $table->unsignedBigInteger('player_id');
-            $table->integer('week_number');
+            $table->unsignedBigInteger('week_number');
             $table->string('weekend_date', 20);
             $table->integer('rank');
             $table->integer('last_week_rank');
             $table->integer('end_last_year_rank');
             $table->boolean('is_tied');
-            $table->integer('points_lost');
-            $table->integer('points_won');
-            $table->integer('points_total');
-            $table->integer('points_average');
+            $table->decimal('points_lost', 20, 10);
+            $table->decimal('points_won', 20, 10);
+            $table->decimal('points_total', 20, 10);
+            $table->decimal('points_average', 20, 4);
             $table->integer('divisor_actual');
             $table->integer('divisor_applied');
             $table->timestamps();
