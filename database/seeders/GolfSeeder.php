@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use App\Models\FedExCup;
 use App\Models\FedExCupStanding;
 use App\Models\Player;
@@ -60,6 +61,14 @@ class GolfSeeder extends Seeder
         }
     }
 
+    private function saveCountry($country): int
+    {
+        $model = new Country();
+        $model->code = $country['code'];
+        $model->save();
+        return $model->id;
+    }
+
     private function savePlayer($player, $details): int
     {
         $model = new Player();
@@ -75,9 +84,6 @@ class GolfSeeder extends Seeder
         if (!is_null($details)) {
             $model->headshot = $details['headshot'];
             $model->turned_pro = $details['turnedPro'];
-            $model->website_url = $details['websiteURL'];
-            $model_lang->pronunciation = $details['pronunciation'];
-            $model_lang->overview = $details['overview'];
             $model_lang->family = $details['family'];
             $model->weight_kilograms = $details['weightKilograms'];
             $model->weight_imperial = $details['weightImperial'];
@@ -87,16 +93,8 @@ class GolfSeeder extends Seeder
             $model_lang->college = $details['school'];
             $model->graduation_year = $details['graduationYear'];
             $model->career_earnings = $details['careerEarnings'];
-            $model_lang->birth_city = $details['birthplace']['city'];
-            $model_lang->birth_country = $details['birthplace']['country'];
-            $model_lang->birth_country_code = $details['birthplace']['countryCode'];
-            $model_lang->birth_state = $details['birthplace']['state'];
-            $model_lang->birth_state_code = $details['birthplace']['stateCode'];
-            $model_lang->residence_city = $details['residence']['city'];
-            $model_lang->residence_country = $details['residence']['country'];
-            $model_lang->residence_country_code = $details['residence']['countryCode'];
-            $model_lang->residence_state = $details['residence']['state'];
-            $model_lang->residence_state_code = $details['residence']['stateCode'];
+
+
 
             // bio
             if ($details['personal'] != null) {
