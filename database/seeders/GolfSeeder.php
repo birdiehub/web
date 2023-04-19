@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\CountryLanguage;
 use App\Models\FedExCup;
 use App\Models\FedExCupStanding;
 use App\Models\Player;
@@ -61,12 +62,25 @@ class GolfSeeder extends Seeder
         }
     }
 
-    private function saveCountry($country): int
+    private function findCountry($code): int
     {
-        $model = new Country();
-        $model->code = $country['code'];
-        $model->save();
-        return $model->id;
+
+        switch ($code){
+            case 'USA':
+                $code = 'US';
+                break;
+            case 'England' || 'Scotland' || 'Wales' || 'Northern-Ireland':
+                $code = 'GB';
+                break;
+            case 'Norway':
+                $code = 'NO';
+                break;
+            default:
+                print 'Country not found: ' . $code . PHP_EOL;
+                break;
+        }
+
+        return Country::where('code', $code)->first()->id;
     }
 
     private function savePlayer($player, $details): int
@@ -90,11 +104,11 @@ class GolfSeeder extends Seeder
             $model->height_meters = $details['heightMeters'];
             $model->height_imperial = $details['heightImperial'];
             $model_lang->degree = $details['degree'];
-            $model_lang->college = $details['school'];
+            $model->college = $details['school'];
             $model->graduation_year = $details['graduationYear'];
             $model->career_earnings = $details['careerEarnings'];
 
-
+            $model->country_id = $this->findCountry($details['birthplace']['countryCode']);
 
             // bio
             if ($details['personal'] != null) {
@@ -109,9 +123,9 @@ class GolfSeeder extends Seeder
         if ($other) {
             $other->update($model->AttributesToArray());
             $id = $other->id;
-            PlayerLanguage::where("player_id", $id)
-                ->where("language", 'en')
-                ->first()->update($model_lang->AttributesToArray());
+            $other_lang = PlayerLanguage::where("player_id", $id)
+                    ->where("language", 'en');
+            $other_lang ->update($model_lang->AttributesToArray());
             return $id;
         } else {
             $model->save();

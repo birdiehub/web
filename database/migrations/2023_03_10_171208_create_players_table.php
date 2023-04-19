@@ -23,15 +23,19 @@ return new class extends Migration
             $table->boolean('is_amateur')->nullable();
             $table->dateTime('birth_date')->nullable();
             $table->integer('turned_pro')->nullable();
+            $table->string('college', 50)->nullable();
             $table->integer('graduation_year')->nullable();
             $table->string('career_earnings')->nullable();
             $table->string('height_imperial', 50)->nullable();
             $table->string('height_meters', 50)->nullable();
             $table->string('weight_imperial', 50)->nullable();
             $table->string('weight_kilograms', 50)->nullable();
-            $table->string('website_url', 255)->nullable();
+
+            $table->unsignedBigInteger('country_id')->nullable();
+
             $table->timestamps();
             $table->unique(['first_name', 'last_name']);
+            $table->foreign('country_id')->references('id')->on('countries');
         });
 
     }
