@@ -14,9 +14,15 @@ class Player extends Model
 
     protected $guarded = ['*'];
 
-    public function playerSnapshots(): HasMany
+
+    public function playerLanguages(): HasMany
     {
-        return $this->hasMany(PlayerSnapshot::class);
+        return $this->hasMany(PlayerLanguage::class);
+    }
+
+    public function playerSnapshotLanguages(): HasMany
+    {
+        return $this->hasMany(PlayerSnapshotLanguage::class);
     }
 
     public function playerSocials(): HasMany
