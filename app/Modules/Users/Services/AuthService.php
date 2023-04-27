@@ -43,37 +43,49 @@ class AuthService extends Service
     {
         $this->validate($data, $this->_registerRules);
 
-        $credentials = [
-            'username' => $data['username'],
-            'password' => $data['password']
-        ];
+        $unhashedPassword = $data['password'];
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($unhashedPassword);
         $data['role'] = UserRole::where('name', 'user')->first()->id;
 
         $user = $this->_model->create($data);
-        return $this->authenticate($credentials);
+        return $this->authenticate($data['username'], $unhashedPassword);
     }
 
     /**
      * @throws ForbiddenAccessException
      * @throws ValidatorException
      */
-    function login($data): string
+    public function login($data): string
     {
         $this->validate($data, $this->_loginRules);
-        return $this->authenticate([
-            'username' => $data['username'],
-            'password' => $data['password']
-        ]);
+        return $this->authenticate($data['username'], $data['password']);
+    }
+
+    public function logout(): void
+    {
+        auth('api')->logout();
+    }
+
+    public function refresh(): string
+    {
+        return auth('api')->refresh();
+    }
+
+    public function me(): array
+    {
+        return auth('api')->user()->toArray();
     }
 
     /**
      * @throws ForbiddenAccessException
      */
-    private function authenticate($credentials) : string
+    private function authenticate($username, $password) : string
     {
-        $token = auth()->attempt($credentials);
+        $token = auth('api')->attempt([
+            'username' => $username,
+            'password' => $password
+        ]);
         if (!$token) throw new ForbiddenAccessException("Invalid username or password");
         return $token;
     }
