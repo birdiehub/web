@@ -2,23 +2,31 @@
 
 namespace App\Modules\Users\Services;
 
+use App\Exceptions\ResourceNotFoundException;
+use App\Exceptions\ValidatorException;
 use App\Models\User;
 use App\Modules\Core\Services\Service;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserService extends Service
 {
-    protected $_rules = [
-        'username' => 'required|unique:users,username',
-        'password' => 'required|min:8',
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'address' => 'required',
-        'city' => 'required',
-        'zip' => 'required',
-        'country' => 'required',
-        'role' => 'required'
+    protected array $_updateRules = [
+        "id"=> "prohibited",
+        'username' => 'string|max:255||unique:users,username',
+        'password' => 'string|max:255|min:8',
+        "first_name" => "string",
+        "last_name" => "string",
+        "email" => "email|max:255",
+        "phone" => "string",
+        "address" => "string",
+        "city" => "string",
+        "zip" => "string",
+        "country" => "int|exists:countries,id",
+        "role" => "prohibited"
     ];
 
     public function __construct(User $model)
@@ -27,36 +35,46 @@ class UserService extends Service
     }
 
 
-    public function all($pages = 10){
-        return $this->_model->paginate($pages)->withQueryString();
+    public function all() : Builder {
+        return $this->_model
+            ->with("country")
+            ->select("id", "username", "first_name", "last_name", "country");
     }
 
-    public function find($id){
-        return ["data" => $this->_model->find($id)];
-    }
+    /**
+     * @throws ResourceNotFoundException
+     */
+    public function get($id) : Model {
+        $user = $this->_model
+            ->with("role")
+            ->with("country")
+            ->find($id);
 
-    public function add($data){
+        if(!$user)
+            throw new ResourceNotFoundException("Unable to find user with id: $id");
 
-        $this->validate($data);
-        if($this->hasErrors()){
-            return;
-        }
-
-        $user = $this->_model->create($data);
+        $user->makeHidden('password');
         return $user;
     }
 
-    public function update($id, $data){
+    /**
+     * @throws ValidatorException
+     * @throws ResourceNotFoundException
+     */
+    public function update($id, $data) : Model {
+        $this->validate($data, $this->_updateRules);
 
-        $this->validate($data);
-        if($this->hasErrors()){
-            return;
-        }
+        if (isset($data['password']))
+            $data['password'] = Hash::make($data['password']);
 
-        $user = $this->_model->find($id);
-        $user = $this->_model->update($data);
+        $user = $this->get($id);
+        $user->update($data);
 
-        return $user;
+        return $this->get($user->id);
     }
 
+    public function delete($id) : bool {
+        $user = $this->get($id);
+        return $user->delete();
+    }
 }
