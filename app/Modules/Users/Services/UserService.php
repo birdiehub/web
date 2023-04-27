@@ -53,7 +53,6 @@ class UserService extends Service
         if(!$user)
             throw new ResourceNotFoundException("Unable to find user with id: $id");
 
-        $user->makeHidden('password');
         return $user;
     }
 
