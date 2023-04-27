@@ -2,11 +2,9 @@
 
 namespace App\Modules\Players\Services;
 
-use App\Modules\Core\Services\ServiceLanguages;
+use App\Modules\Core\Services\TranslationService;
 
-class PlayerService extends ServiceLanguages
+class PlayerService extends TranslationService
 {
-    protected $_rules = [
 
-    ];
 }
