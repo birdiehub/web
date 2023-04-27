@@ -12,10 +12,15 @@ class CountryLanguage extends Model
 
     protected $table = 'countries_language';
 
-    protected $guarded = ['*'];
+    protected $fillable = [
+        'country_id',
+        'language',
+        'name'
+    ];
 
-    public function country() : BelongsTo
+    public function country(): BelongsTo
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class, "country_id", "id");
     }
+
 }
