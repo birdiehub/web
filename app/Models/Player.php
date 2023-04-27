@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Player extends Model
@@ -15,9 +16,9 @@ class Player extends Model
     protected $guarded = ['*'];
 
 
-    public function playerLanguages(): HasMany
+    public function translations(): HasMany
     {
-        return $this->hasMany(PlayerLanguage::class);
+        return $this->hasMany(PlayerLanguage::class, "player_id", "id");
     }
 
     public function playerSnapshotLanguages(): HasMany
@@ -40,4 +41,8 @@ class Player extends Model
         return $this->hasMany(FedExCupStanding::class);
     }
 
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, "country", "id");
+    }
 }
