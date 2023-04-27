@@ -1,37 +1,29 @@
 <?php
+
 namespace App\Modules\Core\Services;
 
-
+use App\Exceptions\ValidatorException;
+use App\Modules\Core\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\MessageBag;
 
 abstract class Service
 {
-    protected $_model;
-    protected $_errors;
-
-    protected $_rules = [];
+    protected Model $_model;
+    protected Validator $_validator;
 
     public function __construct(Model $model)
     {
         $this->_model = $model;
-        $this->_errors = new MessageBag();
+        $this->_validator = new Validator($this->_model);
     }
 
-    protected function validate($data){
-        $validator = Validator::make($data, $this->_rules);
-        if($validator->fails()){
-            $this->_errors = $validator->errors();
-            return;
-        }
-    }
-
-    public function hasErrors(){
-        return $this->_errors->any();
-    }
-
-    public function getErrors(){
-        return $this->_errors;
+    /**
+     * @param array $data
+     *
+     * @throws ValidatorException
+     */
+    protected function validate(array $data, array $rules): void
+    {
+        $this->_validator->validate($data, $rules);
     }
 }
