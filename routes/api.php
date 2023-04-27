@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CountryApiController;
 use App\Http\Controllers\UserApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function() {
+    Route::get('/users', [UserApiController::class, 'all']);
+    Route::get('/users/{id}', [UserApiController::class, 'get'])->where('id', '[0-9]+');
+    Route::put('/users/{id}', [UserApiController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('/users/{id}', [UserApiController::class, 'delete'])->where('id', '[0-9]+');
+
+    Route::post('/auth/logout', [AuthController::class, "logout"]);
+    Route::post('/auth/refresh', [AuthController::class, "refresh"]);
+    Route::get('/auth/me', [AuthController::class, "me"]);
 });
+
 
 Route::post('/auth/register', [AuthController::class, "register"]);
 Route::post('/auth/login', [AuthController::class, "login"]);
-
-Route::get('/users', [UserApiController::class, 'all']);
-Route::get('/users/{id}', [UserApiController::class, 'get'])->where('id', '[0-9]+');
-Route::put('/users/{id}', [UserApiController::class, 'update'])->where('id', '[0-9]+');
-Route::delete('/users/{id}', [UserApiController::class, 'delete'])->where('id', '[0-9]+');
 
 
 Route::get('/countries', [CountryApiController::class, 'all']);
