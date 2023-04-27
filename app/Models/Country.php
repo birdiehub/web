@@ -12,15 +12,22 @@ class Country extends Model
 
     protected $table = 'countries';
 
-    protected $guarded = ['*'];
+    protected $fillable = [
+        'code'
+    ];
 
-    public function countryLanguages(): HasMany
+    public function translations(): HasMany
     {
-        return $this->hasMany(CountryLanguage::class);
+        return $this->hasMany(CountryLanguage::class, "country_id", "id");
     }
 
     public function players(): HasMany
     {
-        return $this->hasMany(Player::class);
+        return $this->hasMany(Player::class, "country", "id");
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, "country", "id");
     }
 }
