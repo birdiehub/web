@@ -17,12 +17,7 @@ use Illuminate\Support\Facades\Http;
 class GolfSeeder extends Seeder
 {
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     * @throws \Exception
-     */
+
     public function run()
     {
 
