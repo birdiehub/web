@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Custom;
 
 use App\Http\Response;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class GolfException extends Exception
+class GeneralException extends Exception
 {
 
     /**
@@ -19,10 +19,4 @@ class GolfException extends Exception
     {
         parent::__construct($message);
     }
-
-    public function render(Request $request): JsonResponse
-    {
-        return Response::error($this->getMessage(), 409);
-    }
-
 }

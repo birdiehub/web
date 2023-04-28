@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Http\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -41,9 +43,39 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+
+    public function render($request, Throwable $e): JsonResponse
     {
-        $this->reportable(function (Throwable $e) {
+        // Handle specific exceptions here...
+        // General
+        if ($e instanceof \App\Exceptions\Custom\GeneralException) {
+            return Response::error($e->getMessage(), 409);
+        }
+        // Authentication
+        elseif ($e instanceof \Illuminate\Auth\AuthenticationException) {
+            return Response::error($e->getMessage(), 403);
+        }
+        // Authorization: Roles and Permissions
+        elseif ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            return Response::error($e->getMessage(), $e->getStatusCode());
+        }
+        elseif ($e instanceof \Illuminate\Validation\ValidationException) {
+            return Response::error($e->errors(), 400);
+        }
+        elseif ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            return Response::error($e->getMessage(), 404);
+        }
+        elseif ($e instanceof \App\Exceptions\Custom\NotYetImplementedException) {
+            return Response::error($e->getMessage(), 501);
+        }
+
+        // Handle all other exceptions with a general response
+        return Response::error("Internal Server Error", 500);
+    }
+
+    public function register(): void
+    {
+        $this->reportable(function (Throwable $e): void {
             //
         });
     }
