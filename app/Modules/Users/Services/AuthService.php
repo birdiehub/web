@@ -2,11 +2,9 @@
 
 namespace App\Modules\Users\Services;
 
-use App\Exceptions\ForbiddenAccessException;
-use App\Exceptions\ValidatorException;
 use App\Models\User;
-use App\Models\UserRole;
 use App\Modules\Core\Services\Service;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService extends Service
@@ -21,24 +19,19 @@ class AuthService extends Service
         "address" => "required|string",
         "city" => "required|string",
         "zip" => "required|string",
-        "country" => "required|int",
-        "role" => "prohibited"
+        "country" => "required|int"
     ];
 
     protected array $_loginRules = [
         'username' => 'required|string',
-        'password' => 'required|string',
-        "role" => "prohibited"
+        'password' => 'required|string'
     ];
     public function __construct(User $model)
     {
         parent::__construct($model);
     }
 
-    /**
-     * @throws ForbiddenAccessException
-     * @throws ValidatorException
-     */
+
     public function register($data): string
     {
         $this->validate($data, $this->_registerRules);
@@ -46,16 +39,12 @@ class AuthService extends Service
         $unhashedPassword = $data['password'];
 
         $data['password'] = Hash::make($unhashedPassword);
-        $data['role'] = UserRole::where('name', 'user')->first()->id;
 
         $user = $this->_model->create($data);
         return $this->authenticate($data['username'], $unhashedPassword);
     }
 
-    /**
-     * @throws ForbiddenAccessException
-     * @throws ValidatorException
-     */
+
     public function login($data): string
     {
         $this->validate($data, $this->_loginRules);
@@ -77,16 +66,14 @@ class AuthService extends Service
         return auth('api')->user()->toArray();
     }
 
-    /**
-     * @throws ForbiddenAccessException
-     */
+
     private function authenticate($username, $password) : string
     {
         $token = auth('api')->attempt([
             'username' => $username,
             'password' => $password
         ]);
-        if (!$token) throw new ForbiddenAccessException("Invalid username or password");
+        if (!$token) throw new AuthenticationException("Invalid username or password");
         return $token;
     }
 }

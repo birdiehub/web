@@ -2,7 +2,7 @@
 
 namespace App\Modules\Core\Services;
 
-use App\Exceptions\ValidatorException;
+
 use App\Modules\Core\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,11 +17,6 @@ abstract class Service
         $this->_validator = new Validator($this->_model);
     }
 
-    /**
-     * @param array $data
-     *
-     * @throws ValidatorException
-     */
     protected function validate(array $data, array $rules): void
     {
         $this->_validator->validate($data, $rules);

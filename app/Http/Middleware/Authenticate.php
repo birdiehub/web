@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ForbiddenAccessException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -15,11 +15,11 @@ class Authenticate extends Middleware
      * @param array $guards
      * @return void
      *
-     * @throws ForbiddenAccessException
+     * @throws AuthenticationException
      */
 
     protected function unauthenticated($request, array $guards): void
     {
-        throw new ForbiddenAccessException("You are not authorized to access this resource.");
+        throw new AuthenticationException();
     }
 }

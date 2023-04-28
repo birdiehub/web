@@ -2,14 +2,11 @@
 
 namespace App\Modules\Core\Services;
 
-use App\Exceptions\ValidatorException;
+
 
 abstract class TranslationService extends Service
 {
 
-    /**
-     * @throws ValidatorException
-     */
     protected function validate(array $data, array $rules, array $rulesTranslation = null) : void
     {
         if ($rulesTranslation !== null) {

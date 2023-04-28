@@ -2,12 +2,11 @@
 
 namespace App\Modules\Countries\Services;
 
-use App\Exceptions\ResourceNotFoundException;
-use App\Exceptions\ValidatorException;
 use App\Models\Country;
 use App\Modules\Core\Services\TranslationService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CountryService extends TranslationService
 {
@@ -55,10 +54,7 @@ class CountryService extends TranslationService
             );
     }
 
-    /**
-     * @throws ValidatorException
-     * @throws ResourceNotFoundException
-     */
+
     public function create($country) : Model
     {
         $this->validate($country, $this->_insertRules, $this->_insertRulesTranslations);
@@ -67,9 +63,7 @@ class CountryService extends TranslationService
         return $this->get($model->id);
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
+
     public function get($id): Model
     {
         $data = $this->_model
@@ -77,15 +71,12 @@ class CountryService extends TranslationService
             ->find($id);
 
         if(!$data)
-            throw new ResourceNotFoundException("Unable to find country with id: $id");
+            throw new ModelNotFoundException("Unable to find country with id: $id");
 
         return $data;
     }
 
-    /**
-     * @throws ValidatorException
-     * @throws ResourceNotFoundException
-     */
+
     public function update($id, $country) : Model
     {
         $this->validate($country, $this->_updateRules, $this->_updateRulesTranslations);
@@ -96,9 +87,7 @@ class CountryService extends TranslationService
         return $this->get($model->id);
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
+
     public function delete($id) : bool
     {
         $model = $this->get($id);

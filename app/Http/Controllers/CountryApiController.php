@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ResourceNotFoundException;
-use App\Exceptions\ValidatorException;
 use App\Http\Response;
 use App\Modules\Core\Presenters\Presenter;
 use App\Modules\Countries\Services\CountryService;
@@ -36,18 +34,13 @@ class CountryApiController extends Controller
         return Response::json($json);
     }
 
-    /**
-     * @throws ValidatorException
-     */
     public function create(Request $request) : JsonResponse{
         $data = $request->all();
         $country = $this->_service->create($data);
         return Response::json(["data" => $country], 201);
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
+
     public function get($id) : JsonResponse {
         $country = $this->_service->get($id);
         $json = Presenter::recordWithTranslations($country->toArray());
@@ -55,19 +48,13 @@ class CountryApiController extends Controller
         return Response::json(["data" => $json]);
     }
 
-    /**
-     * @throws ValidatorException
-     * @throws ResourceNotFoundException
-     */
     public function update(Request $request, $id) : JsonResponse {
         $data = $request->all();
         $country = $this->_service->update($id, $data);
         return Response::json(["data" => $country]);
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
+
     public function delete($id) : JsonResponse
     {
         $this->_service->delete($id);

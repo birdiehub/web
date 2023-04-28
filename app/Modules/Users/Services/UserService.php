@@ -2,15 +2,12 @@
 
 namespace App\Modules\Users\Services;
 
-use App\Exceptions\ResourceNotFoundException;
-use App\Exceptions\ValidatorException;
 use App\Models\User;
 use App\Modules\Core\Services\Service;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserService extends Service
 {
@@ -25,8 +22,7 @@ class UserService extends Service
         "address" => "string",
         "city" => "string",
         "zip" => "string",
-        "country" => "int|exists:countries,id",
-        "role" => "prohibited"
+        "country" => "int|exists:countries,id"
     ];
 
     public function __construct(User $model)
@@ -41,25 +37,19 @@ class UserService extends Service
             ->select("id", "username", "first_name", "last_name", "country");
     }
 
-    /**
-     * @throws ResourceNotFoundException
-     */
+
     public function get($id) : Model {
         $user = $this->_model
-            ->with("role")
             ->with("country")
             ->find($id);
 
         if(!$user)
-            throw new ResourceNotFoundException("Unable to find user with id: $id");
+            throw new ModelNotFoundException("Unable to find user with id: $id");
 
         return $user;
     }
 
-    /**
-     * @throws ValidatorException
-     * @throws ResourceNotFoundException
-     */
+
     public function update($id, $data) : Model {
         $this->validate($data, $this->_updateRules);
 
