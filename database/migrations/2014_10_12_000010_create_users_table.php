@@ -25,10 +25,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('zip');
             $table->unsignedBigInteger('country');
-            $table->unsignedBigInteger('role');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('role')->references('id')->on('user_roles')->onDelete('cascade');
             $table->foreign('country')->references('id')->on('countries');
         });
     }
