@@ -24,4 +24,59 @@ Framework: Laravel 9.19
 7. Generate the JWT secret with `php artisan jwt:secret`
 
 ## Authentication
-JWT authentication is used for the API.
+JWT authentication is used for the API.  
+
+Unauthenticated requests are handled by the `App\Http\Middleware\Authenticate` middleware.  
+When a request is unauthenticated, the AuthenticationException is thrown.
+
+## Authorization
+Is handled by the middleware og the Laravel Permissions package.
+### Roles & Permissions
+- Super Admin: `All Permissions`
+- Admin: `View Users, Create Users, Edit Users, Delete Users, View Roles, View Permissions`
+- Editor: `Create Players, Edit Players, Delete Players, Create Countries, Edit Countries, Delete Countries`
+- Viewer: `View Players, View Countries`
+
+> Inheritance: `Super Admin` > `Admin` > `Editor` > `Viewer`  
+
+> The `Super Admin` role is not available in the application. It can only be created in the database.
+
+
+## Composer Additional Requirements
+- [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/)
+- [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction)
+
+
+## Exceptions  
+The following exceptions are used in the application and are handled in the `app/Exceptions/Handler.php` file.
+
+#### General
+```php
+\App\Exceptions\Custom\GeneralException
+```
+
+#### Authentication
+```php
+\Illuminate\Auth\AuthenticationException
+``` 
+
+#### Authorization: Permissions and Roles
+```php
+\Spatie\Permission\Exceptions\UnauthorizedException
+```
+
+#### Validation
+```php
+\Illuminate\Validation\ValidationException
+```
+
+#### Not Found Models
+```php
+\Illuminate\Database\Eloquent\ModelNotFoundException
+```
+
+#### Not Yet Implemented
+```php
+\App\Exceptions\Custom\NotYetImplementedException
+```
+
