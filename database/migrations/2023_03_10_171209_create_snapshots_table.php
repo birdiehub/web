@@ -18,7 +18,6 @@ return new class extends Migration
             $table->json('description')->nullable(); // translatable
 
             $table->timestamps();
-            $table->unique(['player_id', 'title']);
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
     }
