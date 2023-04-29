@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'address' => fake()->streetAddress(),
             'city' => fake()->city(),
             'zip' => fake()->postcode(),
-            'country' => fake()->numberBetween(1, 20),
+            'country_id' => fake()->numberBetween(1, 20),
         ];
     }
 }

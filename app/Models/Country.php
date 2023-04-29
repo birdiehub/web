@@ -23,11 +23,11 @@ class Country extends Model
 
     public function players(): HasMany
     {
-        return $this->hasMany(Player::class, "country", "id");
+        return $this->hasMany(Player::class, "country_id", "id");
     }
 
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, "country", "id");
+        return $this->hasMany(User::class, "country_id", "id");
     }
 }

@@ -103,7 +103,7 @@ class GolfSeeder extends Seeder
             $model->graduation_year = $details['graduationYear'];
             $model->career_earnings = $details['careerEarnings'];
 
-            $model->country = $this->findCountry($details['birthplace']['countryCode']);
+            $model->country_id = $this->findCountry($details['birthplace']['countryCode']);
 
             // bio
             if ($details['personal'] != null) {

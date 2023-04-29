@@ -24,10 +24,10 @@ return new class extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('zip');
-            $table->unsignedBigInteger('country');
+            $table->unsignedBigInteger('country_id');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('country')->references('id')->on('countries');
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 

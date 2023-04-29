@@ -28,7 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'city',
         'zip',
-        'country',
+        'country_id',
     ];
 
     protected $hidden = [
@@ -55,7 +55,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function country(): BelongsTo
     {
-        return $this->belongsTo(Country::class, 'country', 'id');
+        return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
 }

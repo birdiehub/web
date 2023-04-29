@@ -31,11 +31,11 @@ return new class extends Migration
             $table->string('weight_imperial', 50)->nullable();
             $table->string('weight_kilograms', 50)->nullable();
 
-            $table->unsignedBigInteger('country')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
 
             $table->timestamps();
             $table->unique(['first_name', 'last_name']);
-            $table->foreign('country')->references('id')->on('countries');
+            $table->foreign('country_id')->references('id')->on('countries');
         });
 
     }

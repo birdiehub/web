@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Modules\Users\Services;
+namespace App\Services\Authentication;
 
 use App\Models\User;
-use App\Modules\Core\Services\Service;
+use App\Services\Service;
+use App\Validators\Validator;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService extends Service
@@ -19,7 +21,7 @@ class AuthService extends Service
         "address" => "required|string",
         "city" => "required|string",
         "zip" => "required|string",
-        "country" => "required|int"
+        "country_id" => "required|int"
     ];
 
     protected array $_loginRules = [
@@ -34,7 +36,7 @@ class AuthService extends Service
 
     public function register($data): string
     {
-        $this->validate($data, $this->_registerRules);
+        Validator::standalone($data, $this->_registerRules);
 
         $unhashedPassword = $data['password'];
 
@@ -47,7 +49,7 @@ class AuthService extends Service
 
     public function login($data): string
     {
-        $this->validate($data, $this->_loginRules);
+        Validator::standalone($data, $this->_loginRules);
         return $this->authenticate($data['username'], $data['password']);
     }
 
@@ -63,7 +65,7 @@ class AuthService extends Service
 
     public function me(): array
     {
-        return auth('api')->user()->toArray();
+        return Auth::user()->toArray();
     }
 
 

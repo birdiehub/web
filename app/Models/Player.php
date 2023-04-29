@@ -43,6 +43,6 @@ class Player extends Model
 
     public function country(): BelongsTo
     {
-        return $this->belongsTo(Country::class, "country", "id");
+        return $this->belongsTo(Country::class, "country_id", "id");
     }
 }
