@@ -43,9 +43,10 @@ Is handled by the middleware og the Laravel Permissions package.
 
 
 ## Composer Additional Requirements
-- [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/)
-- [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction)
-- [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction)
+- [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/)  
+- [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction)  
+- [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction)  
+- [Laravel Unique Translation Validation](https://github.com/codezero-be/laravel-unique-translation)
 
 
 ## Exceptions  
