@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\Core\Presenters;
+namespace App\Http\Presenters;
 
-class Presenter
+trait TranslationPresenter
 {
     // records with array of translations
-    public static function recordsWithTranslations($data): array
+    public function recordsWithTranslations($data): array
     {
         foreach ($data["data"] as $index => $record) {
             $data["data"][$index] = self::recordWithTranslations($record);
@@ -14,7 +14,7 @@ class Presenter
     }
 
     // records with single translation (first translation) -> use where-clause to get specific translation
-    public static function recordsWithTranslation($data): array
+    public function recordsWithTranslation($data): array
     {
         foreach ($data["data"] as $index => $record) {
             $data["data"][$index]["translation"] = $record["translations"][0] ?? null;
@@ -25,7 +25,7 @@ class Presenter
     }
 
     // single record with array of translations
-    public static function recordWithTranslations($data): array
+    public function recordWithTranslations($data): array
     {
         if (!isset($data["translations"]))
             return $data;
