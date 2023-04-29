@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Countries;
 
+use App\Http\Controllers\Controller;
+use App\Http\Presenters\TranslationPresenter;
 use App\Http\Response;
-use App\Modules\Core\Presenters\Presenter;
-use App\Modules\Countries\Services\CountryService;
+use App\Services\Countries\CountryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CountryApiController extends Controller
+class CountryController extends Controller
 {
+
+    use TranslationPresenter;
 
     private CountryService $_service;
     public function __construct(CountryService $service)
@@ -21,7 +24,7 @@ class CountryApiController extends Controller
         $pages = $request->get("pages", 10);
 
         $countries = $this->_service->all()->paginate($pages)->withQueryString();
-        $json = Presenter::recordsWithTranslations($countries->toArray());
+        $json = $this->recordsWithTranslations($countries->toArray());
         return Response::json($json);
     }
 
@@ -30,7 +33,7 @@ class CountryApiController extends Controller
         $language = $request->get("language", app()->getLocale());
 
         $countries = $this->_service->list($language)->paginate($pages)->withQueryString();
-        $json = Presenter::recordsWithTranslation($countries->toArray());
+        $json = $this->recordsWithTranslation($countries->toArray());
         return Response::json($json);
     }
 
@@ -43,7 +46,7 @@ class CountryApiController extends Controller
 
     public function get($id) : JsonResponse {
         $country = $this->_service->get($id);
-        $json = Presenter::recordWithTranslations($country->toArray());
+        $json = $this->recordWithTranslations($country->toArray());
 
         return Response::json(["data" => $json]);
     }
