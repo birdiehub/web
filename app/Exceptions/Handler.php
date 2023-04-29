@@ -38,26 +38,26 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
-     */
 
     public function render($request, Throwable $e): JsonResponse
     {
-        // Handle specific exceptions here...
         // General
         if ($e instanceof \App\Exceptions\Custom\GeneralException) {
             return Response::error($e->getMessage(), 409);
+        }
+        elseif ($e instanceof \InvalidArgumentException) {
+            return Response::error($e->getMessage(), 400);
+        }
+        elseif ($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+            return Response::error($e->getMessage(), 400);
         }
         // Authentication
         elseif ($e instanceof \Illuminate\Auth\AuthenticationException) {
             return Response::error($e->getMessage(), 403);
         }
         // Authorization: Roles and Permissions
-        elseif ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
-            return Response::error($e->getMessage(), $e->getStatusCode());
+        elseif ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException || $e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return Response::error($e->getMessage(), 403);
         }
         elseif ($e instanceof \Illuminate\Validation\ValidationException) {
             return Response::error($e->errors(), 400);
@@ -67,6 +67,16 @@ class Handler extends ExceptionHandler
         }
         elseif ($e instanceof \App\Exceptions\Custom\NotYetImplementedException) {
             return Response::error($e->getMessage(), 501);
+        }
+
+        if (config('app.debug')) {
+            return Response::error([
+                'message' => $e->getMessage(),
+                'exception' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTrace()
+            ], 500);
         }
 
         // Handle all other exceptions with a general response

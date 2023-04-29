@@ -29,7 +29,7 @@ JWT authentication is used for the API.
 Unauthenticated requests are handled by the `App\Http\Middleware\Authenticate` middleware.  
 When a request is unauthenticated, the AuthenticationException is thrown.
 
-## Authorization
+## Access Control
 Is handled by the middleware og the Laravel Permissions package.
 ### Roles & Permissions
 - Super Admin: `All Permissions`
@@ -55,14 +55,25 @@ The following exceptions are used in the application and are handled in the `app
 \App\Exceptions\Custom\GeneralException
 ```
 
+#### Invalid Arguments
+```php
+\InvalidArgumentException
+```
+
+#### Invalid Routes
+```php
+\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+```
+
 #### Authentication
 ```php
 \Illuminate\Auth\AuthenticationException
 ``` 
 
-#### Authorization: Permissions and Roles
+#### Authorization (Access Control)
 ```php
 \Spatie\Permission\Exceptions\UnauthorizedException
+\Illuminate\Auth\Access\AuthorizationException
 ```
 
 #### Validation
