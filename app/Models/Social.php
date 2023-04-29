@@ -6,17 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PlayerSocial extends Model
+class Social extends Model
 {
     use HasFactory;
 
-    protected $table = 'player_socials';
+    protected $table = 'socials';
 
-    protected $guarded = ['*'];
+    protected $fillable = [
+        'player_id',
+        'channel',
+        'url'
+    ];
 
     public function player(): BelongsTo
     {
-        return $this->belongsTo(Player::class);
+        return $this->belongsTo(Player::class, 'player_id', 'id');
     }
 
 }

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('world_golf_rankings', function (Blueprint $table) {
+        Schema::create('leaderboard', function (Blueprint $table) {
             $table->unsignedBigInteger('player_id');
             $table->unsignedBigInteger('week_number');
             $table->string('weekend_date', 20);

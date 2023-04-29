@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('code', 2)->unique();
             $table->json('name'); // translatable
+
             $table->timestamps();
         });
     }
