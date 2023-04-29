@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Authentication;
 
+use App\Http\Controllers\Controller;
 use App\Http\Response;
-use App\Modules\Users\Services\AuthService;
+use App\Services\Authentication\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthenticationController extends Controller
 {
 
     private AuthService $_service;
