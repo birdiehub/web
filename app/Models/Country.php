@@ -18,7 +18,7 @@ class Country extends Model
 
     public function translations(): HasMany
     {
-        return $this->hasMany(CountryLanguage::class, "country_id", "id");
+        return $this->hasMany('countries_language', "country_id", "id");
     }
 
     public function players(): HasMany
