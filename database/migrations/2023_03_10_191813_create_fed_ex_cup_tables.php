@@ -13,6 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
+
+        Schema::create('fed_ex_cups', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('title', 100);
+            $table->string('season', 12)->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('fed_ex_cup_standings', function (Blueprint $table) {
             $table->unsignedBigInteger('player_id');
             $table->string('fed_ex_cup_id');
@@ -33,5 +41,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('fed_ex_cup_standings');
+        Schema::dropIfExists('fed_ex_cups');
     }
 };

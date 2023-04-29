@@ -18,6 +18,15 @@ return new class extends Migration
             $table->string('code', 2)->unique();
             $table->timestamps();
         });
+
+        Schema::create('countries_language', function (Blueprint $table) {
+            $table->unsignedBigInteger('country_id');
+            $table->string('language', 10);
+            $table->string('name', 50);
+            $table->timestamps();
+            $table->primary(['country_id', 'language']);
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+        });
     }
 
     /**
@@ -27,6 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('countries_language');
         Schema::dropIfExists('countries');
     }
 };
