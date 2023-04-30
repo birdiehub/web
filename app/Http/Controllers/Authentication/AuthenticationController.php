@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Users\UserResource;
 use App\Http\Response;
 use App\Services\Authentication\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -44,9 +45,10 @@ class AuthenticationController extends Controller
         return Response::json(["token" => $token]);
     }
 
-    public function me(): JsonResponse
+    public function me(Request $request): UserResource
     {
+        $language = $request->get("language", app()->getLocale());
         $user = $this->_service->me();
-        return Response::json(["data" => $user]);
+        return new UserResource($user, $language);
     }
 }

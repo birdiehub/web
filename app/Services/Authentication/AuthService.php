@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\Service;
 use App\Validators\Validator;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,10 +40,9 @@ class AuthService extends Service
         Validator::standalone($data, $this->_registerRules);
 
         $unhashedPassword = $data['password'];
-
         $data['password'] = Hash::make($unhashedPassword);
 
-        $user = $this->_model->create($data);
+        $user = parent::create($data);
         return $this->authenticate($data['username'], $unhashedPassword);
     }
 
@@ -55,7 +55,7 @@ class AuthService extends Service
 
     public function logout(): void
     {
-        auth('api')->logout();
+        Auth::logout();
     }
 
     public function refresh(): string
@@ -63,9 +63,9 @@ class AuthService extends Service
         return auth('api')->refresh();
     }
 
-    public function me(): array
+    public function me() : Model
     {
-        return Auth::user()->toArray();
+        return User::findOrFail(Auth::id());
     }
 
 
