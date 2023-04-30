@@ -62,4 +62,9 @@ class UserPolicy
         }
         return false;
     }
+
+    public function createUser(User $user): bool
+    {
+        return $user->hasPermissionTo('create-users');
+    }
 }
