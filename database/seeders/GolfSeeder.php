@@ -3,14 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
-use App\Models\CountryLanguage;
-use App\Models\FedExCup;
-use App\Models\FedExCupStanding;
 use App\Models\Player;
-use App\Models\PlayerLanguage;
-use App\Models\PlayerSnapshotLanguage;
-use App\Models\PlayerSocial;
-use App\Models\WorldGolfRanking;
+use App\Models\Snapshot;
+use App\Models\Social;
+use App\Models\Leaderboard;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 
@@ -30,7 +26,6 @@ class GolfSeeder extends Seeder
             $details = null; // Player details
             $snapshots = null; // Player snapshots
             $socials = null; // Player socials
-            $fedex = null; // FedEx Cup points of the player
             $wgr = $wgr_list[$i]; // WGR of the player
 
             for ($j = 0; $j < count($pga_list['data']['playerDirectory']['players']); $j++) {
@@ -45,15 +40,13 @@ class GolfSeeder extends Seeder
 
                     $snapshots = $pga_data['snapshot'];
                     $socials = $pga_data['playerBio']['social'];
-                    $fedex = $pga_data['standings'];
                 }
             }
 
             $playerId = $this->savePlayer($player, $details);
             $this->saveSocials($playerId, $socials);
             $this->saveSnapshots($playerId, $snapshots);
-            $this->saveFedEx($playerId, $fedex);
-            $this->saveWGR($playerId, $wgr);
+            $this->saveLeaderboard($playerId, $wgr);
         }
     }
 
@@ -81,24 +74,23 @@ class GolfSeeder extends Seeder
     private function savePlayer($player, $details): int
     {
         $model = new Player();
-        $model_lang = new PlayerLanguage();
 
         $model->first_name = $player['firstName'];
         $model->last_name = $player['lastName'];
         $model->full_name = $player['fullName'];
         $model->birth_date = $player['birthDate'];
-        $model_lang->gender = $player['gender'];
+        $model->setTranslation('gender', 'en', $player['gender']);
         $model->is_amateur = $player['isAmateur'];
 
         if (!is_null($details)) {
             $model->headshot = $details['headshot'];
             $model->turned_pro = $details['turnedPro'];
-            $model_lang->family = $details['family'];
+            $model->setTranslation('family', 'en', $details['family']);
             $model->weight_kilograms = $details['weightKilograms'];
             $model->weight_imperial = $details['weightImperial'];
             $model->height_meters = $details['heightMeters'];
             $model->height_imperial = $details['heightImperial'];
-            $model_lang->degree = $details['degree'];
+            $model->setTranslation('degree', 'en', $details['degree']);
             $model->college = $details['school'];
             $model->graduation_year = $details['graduationYear'];
             $model->career_earnings = $details['careerEarnings'];
@@ -107,7 +99,7 @@ class GolfSeeder extends Seeder
 
             // bio
             if ($details['personal'] != null) {
-                $model_lang->bio = implode("\n", $details['personal']);
+                $model->setTranslation('bio', 'en', implode("\n", $details['personal']));
             }
         }
 
@@ -117,16 +109,9 @@ class GolfSeeder extends Seeder
 
         if ($other) {
             $other->update($model->AttributesToArray());
-            $id = $other->id;
-            $other_lang = PlayerLanguage::where("player_id", $id)
-                    ->where("language", 'en');
-            $other_lang ->update($model_lang->AttributesToArray());
-            return $id;
+            return $other->id;
         } else {
             $model->save();
-            $model_lang->player_id = $model->id;
-            $model_lang->language = 'en';
-            $model_lang->save();
             return $model->id;
         }
     }
@@ -135,12 +120,12 @@ class GolfSeeder extends Seeder
 
         // save or update socials
         foreach ($socials ?? [] as $social){
-            $model = new PlayerSocial();
+            $model = new Social();
             $model->player_id = $playerId;
             $model->channel = $social['type'];
             $model->url = $social['url'];
 
-            $other = PlayerSocial::where('player_id', $model->player_id)
+            $other = Social::where('player_id', $model->player_id)
                 ->where('channel', $model->channel)
                 ->first();
 
@@ -156,15 +141,13 @@ class GolfSeeder extends Seeder
 
         // save or update socials
         foreach ($snapshots ?? [] as $snapshot){
-            $model = new PlayerSnapshotLanguage();
+            $model = new Snapshot();
             $model->player_id = $playerId;
-            $model->language = 'en';
-            $model->title = $snapshot['title'];
-            $model->value = $snapshot['value'];
-            $model->description = $snapshot['description'];
+            $model->setTranslation('title', 'en', $snapshot['title']);
+            $model->setTranslation('value', 'en', $snapshot['value']);
+            $model->setTranslation('description', 'en', $snapshot['description']);
 
-            $other = PlayerSnapshotLanguage::where('player_id', $model->player_id)
-                ->where('language', 'en')
+            $other = Snapshot::where('player_id', $model->player_id)
                 ->where('title', $model->title)
                 ->first();
 
@@ -176,41 +159,9 @@ class GolfSeeder extends Seeder
         }
     }
 
-    private function saveFedEx($playerId, $fedex): void {
+    private function saveLeaderboard($playerId, $wgr): void {
 
-        $cup = new FedExCup();
-        $cup->id = $fedex['id'];
-        $cup->title = str_replace('-', ' ', substr($fedex['id'], 1));
-        $cup->season = preg_match('/\d+$/', $fedex['id'], $matches) ? $matches[0] : null;
-
-        $other = FedExCup::where('id', $cup->id)->first();
-
-        if ($other) {
-            $other->update($cup->AttributesToArray());
-        } else {
-            $cup->save();
-        }
-
-        $standing = new FedExCupStanding();
-        $standing->player_id = $playerId;
-        $standing->fed_ex_cup_id = $fedex['id'];
-        $standing->points = (int) str_replace(',', '', $fedex['total']);
-        $standing->rank = (int) $fedex['rank'];
-
-        $other = FedExCupStanding::where('player_id', $standing->player_id)
-            ->where('fed_ex_cup_id', $standing->fed_ex_cup_id)
-            ->first();
-
-        if ($other) {
-            $other->update($standing->AttributesToArray());
-        } else {
-            $standing->save();
-        }
-    }
-
-    private function saveWGR($playerId, $wgr): void {
-
-        $model = new WorldGolfRanking();
+        $model = new Leaderboard();
         $model->player_id = $playerId;
         $model->week_number = $wgr['weekNumber'];
         $model->weekend_date = $wgr['weekEndDate'];
@@ -226,7 +177,7 @@ class GolfSeeder extends Seeder
         $model->end_last_year_rank = $wgr['endLastYearRank'];
 
 
-        $other = WorldGolfRanking::where('player_id', $model->player_id)
+        $other = Leaderboard::where('player_id', $model->player_id)
             ->where('week_number', $model->week_number)
             ->first();
 

@@ -3,9 +3,9 @@
 namespace App\Http\Resources\Users;
 
 use App\Http\Resources\Countries\CountryResource;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Resource;
 
-class UserResource extends JsonResource
+class UserResource extends Resource
 {
 
     public function toArray($request)
@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'city' => $this->city,
             'zip' => $this->zip,
-            'country' => new CountryResource($this->country)
+            'country' => new CountryResource($this->country, $this->_language)
         ];
     }
 

@@ -2,16 +2,17 @@
 
 namespace App\Http\Resources\Countries;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Resource;
 
-class CountryResource extends JsonResource
+class CountryResource extends Resource
 {
 
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'code' => $this->code
+            'code' => $this->code,
+            'name' => $this->translate('name')
         ];
     }
 }
