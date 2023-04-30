@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources\Users;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+
+use App\Http\Resources\ResourceCollection;
 
 class UserCollection extends ResourceCollection
 {

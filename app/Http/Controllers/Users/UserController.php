@@ -25,10 +25,11 @@ class UserController extends Controller
         return new UserCollection($users::paginate($pages));
     }
 
-    public function get($id): UserResource
+    public function get(Request $request, $id): UserResource
     {
+        $language = $request->get("language");
         $user = $this->_service->find($id);
-        return new UserResource($user);
+        return new UserResource($user, $language);
     }
 
     public function update(Request $request, $id): UserResource
