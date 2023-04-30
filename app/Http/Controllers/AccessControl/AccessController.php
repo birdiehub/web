@@ -18,33 +18,32 @@ class AccessController extends Controller
 
     public function list($userId): JsonResponse
     {
-        $roles = $this->_service->roles($userId);
-        $permissions = $this->_service->permissions($userId);
+        $user = $this->_service->find($userId);
         return Response::json(["data" => [
-            "roles" => $roles,
-            "permissions" => $permissions
+            "roles" => $user->getRoleNames(),
+            "permissions" => $user->getPermissionNames()
         ]]);
     }
 
-    public function grantPermission(Request $request, $userId, $name): JsonResponse
+    public function grantPermission($userId, $name): JsonResponse
     {
         $this->_service->grantPermission($userId, $name);
         return Response::ok();
     }
 
-    public function revokePermission(Request $request, $userId, $name): JsonResponse
+    public function revokePermission($userId, $name): JsonResponse
     {
         $this->_service->revokePermission($userId, $name);
         return Response::ok();
     }
 
-    public function grantRole(Request $request, $userId, $name): JsonResponse
+    public function grantRole($userId, $name): JsonResponse
     {
         $this->_service->grantRole($userId, $name);
         return Response::ok();
     }
 
-    public function revokeRole(Request $request, $userId, $name): JsonResponse
+    public function revokeRole($userId, $name): JsonResponse
     {
         $this->_service->revokeRole($userId, $name);
         return Response::ok();
