@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Authentication;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Response;
-use App\Services\Authentication\AuthService;
+use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

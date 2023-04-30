@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Countries;
+namespace App\Services;
 
 use App\Models\Country;
-use App\Services\Service;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 

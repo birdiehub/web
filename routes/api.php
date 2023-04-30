@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AccessControl\AccessController;
-use App\Http\Controllers\AccessControl\PermissionController;
-use App\Http\Controllers\AccessControl\RoleController;
-use App\Http\Controllers\Authentication\AuthenticationController;
-use App\Http\Controllers\Countries\CountryController;
-use App\Http\Controllers\Users\UserController;
+use App\Http\Controllers\AccessController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Services\AccessControl;
+namespace App\Services;
 
-use App\Services\Service;
 use App\Validators\Validator;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 

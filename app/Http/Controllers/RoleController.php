@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\AccessControl;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AccessControl\RoleCollection;
-use App\Http\Resources\AccessControl\RoleResource;
+use App\Http\Resources\Roles\RoleCollection;
+use App\Http\Resources\Roles\RoleResource;
 use App\Http\Response;
-use App\Services\AccessControl\RoleService;
+use App\Services\RoleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

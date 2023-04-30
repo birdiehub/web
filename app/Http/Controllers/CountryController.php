@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Countries;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Countries\CountryCollection;
 use App\Http\Resources\Countries\CountryResource;
 use App\Http\Response;
-use App\Services\Countries\CountryService;
+use App\Services\CountryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

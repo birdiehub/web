@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\AccessControl;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Response;
-use App\Services\AccessControl\AccessService;
+use App\Services\AccessService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AccessController extends Controller
 {

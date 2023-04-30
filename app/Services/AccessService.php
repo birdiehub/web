@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\AccessControl;
+namespace App\Services;
 
 use App\Models\User;
-use App\Services\Service;
 
 class AccessService extends Service
 {

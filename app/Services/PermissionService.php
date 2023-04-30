@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services\AccessControl;
+namespace App\Services;
 
-use App\Services\Service;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 

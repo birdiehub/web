@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies\Users;
+namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -67,4 +67,6 @@ class UserPolicy
     {
         return $user->hasPermissionTo('create-users');
     }
+
+
 }

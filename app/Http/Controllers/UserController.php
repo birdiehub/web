@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Users\UserCollection;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Response;
-use App\Services\Users\UserService;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

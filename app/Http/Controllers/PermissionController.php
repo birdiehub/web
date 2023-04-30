@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\AccessControl;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AccessControl\PermissionCollection;
-use App\Http\Resources\AccessControl\PermissionResource;
-use App\Http\Response;
-use App\Services\AccessControl\PermissionService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Resources\Permissions\PermissionCollection;
+use App\Http\Resources\Permissions\PermissionResource;
+use App\Services\PermissionService;
 
 class PermissionController extends Controller
 {

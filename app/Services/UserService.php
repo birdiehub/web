@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Users;
+namespace App\Services;
 
 use App\Models\User;
-use App\Services\Service;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;

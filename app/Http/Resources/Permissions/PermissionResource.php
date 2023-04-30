@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\AccessControl;
+namespace App\Http\Resources\Permissions;
 
 use App\Http\Resources\Resource;
 

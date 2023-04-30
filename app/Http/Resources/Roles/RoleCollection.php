@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\AccessControl;
+namespace App\Http\Resources\Roles;
 
 use App\Http\Resources\ResourceCollection;
 

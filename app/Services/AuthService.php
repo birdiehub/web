@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Authentication;
+namespace App\Services;
 
 use App\Models\User;
-use App\Services\Service;
 use App\Validators\Validator;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
