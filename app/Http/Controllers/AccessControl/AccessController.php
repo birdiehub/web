@@ -4,14 +4,14 @@ namespace App\Http\Controllers\AccessControl;
 
 use App\Http\Controllers\Controller;
 use App\Http\Response;
-use App\Services\AccessControl\AccessControlService;
+use App\Services\AccessControl\AccessService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AccessControlController extends Controller
+class AccessController extends Controller
 {
-    private AccessControlService $_service;
-    public function __construct(AccessControlService $service)
+    private AccessService $_service;
+    public function __construct(AccessService $service)
     {
         $this->_service = $service;
     }

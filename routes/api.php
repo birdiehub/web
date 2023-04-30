@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AccessControl\AccessControlController;
+use App\Http\Controllers\AccessControl\AccessController;
 use App\Http\Controllers\AccessControl\PermissionController;
 use App\Http\Controllers\AccessControl\RoleController;
 use App\Http\Controllers\Authentication\AuthenticationController;
@@ -111,24 +111,24 @@ Route::middleware(['auth:api', 'permission:delete-roles'])->group(function() {
 
 // Access Control
 Route::middleware(['auth:api', 'permission:view-user-access'])->group(function() {
-    Route::get('/users/{userId}/access', [AccessControlController::class, 'list'])->where('userId', '[0-9]+');
+    Route::get('/users/{userId}/access', [AccessController::class, 'list'])->where('userId', '[0-9]+');
 });
 
 Route::middleware(['auth:api', 'permission:grant-user-permissions'])->group(function() {
-    Route::put('/users/{userId}/permissions/{name}', [AccessControlController::class, 'grantPermission'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
+    Route::put('/users/{userId}/permissions/{name}', [AccessController::class, 'grantPermission'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
 });
 
 Route::middleware(['auth:api', 'permission:revoke-user-permissions'])->group(function() {
-    Route::delete('/users/{userId}/permissions/{name}', [AccessControlController::class, 'revokePermission'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
+    Route::delete('/users/{userId}/permissions/{name}', [AccessController::class, 'revokePermission'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
 });
 
 
 Route::middleware(['auth:api', 'permission:grant-user-roles'])->group(function() {
-    Route::put('/users/{userId}/roles/{name}', [AccessControlController::class, 'grantRole'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
+    Route::put('/users/{userId}/roles/{name}', [AccessController::class, 'grantRole'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
 });
 
 Route::middleware(['auth:api', 'permission:revoke-user-roles'])->group(function() {
-    Route::delete('/users/{userId}/roles/{name}', [AccessControlController::class, 'revokeRole'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
+    Route::delete('/users/{userId}/roles/{name}', [AccessController::class, 'revokeRole'])->where(['userId' => '[0-9]+', 'name' => '[a-z\-]+']);
 });
 
 

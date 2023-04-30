@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Services\Service;
 use App\Validators\Validator;
 
-class AccessControlService extends Service
+class AccessService extends Service
 {
     public function __construct(User $model)
     {
