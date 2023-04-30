@@ -68,5 +68,29 @@ class UserPolicy
         return $user->hasPermissionTo('create-users');
     }
 
+    public function viewUserAccess(User $user): bool
+    {
+        return $user->hasPermissionTo('view-user-access');
+    }
+
+    public function grantUserPermission(User $user): bool
+    {
+        return $user->hasPermissionTo('grant-user-permissions');
+    }
+
+    public function revokeUserPermission(User $user): bool
+    {
+        return $user->hasPermissionTo('revoke-user-permissions');
+    }
+
+    public function grantUserRole(User $user): bool
+    {
+        return $user->hasPermissionTo('grant-user-roles');
+    }
+
+    public function revokeUserRole(User $user): bool
+    {
+        return $user->hasPermissionTo('revoke-user-roles');
+    }
 
 }
