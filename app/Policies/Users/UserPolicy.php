@@ -9,16 +9,10 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine if the given user can be updated by the user.
-     */
-    public function update(User $user, User $other): bool
+
+    public function viewUsers(User $user): bool
     {
-        if ($user->hasPermissionTo('edit-users'))
-            return true;
-        elseif ($user->hasPermissionTo('edit-self'))
-            return $user->id === $other->id;
-        else
-            return false;
+        return $user->hasPermissionTo('view-users-list');
     }
+
 }

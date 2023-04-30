@@ -20,6 +20,7 @@ class UserController extends Controller
 
     public function all(Request $request): UserCollection
     {
+        $this->authorize('viewUsers', $this->_service->model()::class);
         $pages = $request->get("pages", 10);
         $users = $this->_service->model();
         return new UserCollection($users::paginate($pages));
