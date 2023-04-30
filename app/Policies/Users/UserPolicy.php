@@ -47,4 +47,19 @@ class UserPolicy
         return false;
     }
 
+    public function deleteUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('delete-users')) {
+            return true;
+        }
+        return $this->deleteOwnUser($user, $other);
+    }
+
+    public function deleteOwnUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('delete-own-user')) {
+            return $user->id === $other->id;
+        }
+        return false;
+    }
 }

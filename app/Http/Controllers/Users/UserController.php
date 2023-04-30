@@ -47,6 +47,8 @@ class UserController extends Controller
 
     public function delete($id): JsonResponse
     {
+        $this->authorize('deleteUser', $this->_service->find($id));
+
         $this->_service->delete($id);
         return Response::ok();
     }
