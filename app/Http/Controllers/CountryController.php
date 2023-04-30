@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class CountryController extends Controller
 {
 
-    private $_class;
+    private string $_class;
 
     private CountryService $_service;
     public function __construct(CountryService $service)
