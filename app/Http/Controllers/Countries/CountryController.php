@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Countries;
 
 use App\Http\Controllers\Controller;
-use App\Http\Presenters\TranslationPresenter;
+use App\Http\Resources\Countries\CountryCollection;
+use App\Http\Resources\Countries\CountryResource;
 use App\Http\Response;
 use App\Services\Countries\CountryService;
 use Illuminate\Http\JsonResponse;
@@ -12,49 +13,40 @@ use Illuminate\Http\Request;
 class CountryController extends Controller
 {
 
-    use TranslationPresenter;
-
     private CountryService $_service;
     public function __construct(CountryService $service)
     {
         $this->_service = $service;
     }
 
-    public function all(Request $request) : JsonResponse {
-        $pages = $request->get("pages", 10);
-
-        $countries = $this->_service->all()->paginate($pages)->withQueryString();
-        $json = $this->recordsWithTranslations($countries->toArray());
-        return Response::json($json);
-    }
-
-    public function list(Request $request) : JsonResponse {
+    public function all(Request $request) : CountryCollection
+    {
         $pages = $request->get("pages", 10);
         $language = $request->get("language", app()->getLocale());
-
-        $countries = $this->_service->list($language)->paginate($pages)->withQueryString();
-        $json = $this->recordsWithTranslation($countries->toArray());
-        return Response::json($json);
+        $model = $this->_service->model();
+        return new CountryCollection($model::paginate($pages), $language);
     }
 
-    public function create(Request $request) : JsonResponse{
+    public function create(Request $request) : CountryResource
+    {
         $data = $request->all();
         $country = $this->_service->create($data);
-        return Response::json(["data" => $country], 201);
+        return new CountryResource($country);
     }
 
 
-    public function get($id) : JsonResponse {
-        $country = $this->_service->get($id);
-        $json = $this->recordWithTranslations($country->toArray());
-
-        return Response::json(["data" => $json]);
+    public function get(Request $request, $id) : CountryResource
+    {
+        $language = $request->get("language", app()->getLocale());
+        $country = $this->_service->find($id);
+        return new CountryResource($country, $language);
     }
 
-    public function update(Request $request, $id) : JsonResponse {
+    public function update(Request $request, $id) : CountryResource
+    {
         $data = $request->all();
         $country = $this->_service->update($id, $data);
-        return Response::json(["data" => $country]);
+        return new CountryResource($country);
     }
 
 
