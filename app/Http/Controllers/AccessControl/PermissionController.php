@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\AccessControl;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AccessControl\PermissionCollection;
+use App\Http\Resources\AccessControl\PermissionResource;
 use App\Http\Response;
 use App\Services\AccessControl\PermissionService;
 use Illuminate\Http\JsonResponse;
@@ -16,28 +18,22 @@ class PermissionController extends Controller
         $this->_service = $permissionService;
     }
 
-    public function all() : JsonResponse
+    public function list() : PermissionCollection
     {
-        $permissions = $this->_service->all();
-        return Response::json(["data" => $permissions]);
+        $permissions = $this->_service->model()->get();
+        return new PermissionCollection($permissions);
     }
 
-    public function list() : JsonResponse
-    {
-        $permissions = $this->_service->list();
-        return Response::json(["data" => $permissions]);
-    }
-
-    public function create(Request $request) : JsonResponse
+    public function create(Request $request) : PermissionResource
     {
         $permission = $this->_service->create($request->all());
-        return Response::json(["data" => $permission]);
+        return new PermissionResource($permission);
     }
 
-    public function get($name) : JsonResponse
+    public function get($name) : PermissionResource
     {
-        $permission = $this->_service->get($name);
-        return Response::json(["data" => $permission]);
+        $permission = $this->_service->find($name);
+        return new PermissionResource($permission);
     }
 
     public function delete($name) : JsonResponse

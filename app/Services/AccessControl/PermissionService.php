@@ -4,6 +4,7 @@ namespace App\Services\AccessControl;
 
 use App\Services\Service;
 use App\Validators\Validator;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 
 class PermissionService extends Service
@@ -17,30 +18,20 @@ class PermissionService extends Service
         parent::__construct($model);
     }
 
-    public function all()
-    {
-        return $this->_model->get();
-    }
-
-    public function list()
-    {
-        return $this->_model->get()->pluck('name');
-    }
-
-    public function create($data)
+    public function create($data) : Model
     {
         Validator::standalone($data, $this->_insertRules);
-        return $this->_model->create($data);
+        return parent::create($data);
     }
 
-    public function get($name)
+    public function find($name) : Model
     {
-        return $this->_model->where('name', $name)->firstOrFail();
+        return $this->model()->where('name', $name)->firstOrFail();
     }
 
-    public function delete($name)
+    public function delete($name) : bool
     {
-        $permission = $this->get($name);
+        $permission = $this->find($name);
         return $permission->delete();
     }
 
