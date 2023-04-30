@@ -15,4 +15,20 @@ class UserPolicy
         return $user->hasPermissionTo('view-users-list');
     }
 
+    public function viewUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('view-users-details')) {
+            return true;
+        }
+        return $this->viewOwnUser($user, $other);
+    }
+
+    public function viewOwnUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('view-own-user')) {
+            return $user->id === $other->id;
+        }
+        return false;
+    }
+
 }

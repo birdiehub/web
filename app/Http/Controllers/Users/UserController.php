@@ -20,9 +20,9 @@ class UserController extends Controller
 
     public function all(Request $request): UserCollection
     {
-        $this->authorize('viewUsers', $this->_service->model()::class);
         $pages = $request->get("pages", 10);
         $users = $this->_service->model();
+        $this->authorize('viewUsers', $users::class);
         return new UserCollection($users::paginate($pages));
     }
 
@@ -30,6 +30,7 @@ class UserController extends Controller
     {
         $language = $request->get("language");
         $user = $this->_service->find($id);
+        $this->authorize('viewUser', $user);
         return new UserResource($user, $language);
     }
 

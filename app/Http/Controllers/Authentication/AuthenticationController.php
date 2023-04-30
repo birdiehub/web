@@ -49,6 +49,7 @@ class AuthenticationController extends Controller
     {
         $language = $request->get("language", app()->getLocale());
         $user = $this->_service->me();
+        $this->authorize('viewOwnUser', $user);
         return new UserResource($user, $language);
     }
 }
