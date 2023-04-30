@@ -11,15 +11,18 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    private $_class;
     private UserService $_service;
     public function __construct(UserService $service)
     {
         $this->_service = $service;
+        $this->_class = $this->_service->model()::class;
     }
 
     public function all(Request $request): UserCollection
     {
-        $this->authorize('viewUsers', $this->_service->model()::class);
+        $this->authorize('viewUsers', $this->_class);
 
         $pages = $request->get("pages", 10);
         $users = $this->_service->model();
