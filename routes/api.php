@@ -45,9 +45,7 @@ Route::middleware('auth:api')->group(function() {
 
     // Permissions
     Route::get('/permissions', [PermissionController::class, 'list']);
-    Route::post('/permissions', [PermissionController::class, 'create']);
     Route::get('/permissions/{name}', [PermissionController::class, 'get'])->where('name', '[a-z\-]+');
-    Route::delete('/permissions/{name}', [PermissionController::class, 'delete'])->where('name', '[a-z\-]+');
 
     // Users
     Route::get('/users', [UserController::class, 'all']);

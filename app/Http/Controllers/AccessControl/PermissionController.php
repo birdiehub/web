@@ -24,21 +24,9 @@ class PermissionController extends Controller
         return new PermissionCollection($permissions);
     }
 
-    public function create(Request $request) : PermissionResource
-    {
-        $permission = $this->_service->create($request->all());
-        return new PermissionResource($permission);
-    }
-
     public function get($name) : PermissionResource
     {
         $permission = $this->_service->find($name);
         return new PermissionResource($permission);
-    }
-
-    public function delete($name) : JsonResponse
-    {
-        $this->_service->delete($name);
-        return Response::ok();
     }
 }
