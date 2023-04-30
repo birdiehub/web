@@ -10,7 +10,7 @@ class RoleResource extends Resource
     {
         return [
             'name' => $this->name,
-            'permissions' => $this->permissions->pluck("name")
+            'permissions' => new PermissionCollection($this->permissions)
         ];
     }
 }

@@ -8,10 +8,8 @@ class CountryCollection extends ResourceCollection
 {
     public function toArray($request) : array
     {
-        return [
-            'data' => $this->collection->map(function ($country)  {
-                return new CountryResource($country, $this->_language);
-            })
-        ];
+        return $this->collection->map(function ($country)  {
+            return new CountryResource($country, $this->_language);
+        })->toArray();
     }
 }
