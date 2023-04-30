@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccessControl;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AccessControl\RoleCollection;
 use App\Http\Resources\AccessControl\RoleResource;
 use App\Http\Response;
 use App\Services\AccessControl\RoleService;
@@ -17,16 +18,16 @@ class RoleController extends Controller
         $this->_service = $service;
     }
 
-    public function list() : JsonResponse
+    public function list() : RoleCollection
     {
-        $roles = $this->_service->model()->get()->pluck("name");
-        return Response::json(["data" => $roles]);
+        $roles = $this->_service->model()->get();
+        return new RoleCollection($roles);
     }
 
-    public function create(Request $request) : JsonResponse
+    public function create(Request $request) : RoleResource
     {
         $role = $this->_service->create($request->all());
-        return Response::json(["data" => $role]);
+        return new RoleResource($role);
     }
 
     public function get($name) : RoleResource
