@@ -5,6 +5,7 @@ namespace App\Services\AccessControl;
 use App\Services\Service;
 use App\Validators\Validator;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
 class RoleService extends Service
@@ -18,45 +19,33 @@ class RoleService extends Service
         parent::__construct($model);
     }
 
-    public function all()
-    {
-        return $this->_model->get();
-    }
-
-    public function list()
-    {
-        return $this->_model->get()->pluck("name");
-    }
-
-    public function create($data)
+    public function create($data) : Model
     {
         Validator::standalone($data, $this->_insertRules);
-        $role = $this->_model->create($data);
-        return $role;
+        return parent::create($data);
     }
 
-    public function get($name)
+    public function find($name) : Model
     {
-        return $this->_model
-            ->with("permissions")
+        return $this->model()
             ->where("name", $name)
             ->firstOrFail();
     }
 
-    public function delete($name)
+    public function delete($name) : bool
     {
-        $role = $this->get($name);
+        $role = $this->find($name);
         return $role->delete();
     }
     public function grantPermission($roleName, $permissionName): void
     {
-        $role = $this->get($roleName);
+        $role = $this->find($roleName);
         $role->givePermissionTo($permissionName);
     }
 
     public function revokePermission($roleName, $permissionName): void
     {
-        $role = $this->get($roleName);
+        $role = $this->find($roleName);
         $role->revokePermissionTo($permissionName);
     }
 

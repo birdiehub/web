@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccessControl;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AccessControl\RoleResource;
 use App\Http\Response;
 use App\Services\AccessControl\RoleService;
 use Illuminate\Http\JsonResponse;
@@ -16,15 +17,9 @@ class RoleController extends Controller
         $this->_service = $service;
     }
 
-    public function all() : JsonResponse
-    {
-        $roles = $this->_service->all();
-        return Response::json(["data" => $roles]);
-    }
-
     public function list() : JsonResponse
     {
-        $roles = $this->_service->list();
+        $roles = $this->_service->model()->get()->pluck("name");
         return Response::json(["data" => $roles]);
     }
 
@@ -34,10 +29,10 @@ class RoleController extends Controller
         return Response::json(["data" => $role]);
     }
 
-    public function get($name) : JsonResponse
+    public function get($name) : RoleResource
     {
-        $role = $this->_service->get($name);
-        return Response::json(["data" => $role]);
+        $role = $this->_service->find($name);
+        return new RoleResource($role);
     }
 
     public function delete($name) : JsonResponse
