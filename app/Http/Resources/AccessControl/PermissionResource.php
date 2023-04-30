@@ -9,7 +9,9 @@ class PermissionResource extends Resource
     public function toArray($request)
     {
         return [
-            'name' => $this->name
+            'name' => $this->name,
+            'description' => $this->description ?? null,
+            'group' => $this->group ?? null
         ];
     }
 }
