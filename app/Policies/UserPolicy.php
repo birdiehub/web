@@ -10,6 +10,8 @@ class UserPolicy
     use HandlesAuthorization;
 
 
+    // TODO: user access control
+
     public function viewUsers(User $user): bool
     {
         return $user->hasPermissionTo('view-users-list');
