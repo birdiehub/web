@@ -20,22 +20,26 @@ class UserController extends Controller
 
     public function all(Request $request): UserCollection
     {
+        $this->authorize('viewUsers', $this->_service->model()::class);
+
         $pages = $request->get("pages", 10);
         $users = $this->_service->model();
-        $this->authorize('viewUsers', $users::class);
         return new UserCollection($users::paginate($pages));
     }
 
     public function get(Request $request, $id): UserResource
     {
+        $this->authorize('viewUser', $this->_service->find($id));
+
         $language = $request->get("language");
         $user = $this->_service->find($id);
-        $this->authorize('viewUser', $user);
         return new UserResource($user, $language);
     }
 
     public function update(Request $request, $id): UserResource
     {
+        $this->authorize('editUser', $this->_service->find($id));
+
         $data = $request->all();
         $user = $this->_service->update($id, $data);
         return new UserResource($user);

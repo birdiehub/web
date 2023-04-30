@@ -31,4 +31,20 @@ class UserPolicy
         return false;
     }
 
+    public function editUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('edit-users')) {
+            return true;
+        }
+        return $this->editOwnUser($user, $other);
+    }
+
+    public function editOwnUser(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('edit-own-user')) {
+            return $user->id === $other->id;
+        }
+        return false;
+    }
+
 }
