@@ -29,6 +29,15 @@ class UserController extends Controller
         return new UserCollection($users::paginate($pages));
     }
 
+    public function create(Request $request): UserResource
+    {
+        $this->authorize('createUser', $this->_class);
+
+        $data = $request->all();
+        $user = $this->_service->create($data);
+        return new UserResource($user);
+    }
+
     public function get(Request $request, $id): UserResource
     {
         $this->authorize('viewUser', $this->_service->find($id));

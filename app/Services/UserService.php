@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service
 {
+    protected array $_insertRules = [
+        "id"=> "prohibited",
+        'username' => 'required|string|max:255||unique:users,username',
+        'password' => 'required|string|max:255|min:8',
+        "first_name" => "required|string",
+        "last_name" => "required|string",
+        "email" => "required|email|max:255",
+        "phone" => "required|string",
+        "address" => "required|string",
+        "city" => "required|string",
+        "zip" => "required|string",
+        "country_id" => "required|int|exists:countries,id"
+    ];
+
     protected array $_updateRules = [
         "id"=> "prohibited",
         'username' => 'string|max:255||unique:users,username',
@@ -28,13 +42,17 @@ class UserService extends Service
         parent::__construct($model);
     }
 
-    public function update($id, $data) : Model {
+    public function create($data) : Model
+    {
+        Validator::standalone($data, $this->_insertRules);
+        $data['password'] = Hash::make($data['password']);
+        return parent::create($data);
+    }
 
+    public function update($id, $data) : Model
+    {
         Validator::standalone($data, $this->_updateRules);
-
-        if (isset($data['password']))
-            $data['password'] = Hash::make($data['password']);
-
+        if (isset($data['password'])) $data['password'] = Hash::make($data['password']);
         return parent::update($id, $data);
     }
 

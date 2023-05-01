@@ -49,6 +49,7 @@ Route::middleware('auth:api')->group(function() {
 
     // Users
     Route::get('/users', [UserController::class, 'all']);
+    Route::post('/users', [UserController::class, 'create']);
     Route::get('/users/{id}', [UserController::class, 'get'])->where('id', '[0-9]+');
     Route::put('/users/{id}', [UserController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/users/{id}', [UserController::class, 'delete'])->where('id', '[0-9]+');
