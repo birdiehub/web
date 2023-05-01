@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Lang;
 
 class Authenticate extends Middleware
 {
@@ -20,6 +21,6 @@ class Authenticate extends Middleware
 
     protected function unauthenticated($request, array $guards): void
     {
-        throw new AuthenticationException();
+        throw new AuthenticationException(Lang::get('auth.unauthenticated'));
     }
 }

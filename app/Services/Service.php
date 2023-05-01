@@ -3,7 +3,6 @@
 namespace App\Services;
 
 
-use App\Modules\Core\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Service

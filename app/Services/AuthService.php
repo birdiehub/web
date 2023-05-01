@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 
 class AuthService extends Service
 {
@@ -75,7 +76,7 @@ class AuthService extends Service
             'username' => $username,
             'password' => $password
         ]);
-        if (!$token) throw new AuthenticationException("Invalid username or password");
+        if (!$token) throw new AuthenticationException(Lang::get('auth.failed'));
         return $token;
     }
 }
