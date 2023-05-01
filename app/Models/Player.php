@@ -63,4 +63,10 @@ class Player extends Model
     {
         return $this->belongsTo(Country::class, "country_id", "id");
     }
+
+    public function currentRank(): Model
+    {
+        // order by weekend_date desc, week_number desc
+        return $this->leaderboard()->orderBy('weekend_date', 'desc')->orderBy('week_number', 'desc')->first();
+    }
 }

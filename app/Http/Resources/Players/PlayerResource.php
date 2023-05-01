@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Players;
 
 use App\Http\Resources\Countries\CountryResource;
+use App\Http\Resources\Leaderboard\LeaderboardResource;
 use App\Http\Resources\Players\Snapshots\SnapshotCollection;
 use App\Http\Resources\Players\Socials\SocialCollection;
 use App\Http\Resources\Resource;
@@ -33,7 +34,8 @@ class PlayerResource extends Resource
             'family' => $this->translate('family'),
             'country' => new CountryResource($this->country),
             'socials' => new SocialCollection($this->socials),
-            'snapshots' => new SnapshotCollection($this->snapshots)
+            'snapshots' => new SnapshotCollection($this->snapshots),
+            'current_rank' => new LeaderboardResource($this->currentRank())
         ];
     }
 }

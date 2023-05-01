@@ -17,7 +17,8 @@ class PlayerCollection extends ResourceCollection
                 'full_name' => $player->first_name . " " . $player->last_name,
                 'headshot' => $player->headshot,
                 'gender' => $this->translate($player, 'gender'),
-                'country' => new CountryResource($player->country)
+                'country' => new CountryResource($player->country),
+                'rank' => $player->currentRank()->rank ??  null,
             ];
         })->toArray();
     }
