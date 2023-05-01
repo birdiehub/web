@@ -55,7 +55,7 @@ class AuthService extends Service
 
     public function logout(): void
     {
-        Auth::logout();
+        auth()->logout();
     }
 
     public function refresh(): string
