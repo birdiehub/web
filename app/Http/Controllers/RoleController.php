@@ -54,7 +54,7 @@ class RoleController extends Controller
 
     public function grantPermission($roleName, $permissionName) : JsonResponse
     {
-        $this->authorize("grantRolePermission", $this->_service->find($roleName));
+        $this->authorize("grantRolePermission", [$this->_service->find($roleName), $permissionName]);
 
         $this->_service->grantPermission($roleName, $permissionName);
         return Response::ok();
@@ -62,7 +62,7 @@ class RoleController extends Controller
 
     public function revokePermission($roleName, $permissionName) : JsonResponse
     {
-        $this->authorize("revokeRolePermission", $this->_service->find($roleName));
+        $this->authorize("revokeRolePermission", [$this->_service->find($roleName), $permissionName]);
 
         $this->_service->revokePermission($roleName, $permissionName);
         return Response::ok();

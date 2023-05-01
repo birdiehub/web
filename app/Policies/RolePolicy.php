@@ -34,16 +34,16 @@ class RolePolicy
         return $user->hasPermissionTo('create-roles');
     }
 
-    public function grantRolePermission(User $user, Role $role): bool
+    public function grantRolePermission(User $user, Role $role, string $permission): bool
     {
         if ($role->name === 'super-admin') return false;
-        return $user->hasPermissionTo('grant-role-permissions');
+        return $user->hasAllPermissions(['grant-role-permissions', $permission]);
     }
 
-    public function revokeRolePermission(User $user, Role $role): bool
+    public function revokeRolePermission(User $user, Role $role, string $permission): bool
     {
         if ($role->name === 'super-admin') return false;
-        return $user->hasPermissionTo('revoke-role-permissions');
+        return $user->hasAllPermissions(['revoke-role-permissions', $permission]);
     }
 
 }
