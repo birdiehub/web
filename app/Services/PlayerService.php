@@ -78,4 +78,23 @@ class PlayerService extends Service
         return $player->socials()->findOrFail($socialId)->delete();
     }
 
+    public function addSnapshot($id, $data): Model
+    {
+        Validator::standalone($data, [
+            'id' => ['prohibited'],
+            'title' => ['required', 'array'],
+            'value' => ['array'],
+            'description' => ['array'],
+        ]);
+        $player = $this->find($id);
+        $player->snapshots()->create($data);
+        return $player;
+    }
+
+    public function deleteSnapshot($playerId, $snapshotId): bool
+    {
+        $player = $this->find($playerId);
+        return $player->snapshots()->findOrFail($snapshotId)->delete();
+    }
+
 }

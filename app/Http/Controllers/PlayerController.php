@@ -82,4 +82,21 @@ class PlayerController extends Controller
         return Response::ok();
     }
 
+    public function addSnapshot(Request $request, $id): PlayerResource
+    {
+        $this->authorize('editPlayer', $this->_class);
+
+        $data = $request->all();
+        $player = $this->_service->addSnapshot($id, $data);
+        return new PlayerResource($player);
+    }
+
+    public function deleteSnapshot($playerId, $snapshotId): JsonResponse
+    {
+        $this->authorize('editPlayer', $this->_class);
+
+        $this->_service->deleteSnapshot($playerId, $snapshotId);
+        return Response::ok();
+    }
+
 }
