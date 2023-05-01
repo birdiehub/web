@@ -8,7 +8,7 @@ Codebase Docs
 ## Table of Contents
 
 - [Description](#description)
-- [Get Started](#get-started-)
+- [Get Started](#get-started)
   - [Requirements](#requirements)
   - [Installation](#installation)
 - [Composer Additional Requirements](#composer-additional-requirements)
@@ -28,7 +28,7 @@ Codebase Docs
   - [Routes](#routes)
   - [Middleware](#middleware)
   - [Policies](#policies)
-  - [Exceptions](#exceptions-)
+  - [Exceptions](#exceptions)
 
 ## Description
 Monolithic Architecture  
@@ -292,43 +292,43 @@ _Permissions handled by the policy:_
 ### Exceptions  
 The following exceptions are used in the application and are handled in the `app/Exceptions/Handler.php` file.
 
-#### General
+##### General
 ```php
 \App\Exceptions\Custom\GeneralException
 ```
 
-#### Invalid Arguments
+##### Invalid Arguments
 ```php
 \InvalidArgumentException
 ```
 
-#### Invalid Routes
+##### Invalid Routes
 ```php
 \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 ```
 
-#### Authentication
+##### Authentication
 ```php
 \Illuminate\Auth\AuthenticationException
 ``` 
 
-#### Authorization (Access Control)
+##### Authorization (Access Control)
 ```php
 \Spatie\Permission\Exceptions\UnauthorizedException
 \Illuminate\Auth\Access\AuthorizationException
 ```
 
-#### Validation
+##### Validation
 ```php
 \Illuminate\Validation\ValidationException
 ```
 
-#### Not Found Models
+##### Not Found Models
 ```php
 \Illuminate\Database\Eloquent\ModelNotFoundException
 ```
 
-#### Not Yet Implemented
+##### Not Yet Implemented
 ```php
 \App\Exceptions\Custom\NotYetImplementedException
 ```
