@@ -19,6 +19,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', fn() => response()->json([
+    'data' => [
+        'name' => config('app.name'),
+        'version' => config('app.version'),
+        'language' => config('app.locale'),
+        'fallback_language' => config('app.fallback_locale'),
+    ]
+]));
+
+Route::get('/languages', fn() => response()->json([
+    'data' =>  ['en', 'de', 'es', 'fr', 'it', 'nl']
+]));
+
 Route::post('/auth/register', [AuthenticationController::class, "register"]);
 Route::post('/auth/login', [AuthenticationController::class, "login"]);
 
