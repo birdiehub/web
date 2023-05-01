@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Traits\TranslatableAttributes;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class Resource extends JsonResource
 {
+    use TranslatableAttributes;
 
     protected string | null $_language;
     public function __construct($resource)
@@ -16,8 +18,7 @@ abstract class Resource extends JsonResource
 
     protected function translate(string $attribute, bool $useFallbackLocale = true): string | null
     {
-        $translation = $this->resource->getTranslation($attribute, $this->_language ?? "", $useFallbackLocale);
-        return $translation === "" ? null : $translation;
+        return $this->translateAttribute($this->resource, $this->_language, $attribute, $useFallbackLocale);
     }
 
 }
