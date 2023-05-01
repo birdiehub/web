@@ -50,11 +50,11 @@ Framework: Laravel 9.19
 
 ## Composer Additional Requirements
 Please refer to the documentation of the packages for more information.
-- [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/)
-- [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction)
-- [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction)
-- [Laravel Unique Translation Validation](https://github.com/codezero-be/laravel-unique-translation)  
-
+- [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/): JWT authentication for the API.
+- [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction): Roles and permissions of users for the API.
+- [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction): Translatable/language fields for the API.
+- [Laravel Unique Translation Validation](https://github.com/codezero-be/laravel-unique-translation): Unique translation validation for the API.
+- [Laravel Language](https://laravel-lang.com/): Language files for the API.
 
 ## Authentication
 JWT authentication is used for the API.  
