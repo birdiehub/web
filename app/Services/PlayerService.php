@@ -59,4 +59,23 @@ class PlayerService extends Service
         ]));
         return parent::update($id, $data);
     }
+
+    public function addSocial($id, $data): Model
+    {
+        Validator::standalone($data, [
+            'id' => ['prohibited'],
+            'channel' => ['required', 'string'],
+            'url' => ['required', 'string'],
+        ]);
+        $player = $this->find($id);
+        $player->socials()->create($data);
+        return $player;
+    }
+
+    public function deleteSocial($playerId, $socialId): bool
+    {
+        $player = $this->find($playerId);
+        return $player->socials()->findOrFail($socialId)->delete();
+    }
+
 }

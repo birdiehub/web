@@ -81,4 +81,7 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/players/{id}', [PlayerController::class, 'get'])->where('id', '[0-9]+');
     Route::put('/players/{id}', [PlayerController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/players/{id}', [PlayerController::class, 'delete'])->where('id', '[0-9]+');
+
+    Route::post('/players/{id}/socials', [PlayerController::class, 'addSocial'])->where('id', '[0-9]+');
+    Route::delete('/players/{playerId}/socials/{socialId}', [PlayerController::class, 'deleteSocial'])->where(['playerId' => '[0-9]+', 'socialId' => '[0-9]+']);
 });

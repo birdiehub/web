@@ -65,4 +65,21 @@ class PlayerController extends Controller
         return Response::ok();
     }
 
+    public function addSocial(Request $request, $id): PlayerResource
+    {
+        $this->authorize('editPlayer', $this->_class);
+
+        $data = $request->all();
+        $player = $this->_service->addSocial($id, $data);
+        return new PlayerResource($player);
+    }
+
+    public function deleteSocial($playerId, $socialId): JsonResponse
+    {
+        $this->authorize('editPlayer', $this->_class);
+
+        $this->_service->deleteSocial($playerId, $socialId);
+        return Response::ok();
+    }
+
 }
