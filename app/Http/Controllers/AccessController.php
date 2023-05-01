@@ -30,7 +30,7 @@ class AccessController extends Controller
 
     public function grantPermission($userId, $name): JsonResponse
     {
-        $this->authorize("grantUserPermission", $this->_class);
+        $this->authorize("grantUserPermission", [$this->_class, $name]);
 
         $this->_service->grantPermission($userId, $name);
         return Response::ok();
@@ -38,7 +38,7 @@ class AccessController extends Controller
 
     public function revokePermission($userId, $name): JsonResponse
     {
-        $this->authorize("revokeUserPermission", $this->_class);
+        $this->authorize("revokeUserPermission", [$this->_class, $name]);
 
         $this->_service->revokePermission($userId, $name);
         return Response::ok();
@@ -46,7 +46,7 @@ class AccessController extends Controller
 
     public function grantRole($userId, $name): JsonResponse
     {
-        $this->authorize("grantUserRole", $this->_class);
+        $this->authorize("grantUserRole", [$this->_class, $name]);
 
         $this->_service->grantRole($userId, $name);
         return Response::ok();
@@ -54,7 +54,7 @@ class AccessController extends Controller
 
     public function revokeRole($userId, $name): JsonResponse
     {
-        $this->authorize("revokeUserRole", $this->_class);
+        $this->authorize("revokeUserRole", [$this->_class, $name]);
 
         $this->_service->revokeRole($userId, $name);
         return Response::ok();
