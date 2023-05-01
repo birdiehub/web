@@ -67,7 +67,10 @@ The supported languages are `en`, `de`, `fr`, `nl`, `se` and `it`.
 
 **How does the translation work?**  
 When an incoming request is received, the `App\Http\Middleware\SetLanguage` middleware is executed.
-This middleware will set the language (locale) during the request runtime.
+This middleware will set the language (locale) during the request runtime.  
+The middleware will always check for the language query parameter. In other words, on every request you can set the language.
+For example, when you want to register a new user (doesn't have any translatable fields) and set the language parameter to "de",
+the validation errors will return in german.
 ````php
 public function handle(Request $request, Closure $next)
     {
