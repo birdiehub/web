@@ -11,7 +11,7 @@ class UserService extends Service
 {
     protected array $_insertRules = [
         "id"=> "prohibited",
-        'username' => 'required|string|max:255||unique:users,username',
+        'username' => 'required|string|max:255|min:4|unique:users,username',
         'password' => 'required|string|max:255|min:8',
         "first_name" => "required|string",
         "last_name" => "required|string",
