@@ -42,6 +42,7 @@ class AuthService extends Service
         $data['password'] = Hash::make($unhashedPassword);
 
         $user = parent::create($data);
+        $user->assignRole('viewer');
         return $this->authenticate($data['username'], $unhashedPassword);
     }
 
