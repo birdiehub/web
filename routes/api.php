@@ -4,6 +4,7 @@ use App\Http\Controllers\AccessController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -73,4 +74,11 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/countries/{id}', [CountryController::class, 'get'])->where('id', '[0-9]+');
     Route::put('/countries/{id}', [CountryController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/countries/{id}', [CountryController::class, 'delete'])->where('id', '[0-9]+');
+
+    // Players
+    Route::get('/players', [PlayerController::class, 'all']);
+    Route::post('/players', [PlayerController::class, 'create']);
+    Route::get('/players/{id}', [PlayerController::class, 'get'])->where('id', '[0-9]+');
+    Route::put('/players/{id}', [PlayerController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('/players/{id}', [PlayerController::class, 'delete'])->where('id', '[0-9]+');
 });
