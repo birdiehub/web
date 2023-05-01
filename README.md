@@ -11,7 +11,8 @@ Codebase Docs
 - [Get Started](#get-started)
   - [Requirements](#requirements)
   - [Installation](#installation)
-- [Composer Additional Requirements](#composer-additional-requirements)
+- [Framework Requirements](#framework-requirements)
+- [Language & Translations](#language--translations)
 - [Authentication](#authentication)
 - [Access Control](#access-control)
   - [Permissions](#permissions)
@@ -38,6 +39,7 @@ Framework: Laravel 9.19
 ### Requirements
 
 - [PHP 8.0](http://php.net/downloads.php)
+- [Laravel Framework ^9.x](https://laravel.com/docs/9.x/installation)
 
 ### Installation
 1. Clone the repository
@@ -48,13 +50,90 @@ Framework: Laravel 9.19
 6. Generate the application key with `php artisan key:generate`
 7. Generate the JWT secret with `php artisan jwt:secret`
 
-## Composer Additional Requirements
+## Framework Requirements
 Please refer to the documentation of the packages for more information.
 - [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/): JWT authentication for the API.
 - [Laravel Permissions](https://spatie.be/docs/laravel-permission/v5/introduction): Roles and permissions of users for the API.
 - [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction): Translatable/language fields for the API.
 - [Laravel Unique Translation Validation](https://github.com/codezero-be/laravel-unique-translation): Unique translation validation for the API.
 - [Laravel Language](https://laravel-lang.com/): Language files for the API.
+
+## Language & Translations
+The application supports multiple languages.  
+
+The default language is English. Set the `locale` value in the `config/app.php` file to change the default language.
+
+The supported languages are `en`, `de`, `fr`, `nl`, `se` and `it`.
+
+**How does the translation work?**  
+When an incoming request is received, the `App\Http\Middleware\SetLanguage` middleware is executed.
+This middleware will set the language (locale) during the request runtime.
+````php
+public function handle(Request $request, Closure $next)
+    {
+        $locale = $request->get('language', app()->getLocale());
+        // Modify the default language for a single HTTP request at runtime
+        // using the setLocale method provided by the App facade:
+        App::setLocale($locale);
+        $request->headers->set('Accept-Language', $locale);
+        return $next($request);
+    }
+````
+Now that the locale (language) for the request is set. Laravel will automatically load the correct language files for the request.
+These language files are located in the `lang` directory. With these language files, 
+the application can translate the **internal** response messages, such as validation errors, exceptions, etc.
+> Note: The language files are added by the [Laravel Language](https://laravel-lang.com/) package.  
+
+But this doesn't solve the problem of translating the translatable fields of the models.
+To solve this problem, the [Laravel Translatable](https://spatie.be/docs/laravel-translatable/v6/introduction) package is used.
+This library provides a trait that can be added to the models that need to be translatable.
+````php
+use Spatie\Translatable\HasTranslations;
+````
+The trait will add some helper methods to get and set the translations of the model.
+Translatable fields are defined in the model with the `$translatable` property.
+> Note: In order to use the translatable fields, the fields must be of type json in the database.
+
+To make translating the fields more convenient based on the current language of the request, 
+I created my own abstract `Resource` and `ResourceCollection` class in the `app/Http/Resources` directory.
+In these classes I added the `$_language` property that holds the current language of the request.
+And I added the `translate` method that will return the translation of the attribute (model field).
+````php
+abstract class Resource extends JsonResource
+{
+
+    protected string | null $_language;
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+        $this->_language = app()->getLocale();
+    }
+
+    protected function translate(string $attribute, bool $useFallbackLocale = true): string | null
+    {
+        $translation = $this->resource->getTranslation($attribute, $this->_language ?? "", $useFallbackLocale);
+        return $translation === "" ? null : $translation;
+    }
+
+}
+````
+The `translate` method will return the translation of the attribute (model field) in the current language of the request.  
+So now when I return a resource in a controller, the translatable fields will be translated if the method `translate` is used.
+````php
+class CountryResource extends Resource
+{
+
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'code' => $this->code,
+            'name' => $this->translate('name')
+        ];
+    }
+}
+````
+
 
 ## Authentication
 JWT authentication is used for the API.  
@@ -63,7 +142,9 @@ Unauthenticated requests are handled by the `App\Http\Middleware\Authenticate` m
 When a request is unauthenticated, the AuthenticationException is thrown.
 
 ## Access Control
-Access Control is used to manage the permissions and roles of users in the application to access a certain route/resource/action.
+Access Control is used to manage the permissions and roles of users in the application.
+
+The authorization of a user on a model / resource / action is set with [policies](#policies).
 
 ### Permissions
 Please read the [Policy](#policies) section to view all the application permissions available.
@@ -223,11 +304,25 @@ They are located in the `app/Http/Middleware` directory.
 Some important middleware:
 - `Authenticate`: Handles the authentication of the user.
 ````php
+// Override the default unauthenticated method to throw an AuthenticationException
 protected function unauthenticated($request, array $guards): void
 {
     throw new AuthenticationException();
 }
 ````
+- `SetLanguage`: Handles the language of every single request during runtime.
+````php
+public function handle(Request $request, Closure $next)
+    {
+        $locale = $request->get('language', app()->getLocale());
+        // Modify the default language for a single HTTP request at runtime
+        // using the setLocale method provided by the App facade:
+        App::setLocale($locale);
+        $request->headers->set('Accept-Language', $locale);
+        return $next($request);
+    }
+````
+
 ### Policies
 Policies are classes that organize authorization logic around a particular model or resource. 
 For example, if your application is a blog, you may have a `App\Models\User` model and a corresponding `App\Policies\UserPolicy` to authorize user actions 
