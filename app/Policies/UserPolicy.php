@@ -108,7 +108,7 @@ class UserPolicy
 
     private function rolePermissionsByName(string $roleName): array
     {
-        return Role::findByName($roleName)->permissions->pluck('name');
+        return Role::findByName($roleName)->permissions->pluck('name')->toArray();
     }
 
 }
