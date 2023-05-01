@@ -60,7 +60,7 @@ class AuthService extends Service
 
     public function refresh(): string
     {
-        return auth('api')->refresh();
+        return auth()->refresh();
     }
 
     public function me() : Model
@@ -71,7 +71,7 @@ class AuthService extends Service
 
     private function authenticate($username, $password) : string
     {
-        $token = auth('api')->attempt([
+        $token = auth()->attempt([
             'username' => $username,
             'password' => $password
         ]);
