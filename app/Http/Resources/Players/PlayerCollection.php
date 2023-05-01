@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Players;
 
-use App\Http\Resources\Countries\CountryCollection;
+use App\Http\Resources\Countries\CountryResource;
 use App\Http\Resources\ResourceCollection;
 
 class PlayerCollection extends ResourceCollection
@@ -17,7 +17,7 @@ class PlayerCollection extends ResourceCollection
                 'full_name' => $player->first_name . " " . $player->last_name,
                 'headshot' => $player->headshot,
                 'gender' => $this->translate($player, 'gender'),
-                'country' => new CountryCollection($player->country)
+                'country' => new CountryResource($player->country)
             ];
         })->toArray();
     }
