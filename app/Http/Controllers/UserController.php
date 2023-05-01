@@ -42,9 +42,8 @@ class UserController extends Controller
     {
         $this->authorize('viewUser', $this->_service->find($id));
 
-        $language = $request->get("language");
         $user = $this->_service->find($id);
-        return new UserResource($user, $language);
+        return new UserResource($user);
     }
 
     public function update(Request $request, $id): UserResource

@@ -26,9 +26,8 @@ class CountryController extends Controller
         $this->authorize("viewCountries", $this->_class);
 
         $pages = $request->get("pages", 10);
-        $language = $request->get("language", app()->getLocale());
         $model = $this->_service->model();
-        return new CountryCollection($model::paginate($pages), $language);
+        return new CountryCollection($model::paginate($pages));
     }
 
     public function create(Request $request) : CountryResource
@@ -45,9 +44,8 @@ class CountryController extends Controller
     {
         $this->authorize("viewCountry", $this->_class);
 
-        $language = $request->get("language", app()->getLocale());
         $country = $this->_service->find($id);
-        return new CountryResource($country, $language);
+        return new CountryResource($country);
     }
 
     public function update(Request $request, $id) : CountryResource

@@ -46,9 +46,8 @@ class AuthenticationController extends Controller
 
     public function me(Request $request): UserResource
     {
-        $language = $request->get("language", app()->getLocale());
         $user = $this->_service->me();
         $this->authorize('viewOwnUser', $user);
-        return new UserResource($user, $language);
+        return new UserResource($user);
     }
 }

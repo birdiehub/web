@@ -21,10 +21,13 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SetLanguage::class,
     ];
 
     /**
      * The application's route middleware groups.
+     *
+     * These middleware groups are run during every request to your application when the middleware group is indicated.
      *
      * @var array<string, array<int, class-string|string>>
      */
