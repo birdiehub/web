@@ -9,7 +9,7 @@ class Authenticate extends Middleware
 {
 
     /**
-     * Handle an unauthenticated user.
+     * Handle an unauthenticated user, overwrites the default unauthenticated response.
      *
      * @param \Illuminate\Http\Request $request
      * @param array $guards
