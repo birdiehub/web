@@ -12,7 +12,7 @@ Codebase Docs
   - [Requirements](#requirements)
   - [Installation](#installation)
 - [Framework Requirements](#framework-requirements)
-- [Language & Translations](#language--translations)
+- [Language & Translations](#language-translations)
 - [Authentication](#authentication)
 - [Access Control](#access-control)
   - [Permissions](#permissions)
