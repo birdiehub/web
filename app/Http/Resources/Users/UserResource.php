@@ -21,7 +21,7 @@ class UserResource extends Resource
             'address' => $this->address,
             'city' => $this->city,
             'zip' => $this->zip,
-            'country' => new CountryResource($this->country, $this->_language)
+            'country' => new CountryResource($this->country)
         ];
     }
 
