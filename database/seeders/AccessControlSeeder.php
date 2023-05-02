@@ -41,7 +41,7 @@ class AccessControlSeeder extends Seeder
 
             User::factory()->create([
                 'username' => 'test-' . $role["name"],
-                'password' => '$2y$10$WwhvMo2h4.U1KBkfIU.8x.XPXG8QcaSNposuL5VALLyWB7LHa2Qz2' // BluePeach
+                'password' => 'BluePeach'
             ])->assignRole($model);
         }
     }

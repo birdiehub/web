@@ -38,13 +38,9 @@ class AuthService extends Service
     public function register($data): string
     {
         Validator::standalone($data, $this->_registerRules);
-
-        $unhashedPassword = $data['password'];
-        $data['password'] = Hash::make($unhashedPassword);
-
         $user = parent::create($data);
         $user->assignRole('viewer');
-        return $this->authenticate($data['username'], $unhashedPassword);
+        return $this->authenticate($data['username'], $data['password']);
     }
 
 

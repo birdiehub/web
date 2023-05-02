@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\User;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service
 {
@@ -45,14 +44,12 @@ class UserService extends Service
     public function create($data) : Model
     {
         Validator::standalone($data, $this->_insertRules);
-        $data['password'] = Hash::make($data['password']);
         return parent::create($data);
     }
 
     public function update($id, $data) : Model
     {
         Validator::standalone($data, $this->_updateRules);
-        if (isset($data['password'])) $data['password'] = Hash::make($data['password']);
         return parent::update($id, $data);
     }
 
