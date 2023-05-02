@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 
+// User responsible for handling all the business logic
+
 class UserService extends Service
 {
     protected array $_insertRules = [
