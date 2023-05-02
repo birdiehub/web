@@ -41,7 +41,13 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::boot();
 
+        // Hash password before saving (on creating event)
         static::creating(function ($user) {
+            $user->password = Hash::make($user->password);
+        });
+
+        // Hash password before saving (on updating event)
+        static::updating(function ($user) {
             $user->password = Hash::make($user->password);
         });
     }
