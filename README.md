@@ -50,6 +50,45 @@ Framework: Laravel 9.19
 6. Generate the application key with `php artisan key:generate`
 7. Generate the JWT secret with `php artisan jwt:secret`
 
+### Test Users
+These users are used for development and testing purposes.  
+In production, these users should be removed.  
+The seeder will create 4 test users with the following credentials:
+##### test-super-admin
+Role: super-admin
+````json
+{
+    "username": "test-super-admin",
+    "password": "BluePeach"
+}
+````
+##### test-admin
+Role: admin
+````json
+{
+    "username": "test-admin",
+    "password": "BluePeach"
+}
+````
+##### test-editor
+Role: editor
+````json
+{
+    "username": "test-editor",
+    "password": "BluePeach"
+}
+````
+##### test-viewer
+Role: viewer  
+Note: default role for new registered users
+````json
+{
+    "username": "test-viewer",
+    "password": "BluePeach"
+}
+````
+
+
 ## Framework Requirements
 Please refer to the documentation of the packages for more information.
 - [Laravel JWT Auth](https://laravel-jwt-auth.readthedocs.io/en/latest/): JWT authentication for the API.
