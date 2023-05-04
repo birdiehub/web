@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Translatable\HasTranslations;
 
 class Player extends Model
@@ -43,6 +44,8 @@ class Player extends Model
         'family'
     ];
 
+    protected $appends = ['rank'];
+
 
     public function snapshots(): HasMany
     {
@@ -54,7 +57,7 @@ class Player extends Model
         return $this->hasMany(Social::class, 'player_id', 'id');
     }
 
-    public function leaderboard(): HasMany
+    public function leaderboards(): HasMany
     {
         return $this->hasMany(Leaderboard::class, 'player_id', 'id');
     }
@@ -64,9 +67,14 @@ class Player extends Model
         return $this->belongsTo(Country::class, "country_id", "id");
     }
 
-    public function currentRank(): Model
+    public function leaderboard() : HasOne
     {
-        // order by weekend_date desc, week_number desc
-        return $this->leaderboard()->orderBy('weekend_date', 'desc')->orderBy('week_number', 'desc')->first();
+        return $this->hasOne(Leaderboard::class, 'player_id', 'id')->latest('weekend_date');
     }
+
+    public function getRankAttribute() : ?int
+    {
+        return $this->leaderboard->rank ?? null;
+    }
+
 }

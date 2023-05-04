@@ -18,7 +18,7 @@ class PlayerCollection extends ResourceCollection
                 'headshot' => $player->headshot,
                 'gender' => $this->translate($player, 'gender'),
                 'country' => new CountryResource($player->country),
-                'rank' => $player->currentRank()->rank ??  null,
+                'rank' => $player->rank,
             ];
         })->toArray();
     }

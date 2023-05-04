@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Player;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class PlayerService extends Service
@@ -31,9 +32,22 @@ class PlayerService extends Service
         'snapshots' => ['prohibited']
     ];
 
+    private static string $LATEST_WEEKEND_SQ = "(SELECT leaderboards.player_id, MAX(leaderboards.weekend_date) as max_weekend_date FROM leaderboards GROUP BY leaderboards.player_id) as lb";
+    private static  string $RANK_SQ = '(SELECT leaderboards.rank FROM leaderboards WHERE leaderboards.weekend_date = lb.max_weekend_date AND leaderboards.player_id = players.id) as `rank`';
+
     public function __construct(Player $model)
     {
         parent::__construct($model);
+    }
+
+    public function getPlayersWithRank()
+    {
+        // Code that give me a headache:
+        // Note: this query is not very efficient, but it's the only way I found to get the rank of a player and be able to sort by it
+        return Player::leftJoin(DB::raw(self::$LATEST_WEEKEND_SQ), function($join) {
+            $join->on('players.id', '=', 'lb.player_id');
+        })
+            ->select('players.*', DB::raw(self::$RANK_SQ));
     }
 
     public function create($data): Model

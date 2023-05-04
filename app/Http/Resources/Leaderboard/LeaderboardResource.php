@@ -10,7 +10,6 @@ class LeaderboardResource extends Resource
     {
         return [
             'id' => $this->id,
-            'week_number' => $this->week_number,
             'weekend_date' => $this->weekend_date,
             'rank' => $this->rank,
             'last_week_rank' => $this->last_week_rank,

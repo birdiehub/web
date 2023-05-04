@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\Snapshot;
 use App\Models\Social;
 use App\Models\Leaderboard;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 
@@ -50,7 +51,7 @@ class GolfSeeder extends Seeder
         }
     }
 
-    private function findCountry($code): int
+    private function findCountry($code): ?int
     {
 
         switch ($code){
@@ -68,7 +69,11 @@ class GolfSeeder extends Seeder
                 break;
         }
 
-        return Country::where('code', $code)->first()->id;
+        $country = Country::where('code', $code)->first();
+        if (!is_null($country)) {
+            return $country->id;
+        }
+        return null;
     }
 
     private function savePlayer($player, $details): int
@@ -163,7 +168,6 @@ class GolfSeeder extends Seeder
 
         $model = new Leaderboard();
         $model->player_id = $playerId;
-        $model->week_number = $wgr['weekNumber'];
         $model->weekend_date = $wgr['weekEndDate'];
         $model->rank = $wgr['rank'];
         $model->is_tied = $wgr['isTied'];
@@ -178,12 +182,11 @@ class GolfSeeder extends Seeder
 
 
         $other = Leaderboard::where('player_id', $model->player_id)
-            ->where('week_number', $model->week_number)
+            ->where('weekend_date', Carbon::parse($model->weekend_date))
             ->first();
 
-        if (!$other) {
-            $model->save();
-        }
+        if (!$other) $model->save();
+
     }
 
 

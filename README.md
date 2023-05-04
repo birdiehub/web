@@ -242,13 +242,25 @@ _Relations:_
 - `country`: Belongs to a country.
 - `snapshots`: Has many snapshots.
 - `socials`: Has many socials.
-- `leaderboard`: Has many leaderboard entries.  
+- `leaderboards`: Has many leaderboard entries.  
+- `leaderboard`: Has one leaderboard entry (entry of latest weekend!)
 
 _Translatable Fields:_
 - `gender`
 - `bio`
 - `degree`
-- `family`
+- `family`  
+
+Note: the player model has an **additional** attribute that returns the rank of the player.  
+```php
+public function getRankAttribute() : ?int
+{
+    return $this->leaderboard->rank ?? null;
+}
+
+// Can be retrieved with:
+$rank = $player->rank;
+```
 
 #### Snapshot
 The `App\Models\Snapshot` model is used to handle the player snapshots.  
@@ -328,7 +340,7 @@ They are located in the `database/migrations` directory.
 - `create_players_table`: Creates the `players` table.
 - `create_snapshots_table`: Creates the `snapshots` table.
 - `create_socials_table`: Creates the `socials` table.
-- `create_leaderboard_table`: Creates the `leaderboard` table.
+- `create_leaderboards_table`: Creates the `leaderboard` table.
 
 ### Routes
 Routes are used to handle the requests of the application.  

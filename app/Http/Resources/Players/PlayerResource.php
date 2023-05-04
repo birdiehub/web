@@ -35,7 +35,7 @@ class PlayerResource extends Resource
             'country' => new CountryResource($this->country),
             'socials' => new SocialCollection($this->socials),
             'snapshots' => new SnapshotCollection($this->snapshots),
-            'current_rank' => new LeaderboardResource($this->currentRank())
+            'leaderboard' => new LeaderboardResource($this->leaderboard)
         ];
     }
 }

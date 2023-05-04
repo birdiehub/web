@@ -104,6 +104,6 @@ return [
         ]
     ],
     'wgr' => [
-        'url' => 'https://apiweb.owgr.com/api/owgr/rankings/getRankings?pageSize=10&pageNumber=1&regionId=0&countryId=0&sortString=pointsTotal+DESC'
+        'url' => 'https://apiweb.owgr.com/api/owgr/rankings/getRankings?pageSize=300&pageNumber=1&regionId=0&countryId=0&sortString=pointsTotal+DESC'
     ]
 ];

@@ -21,13 +21,16 @@ class PlayerController extends Controller
         $this->_class = $this->_service->model()::class;
     }
 
-    public function all(Request $request): PlayerCollection
+    public function all(Request $request)
     {
         $this->authorize('viewPlayers', $this->_class);
 
         $pages = $request->get("pages", 10);
-        $players = $this->_service->model();
-        return new PlayerCollection($players::paginate($pages));
+        $sort = $request->get("sort", "id,asc");
+        $sort = explode(",", $sort);
+        $sort[0] = in_array($sort[0], ["id", "first_name", "last_name", "rank"]) ? $sort[0] : "id";
+        $players = $this->_service->getPlayersWithRank()->orderBy($sort[0], $sort[1]);
+        return new PlayerCollection($players->paginate($pages));
     }
 
 

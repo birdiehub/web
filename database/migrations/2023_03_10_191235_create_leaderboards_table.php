@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('leaderboard', function (Blueprint $table) {
+        Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('player_id');
-            $table->unsignedBigInteger('week_number');
-            $table->string('weekend_date', 20);
+            $table->dateTime('weekend_date');
             $table->integer('rank');
             $table->integer('last_week_rank');
             $table->integer('end_last_year_rank');
@@ -30,13 +29,13 @@ return new class extends Migration
             $table->integer('divisor_applied');
 
             $table->timestamps();
-            $table->unique(['player_id', 'week_number']);
+            $table->unique(['player_id', 'weekend_date']);
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('leaderboard');
+        Schema::dropIfExists('leaderboards');
     }
 };

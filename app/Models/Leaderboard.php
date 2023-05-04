@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\Custom\GeneralException;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,11 +12,10 @@ class Leaderboard extends Model
 {
     use HasFactory;
 
-    protected $table = 'leaderboard';
+    protected $table = 'leaderboards';
 
     protected $fillable = [
         'player_id',
-        'week_number',
         'weekend_date',
         'rank',
         'last_week_rank',
@@ -27,6 +28,20 @@ class Leaderboard extends Model
         'divisor_actual',
         'divisor_applied'
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // Convert "D M Y" to datetime
+        static::creating(function ($user) {
+            $user->weekend_date = Carbon::parse($user->weekend_date);
+        });
+
+        static::updating(function ($user) {
+            throw new GeneralException("Leaderboard is read-only");
+        });
+    }
 
     public function player(): BelongsTo
     {
