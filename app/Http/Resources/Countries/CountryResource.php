@@ -12,7 +12,8 @@ class CountryResource extends Resource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'name' => $this->translate('name')
+            'name' => $this->translate('name'),
+            'flag' => $this->flag
         ];
     }
 }

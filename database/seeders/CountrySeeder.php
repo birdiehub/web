@@ -28,7 +28,8 @@ class CountrySeeder extends Seeder
                     'fr' => $country['fr'],
                     'nl' => $country['nl'],
                     'it' => $country['it']
-                ]
+                ],
+                'flag' => $country['flag'],
             ]);
         }
     }
