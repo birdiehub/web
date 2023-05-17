@@ -8,7 +8,7 @@
       <HeaderBar/>
       <NotificationBar v-show="notificationShow"/>
       <section class="content-wrapper">
-        <router-view/>
+        <router-view name="App"/>
       </section>
     </div>
   </div>
@@ -24,7 +24,7 @@ import NotificationBar from "@/components/Notification/NotificationBar";
 
 
 export default {
-  name: "AuthenticatedLayout",
+  name: "AppLayout",
   components: {
     LoadApp,
     Sidebar,
