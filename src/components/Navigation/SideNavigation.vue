@@ -1,7 +1,7 @@
 <template>
   <nav class="navigation-items-wrapper">
     <ul>
-      <li><NavigationItem :route="`/dashboard`" :title="`Dashboard`" :icon="`home`"/></li>
+      <li><NavigationItem :route="`/dashboard`" :name="`Dashboard`" :icon="`home`"/></li>
     </ul>
   </nav>
 </template>

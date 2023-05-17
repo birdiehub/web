@@ -1,6 +1,6 @@
 <template>
   <router-link :to="route" class="no-text-decoration nav-item">
-    <IconAndText :title="title" :icon="icon"/>
+    <IconAndText :title="name" :icon="icon" :class="{ 'selected': currentRouteName === name}"/>
   </router-link>
 </template>
 
@@ -11,11 +11,16 @@ export default {
   name: "NavigationItem",
   props: {
     route: String,
-    title: String,
+    name: String,
     icon: String
   },
   components: {
     IconAndText
+  },
+  computed: {
+      currentRouteName() {
+          return this.$route.name;
+      }
   }
 };
 </script>
@@ -24,6 +29,10 @@ export default {
 
 .nav-item {
   padding: 0 1rem;
+}
+
+.selected {
+  font-weight: bold;
 }
 
 </style>
