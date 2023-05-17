@@ -1,14 +1,14 @@
 import { createStore } from "vuex";
 
 // modules
-import me from "@/store/modules/auth/me";
+import authentication from "@/store/modules/auth/authentication";
 
 import notification from "@/store/modules/notification";
 
 
 const store = createStore({
     modules: {
-        me,
+        authentication,
         notification
     }
 });
