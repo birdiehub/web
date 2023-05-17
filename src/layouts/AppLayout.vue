@@ -6,7 +6,7 @@
     </div>
     <div class="header-and-content-wrapper">
       <HeaderBar/>
-      <NotificationBar v-show="notificationShow"/>
+      <Notifications/>
       <section class="content-wrapper">
         <router-view name="App"/>
       </section>
@@ -20,16 +20,16 @@ import {mapActions, mapGetters} from "vuex";
 import LoadApp from "@/components/Load/LoadApp";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import HeaderBar from "@/components/Header/HeaderBar";
-import NotificationBar from "@/components/Notification/NotificationBar";
+import Notifications from "@/components/Notification/Notifications.vue";
 
 
 export default {
   name: "AppLayout",
   components: {
+    Notifications,
     LoadApp,
     Sidebar,
-    HeaderBar,
-    NotificationBar
+    HeaderBar
   },
   data() {
     return {
@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['notificationShow', 'me'])
+    ...mapGetters(['me'])
   },
   async mounted() {
 

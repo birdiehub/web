@@ -1,34 +1,28 @@
+import {now} from "moment/moment";
+
 const state = {
-    content: "",
-    type: "info",
-    show: false
+    notifications: []
 };
 
 const getters = {
-    notificationContent: (state) => state.content,
-    notificationType: (state) => state.type,
-    notificationShow: (state) => state.show
+    notifications: (state) => state.notifications
 };
 
 const actions = {
     createNotification({ commit }, options){
         const { content, type="info" } = options;
-
-        commit('setNotificationContent', content);
-        commit('setNotificationType', type);
-        commit('setNotificationShow', true);
+        commit('addNotification', {id: `${now()}-${state.notifications.length}`, content: content, type: type});
     },
-    removeNotification({ commit }) {
-        commit('setNotificationContent', "");
-        commit('setNotificationType', "info");
-        commit('setNotificationShow', false);
+    removeNotification({ commit }, id) {
+        commit('removeNotification', id);
     }
 };
 
 const mutations = {
-    setNotificationContent: (state, content) => (state.content = content),
-    setNotificationType: (state, type) => (state.type = type),
-    setNotificationShow: (state, show) => (state.show = show)
+    addNotification: (state, notification) => (state.notifications.push(notification)),
+    removeNotification(state, id) {
+        state.notifications = state.notifications.filter(notification => notification.id !== id);
+    }
 };
 
 export default {

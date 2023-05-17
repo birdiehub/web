@@ -1,8 +1,8 @@
 <template>
- <div class="notification" :class="notificationType">
+ <div class="notification" :class="notification.type">
    <div class="notification-content flex-center-row flex-gap-row">
      <Icon :icon="icon()" :color="`var(--color-white)`"/>
-     <p>{{ notificationContent }}</p>
+     <p>{{ notification.content }}</p>
    </div>
    <div class="close-notification">
      <IconButton :icon="`close`" :color="`var(--color-white)`" @click="close"/>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 import IconButton from "@/components/Button/IconButton";
 import Icon from "@/components/Icon/Icon";
@@ -22,19 +22,22 @@ export default {
     IconButton,
     Icon
   },
+  props: {
+    notification: {
+      type: Object,
+      required: true
+    }
+  },
   created() {
     setTimeout(this.close, 8000);
-  },
-  computed: {
-    ...mapGetters(['notificationContent', 'notificationType', 'notificationShow'])
   },
   methods: {
     ...mapActions(['removeNotification']),
     close() {
-      this.removeNotification();
+      this.removeNotification(this.notification.id);
     },
     icon() {
-      switch (this.notificationType){
+      switch (this.notification.type){
         case "error":
           return `error`;
         case "success":
@@ -43,13 +46,6 @@ export default {
           return `warning`;
         default:
           return `info`;
-      }
-    }
-  },
-  watch: {
-    notificationShow(n, o) {
-      if(n === true) {
-        setTimeout(this.close, 8000);
       }
     }
   }

@@ -53,7 +53,15 @@ function logJson(json) {
 function errorNotification(response) {
    try {
        response.json().then(error => {
-        store.dispatch('createNotification', {content: error.cause, type: `error`});
+       if (typeof error.cause=== "string") {
+           store.dispatch('createNotification', {content: error.cause, type: `error`});
+       } else if (typeof error.cause === "object") {
+           for (const cause in error.cause) {
+               for (const message of error.cause[cause]) {
+                   store.dispatch('createNotification', {content: message, type: `error`});
+               }
+           }
+       }
     });
    }
    catch (e) {
