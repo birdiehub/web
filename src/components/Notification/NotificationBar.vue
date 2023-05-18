@@ -34,7 +34,7 @@ export default {
   methods: {
     ...mapActions(['removeNotification']),
     close() {
-      this.removeNotification(this.notification.id);
+      this.removeNotification(this.notification.content);
     },
     icon() {
       switch (this.notification.type){

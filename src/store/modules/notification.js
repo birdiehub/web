@@ -11,17 +11,20 @@ const getters = {
 const actions = {
     createNotification({ commit }, options){
         const { content, type="info" } = options;
-        commit('addNotification', {id: `${now()}-${state.notifications.length}`, content: content, type: type});
+        commit('addNotification', {createdAt: now(), content: content, type: type});
     },
-    removeNotification({ commit }, id) {
-        commit('removeNotification', id);
+    removeNotification({ commit }, content) {
+        commit('removeNotification', content);
     }
 };
 
 const mutations = {
-    addNotification: (state, notification) => (state.notifications.push(notification)),
-    removeNotification(state, id) {
-        state.notifications = state.notifications.filter(notification => notification.id !== id);
+    addNotification(state, notification) {
+        if (state.notifications.find(n => n.content === notification.content)) return;
+        state.notifications.push(notification)
+    },
+    removeNotification(state, content) {
+        state.notifications = state.notifications.filter(notification => notification.content !== content);
     }
 };
 
