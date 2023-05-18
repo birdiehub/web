@@ -1,5 +1,5 @@
-import { post } from "@/assets/js/data-connector/api-communication-abstractor";
-import { get } from "@/assets/js/data-connector/api-communication-abstractor";
+import { post, get } from "@/assets/js/data-connector/api-communication-abstractor";
+import { saveToStorage} from "@/assets/js/data-connector/local-storage-abstractor";
 
 const state = {
     token: undefined,
@@ -7,13 +7,12 @@ const state = {
 };
 
 const getters = {
-    token: (state) => state.token,
     me: (state) => state.me
 };
 
 const actions = {
     async login({ commit }, credentials) {
-        await post(`auth/login`, credentials,(json) => commit('setToken', json.token));
+        await post(`auth/login`, credentials,(json) =>  saveToStorage('token', json.token));
     },
     async fetchMe({ commit }) {
         await get(`auth/me`,(json) => commit('setMe', json.data));
@@ -21,7 +20,6 @@ const actions = {
 };
 
 const mutations = {
-    setToken: (state, token) => (state.token = token),
     setMe: (state, user) => (state.me = user)
 };
 

@@ -1,4 +1,5 @@
-import { API, TOKEN } from '@/main.js';
+import { loadFromStorage } from "@/assets/js/data-connector/local-storage-abstractor";
+import { API } from '@/main.js';
 import store from '@/store/index.js';
 
 function get(uri, successHandler = logJson, failureHandler = errorNotification) {
@@ -37,8 +38,9 @@ function constructOptions(httpVerb, requestBody){
         }
     };
 
-    if(TOKEN !== null) {
-        options.headers["Authorization"] = "Bearer " + TOKEN;
+    const token = loadFromStorage('token');
+    if(token !== null) {
+        options.headers["Authorization"] = "Bearer " + token;
     }
 
     options.body = JSON.stringify(requestBody);
