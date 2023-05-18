@@ -39,6 +39,7 @@ Route::post('/auth/login', [AuthenticationController::class, "login"]);
 Route::middleware('auth:api')->group(function() {
     Route::post('/auth/logout', [AuthenticationController::class, "logout"]);
     Route::post('/auth/refresh', [AuthenticationController::class, "refresh"]);
+    Route::post('/auth/validate', [AuthenticationController::class, "validate"]);
     Route::get('/auth/me', [AuthenticationController::class, "me"]);
 
     // Access Control

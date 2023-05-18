@@ -44,6 +44,11 @@ class AuthenticationController extends Controller
         return Response::json(["token" => $token]);
     }
 
+    public function validate(): JsonResponse
+    {
+        return Response::ok();
+    }
+
     public function me(Request $request): UserResource
     {
         $user = $this->_service->me();
