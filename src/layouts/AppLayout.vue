@@ -57,6 +57,9 @@ export default {
       this.reloadTimer = setTimeout(this.reload, 2000);
     }
   },
+  unmounted() {
+    clearTimeout(this.reloadTimer);
+  },
   destroyed() {
     clearTimeout(this.reloadTimer);
   }
