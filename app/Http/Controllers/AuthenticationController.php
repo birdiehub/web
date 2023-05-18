@@ -44,7 +44,7 @@ class AuthenticationController extends Controller
         return Response::json(["token" => $token]);
     }
 
-    public function validate(): JsonResponse
+    public function isAuthenticated(): JsonResponse
     {
         return Response::ok();
     }
