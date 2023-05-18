@@ -18,10 +18,10 @@ const actions = {
         await post(`auth/register`, user,(json) =>  saveToStorage('token', json.token));
     },
     async logout({ commit }) {
-        await post(`auth/logout`,() =>  saveToStorage('token', undefined));
+        await post(`auth/logout`, {},() =>  saveToStorage('token', undefined));
     },
     async refreshAuthentication({ commit }) {
-        await post(`auth/refresh`,(json) =>  saveToStorage('token', json.token));
+        await post(`auth/refresh`, {}, (json) =>  saveToStorage('token', json.token));
     },
     async isAuthenticated({ commit }) {
         return get(`auth/validate`,() =>  true, () =>  false);
