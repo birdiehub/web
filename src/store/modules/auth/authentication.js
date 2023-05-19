@@ -2,7 +2,6 @@ import { post, get } from "@/assets/js/data-connector/api-communication-abstract
 import { saveToStorage} from "@/assets/js/data-connector/local-storage-abstractor";
 
 const state = {
-    token: undefined,
     me: undefined
 };
 
