@@ -34,7 +34,8 @@ function constructOptions(httpVerb, requestBody){
     const options= {
         method: httpVerb,
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Accept": "application/json"
         }
     };
 
