@@ -11,22 +11,25 @@ const getters = {
 
 const actions = {
     async login({ commit }, credentials) {
-        return post(`auth/login`, credentials,(json) =>  saveToStorage('token', json.token));
+        await post(`auth/login`, credentials,(json) =>  saveToStorage('token', json.token));
     },
     async register({ commit }, user) {
-        return post(`auth/register`, user,(json) =>  saveToStorage('token', json.token));
+        await post(`auth/register`, user,(json) => {
+            saveToStorage('token', json.token);
+            this.$router.push('/dashboard');
+        });
     },
     async logout({ commit }) {
-        return post(`auth/logout`, {},() =>  saveToStorage('token', ""));
+        await post(`auth/logout`, {},() =>  saveToStorage('token', ""));
     },
     async refreshAuthentication({ commit }) {
-        return post(`auth/refresh`, {}, (json) =>  saveToStorage('token', json.token));
+        await post(`auth/refresh`, {}, (json) =>  saveToStorage('token', json.token));
     },
     async isAuthenticated({ commit }) {
-        return get(`auth/validate`,() =>  true, () =>  false);
+        await get(`auth/validate`,() =>  true, () =>  false);
     },
     async fetchMe({ commit }) {
-        return get(`auth/me`,(json) => commit('setMe', json.data));
+        await get(`auth/me`,(json) => commit('setMe', json.data));
     }
 };
 
