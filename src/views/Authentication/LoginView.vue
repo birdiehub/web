@@ -1,15 +1,15 @@
 <template>
   <form id="login-view" class="flex-gap-col">
-      <h1>Use your Birdie account</h1>
+      <h1>{{ this.$translator.translate('auth.login_title') }}</h1>
       <div class="form-fields">
-          <label for="username">Username</label>
-          <input v-model="credentials.username" type="text" id="username" name="username" required autocomplete="off" placeholder="Enter username"/>
-          <label for="password">Password</label>
-          <input v-model="credentials.password" type="password" id="password" name="password" required autocomplete="off" placeholder="Enter password"/>
+          <label for="username">{{ this.$translator.translate('auth.fields.username.label') }}</label>
+          <input v-model="credentials.username" type="text" id="username" name="username" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.username.placeholder')"/>
+          <label for="password">{{ this.$translator.translate('auth.fields.password.label') }}</label>
+          <input v-model="credentials.password" type="password" id="password" name="password" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.password.placeholder')"/>
       </div>
       <div class="bottom-buttons">
-          <TextIconButton :content="`Login`" :icon="`login`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`" @click="clickedLogin"/>
-          <a href="#/auth/register">Create account.</a>
+          <TextIconButton :content="this.$translator.translate('auth.login')" :icon="`login`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`" @click="clickedLogin"/>
+          <a href="#/auth/register">{{ this.$translator.translate('auth.redirect_to_register') }}</a>
       </div>
   </form>
 </template>

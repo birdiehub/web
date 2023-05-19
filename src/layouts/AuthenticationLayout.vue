@@ -6,8 +6,8 @@
           <div class="flex-gap-row">
              <SelectLanguage/>
               <div class="auth-nav flex-gap-row">
-                  <NavigationButton route="/auth/login" name="Login"/>
-                  <NavigationButton route="/auth/register" name="Register"/>
+                  <NavigationButton route="/auth/login" name="Login" :content="this.$translator.translate('auth.login')"/>
+                  <NavigationButton route="/auth/register" name="Register" :content="this.$translator.translate('auth.register')"/>
               </div>
           </div>
       </header>
