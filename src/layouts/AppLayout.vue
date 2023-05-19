@@ -42,18 +42,20 @@ export default {
   },
   async mounted() {
 
-      await this.fetchMe().then(() => {
+      await Promise.all([
+          this.fetchMe(),
+          this.fetchCountries()
+      ]).then(() => {
           this.loaded = true;
-          this.reload();
+          // this.reload();
           this.createNotification({content: `Welcome, ${this.me.first_name} ${this.me.last_name}!`});
       });
 
   },
   methods: {
-    ...mapActions(["fetchMe", "createNotification"]),
+    ...mapActions(["fetchMe", "fetchCountries", "createNotification"]),
     reload() {
-      this.fetchMe();
-      // Pre-load data here
+      // Fetch data every 2 seconds here
       this.reloadTimer = setTimeout(this.reload, 2000);
     }
   },
