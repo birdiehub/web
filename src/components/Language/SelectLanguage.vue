@@ -5,14 +5,13 @@
 <script>
 
 import Dropdown from "@/components/Form/Dropdown.vue";
-import translator from "@/lang";
 
 export default {
     name: "SelectLanguage",
     components: {Dropdown},
     methods: {
         languageOptions() {
-            return translator.languages().map((language) => {
+            return this.$translator.languages().map((language) => {
                 return {
                     value: language,
                     label: language
@@ -20,11 +19,11 @@ export default {
             });
         },
         defaultLanguage() {
-            const language = translator.language();
+            const language = this.$translator.language();
             return this.languageOptions().find((option) => option.value === language);
         },
         handleSelectedLanguage(lang) {
-            translator.setLanguage(lang.value);
+            this.$translator.setLanguage(lang.value);
         }
     }
 }

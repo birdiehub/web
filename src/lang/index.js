@@ -11,4 +11,8 @@ const translator = createTranslator({
     }
 });
 
-export default translator;
+export default {
+    install: (app) => {
+        app.config.globalProperties.$translator = translator;
+    }
+};
