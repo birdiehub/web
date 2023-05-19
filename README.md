@@ -422,7 +422,7 @@ _Permissions handled by the policy:_
 ##### Country Policy
 The `App\Policies\CountryPolicy` class is used to handle the access control for the `App\Models\Country` model.  
 _Permissions handled by the policy:_
-- `view-countries-list`
+- `view-countries-list` -- This permission is disabled. The countries are public. 
 - `view-countries-details`
 - `create-countries`
 - `edit-countries`

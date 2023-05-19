@@ -33,6 +33,8 @@ Route::get('/languages', fn() => response()->json([
     'data' =>  ['en', 'de', 'es', 'fr', 'it', 'nl']
 ]));
 
+Route::get('/countries', [CountryController::class, 'all']);
+
 Route::post('/auth/register', [AuthenticationController::class, "register"]);
 Route::post('/auth/login', [AuthenticationController::class, "login"]);
 
@@ -70,7 +72,6 @@ Route::middleware('auth:api')->group(function() {
     Route::delete('/users/{id}', [UserController::class, 'delete'])->where('id', '[0-9]+');
 
     // Countries
-    Route::get('/countries', [CountryController::class, 'all']);
     Route::post('/countries', [CountryController::class, 'create']);
     Route::get('/countries/{id}', [CountryController::class, 'get'])->where('id', '[0-9]+');
     Route::put('/countries/{id}', [CountryController::class, 'update'])->where('id', '[0-9]+');
