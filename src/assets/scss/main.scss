@@ -113,7 +113,7 @@ select {
 }
 
 .bottom-buttons {
-  @include mixins.flex(row-reverse, space-between);
+  @include mixins.flex(row-reverse, space-between, center);
   margin-top: auto;
 }
 
