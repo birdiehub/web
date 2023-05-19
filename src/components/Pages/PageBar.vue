@@ -1,12 +1,12 @@
 <template>
     <div class="bottom-buttons">
-        <TextIconButton content="Next" height="2rem" width="7rem" icon="chevron_right" flex-direction="row-reverse" @click="nextPage()"/>
+        <TextIconButton :content="this.$translator.translate('app.next')" height="2rem" width="7rem" icon="chevron_right" flex-direction="row-reverse" @click="nextPage()"/>
         <div class="pages">
             <div v-for="pageNumber in getPageList()" :class="{'current_page': pageNumber === this.currentPage, 'box': pageNumber !== this.pageDelimiter}" @click="specificPage(pageNumber)">
                 {{pageNumber !== this.pageDelimiter ? pageNumber : '...' }}
             </div>
         </div>
-        <TextIconButton content="Previous" height="2rem" width="7rem" icon="chevron_left" @click="previousPage()"/>
+        <TextIconButton :content="this.$translator.translate('app.previous')" height="2rem" width="7rem" icon="chevron_left" @click="previousPage()"/>
     </div>
 </template>
 
