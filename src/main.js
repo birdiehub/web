@@ -12,7 +12,11 @@ const API = `${CONFIG.host ? CONFIG.host + '/': ''}api/`;
 const app = createApp(App);
 app.use(router);
 app.use(store);
-app.use(translator);
+app.use({
+    install: (app) => {
+        app.config.globalProperties.$translator = translator;
+    }
+});
 app.mount("#app");
 
 export { API };
