@@ -3,6 +3,7 @@
     <div class="desktop-header">
       <div class="header-actions flex-center-row">
         <IconButton :icon="`notifications`" :color="`var(--color-text)`"/>
+        <SelectLanguage/>
         <ProfileButton :content="initials()" @click="showProfileMenu = !showProfileMenu"/>
         <div class="profile-menu box" v-show="showProfileMenu">
           <div class="flex-gap-row">
@@ -21,6 +22,7 @@ import {mapActions, mapGetters} from 'vuex';
 import TextButton from "@/components/Button/TextButton";
 import IconButton from "@/components/Button/IconButton";
 import ProfileButton from "@/components/Button/ProfileButton";
+import SelectLanguage from "@/components/Language/SelectLanguage.vue";
 
 export default {
   name: "HeaderBar",
@@ -41,6 +43,7 @@ export default {
     ...mapGetters(['me'])
   },
   components: {
+      SelectLanguage,
     TextButton,
     IconButton,
     ProfileButton
