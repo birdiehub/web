@@ -94,6 +94,7 @@ input {
 select {
   color: var(--color-text);
   height: min-content;
+  display: block;
 }
 
 .hidden {
