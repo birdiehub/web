@@ -62,7 +62,7 @@
                     <div :style="{'width': `20%`}">
                         <label for="country">Country</label>
                         <Dropdown :options="countryOptions()"
-                                  @selected="(selected) => this.user.country_id = selected.value.id"
+                                  @select="(selected) => this.user.country_id = selected.value.id"
                                   id="country" name="country" required autocomplete="off" placeholder="Select country"/>
                     </div>
                 </div>

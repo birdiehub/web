@@ -1,6 +1,6 @@
 <template>
   <select :name="name" class="box">
-    <option v-for="option in options" :value="option" :selected="option === selected" @click="(e) => handleSelected(option)">
+    <option v-for="option in options" :value="option" :selected="option === selected" @click="(e) => handleSelect(option)">
         {{ option.label }}
     </option>
   </select>
@@ -15,21 +15,24 @@ export default {
       type: Array,
       required: true,
       default: []
+    },
+    select: {
+      required: false
     }
   },
   data() {
     return {
-      selected: this.options[0] // default selected value
+      selected: this.select ?? this.options[0]
     };
   },
   methods: {
-    handleSelected(selected) {
+    handleSelect(selected) {
       this.selected = selected;
-      this.$emit('selected', selected);
+      this.$emit('select', selected);
     }
   },
   mounted() {
-    this.$emit('selected', this.selected);
+    this.$emit('select', this.selected);
   }
 };
 </script>
