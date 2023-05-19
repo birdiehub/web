@@ -1,6 +1,5 @@
 <template>
-    <Load v-if="!loaded"/>
-    <form v-if="loaded" id="register-view" class="flex-gap-col">
+    <form id="register-view" class="flex-gap-col">
         <h1>Create your Birdie account</h1>
         <div class="form-fields">
             <div class="flex-gap-col field-separator">
@@ -88,13 +87,8 @@ export default {
         Dropdown,
         TextIconButton
     },
-    async mounted() {
-        this.fetchCountries().then(() => {
-            this.loaded = true;
-        });
-    },
     methods: {
-        ...mapActions(['register', 'fetchCountries', 'createNotification']),
+        ...mapActions(['register', 'createNotification']),
         clickedRegister() {
             if (this.user.password !== this.confirm_password) {
                 this.createNotification({
@@ -131,8 +125,7 @@ export default {
                 zip: undefined,
                 country_id: undefined
             },
-            confirm_password: undefined,
-            loaded: false
+            confirm_password: undefined
         };
     }
 }

@@ -43,17 +43,15 @@ export default {
   async mounted() {
 
       await Promise.all([
-          this.fetchMe(),
-          this.fetchCountries()
+          this.fetchMe()
       ]).then(() => {
           this.loaded = true;
           // this.reload();
           this.createNotification({content: `Welcome, ${this.me.first_name} ${this.me.last_name}!`});
       });
-
   },
   methods: {
-    ...mapActions(["fetchMe", "fetchCountries", "createNotification"]),
+    ...mapActions(["fetchMe", "createNotification"]),
     reload() {
       // Fetch data every 2 seconds here
       this.reloadTimer = setTimeout(this.reload, 2000);
