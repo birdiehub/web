@@ -29,7 +29,7 @@ class PlayerController extends Controller
         $sort = $request->get("sort", "id,asc");
         $sort = explode(",", $sort);
         $sort[0] = in_array($sort[0], ["id", "first_name", "last_name", "rank"]) ? $sort[0] : "id";
-        $players = $this->_service->getPlayersWithRank()->orderBy($sort[0], $sort[1]);
+        $players = $this->_service->getPlayersWithRank()->orderBy($sort[0], $sort[1] ?? "asc");
         return new PlayerCollection($players->paginate($pages));
     }
 
