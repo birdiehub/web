@@ -1,6 +1,8 @@
 <template>
   <select :name="name" class="box">
-    <option v-for="value in values" :value="value" :selected="value === selected" @click="selected = value">{{ value }}</option>
+    <option v-for="option in options" :value="option" :selected="option === selected" @click="selected = option">
+        {{ option.name }}
+    </option>
   </select>
 </template>
 
@@ -9,11 +11,15 @@ export default {
   name: "Dropdown",
   props: {
     name: String,
-    values: Array
+    options: {
+      type: Array,
+      required: true,
+      default: []
+    }
   },
   data() {
     return {
-      selected: this.values[0]
+      selected: this.options[0] // default selected value
     };
   },
   methods: {
