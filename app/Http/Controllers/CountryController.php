@@ -26,8 +26,11 @@ class CountryController extends Controller
         // $this->authorize("viewCountries", $this->_class);
 
         $pages = $request->get("pages", 10);
-        $model = $this->_service->model();
-        return new CountryCollection($model::paginate($pages));
+        $sort = $request->get("sort", "id,asc");
+        $sort = explode(",", $sort);
+        $sort[0] = in_array($sort[0], ["id", "code"]) ? $sort[0] : "id";
+        $countries = $this->_service->model()->orderBy($sort[0], $sort[1] ?? "asc");
+        return new CountryCollection($countries->paginate($pages));
     }
 
     public function create(Request $request) : CountryResource
