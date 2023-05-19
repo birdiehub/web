@@ -3,9 +3,12 @@
       <Notifications :fixed="true"/>
       <header class="header-wrapper">
           <TransparentLogo :titleTxt="`Header bar Logo`" :width="`10%`"/>
-          <div class="auth-nav flex-gap-row">
-              <NavigationButton route="/auth/login" name="Login"/>
-              <NavigationButton route="/auth/register" name="Register"/>
+          <div class="flex-gap-row">
+             <SelectLanguage/>
+              <div class="auth-nav flex-gap-row">
+                  <NavigationButton route="/auth/login" name="Login"/>
+                  <NavigationButton route="/auth/register" name="Register"/>
+              </div>
           </div>
       </header>
       <div class="flex-center-row auth-wrapper">
@@ -22,10 +25,12 @@
 import NavigationButton from "@/components/Navigation/NavigationButton.vue";
 import Notifications from "@/components/Notification/Notifications.vue";
 import TransparentLogo from "@/components/Logo/TransparentLogo.vue";
+import SelectLanguage from "@/components/Language/SelectLanguage.vue";
 
 export default {
     name: "AuthenticationLayout",
     components: {
+        SelectLanguage,
         TransparentLogo,
         Notifications,
         NavigationButton
