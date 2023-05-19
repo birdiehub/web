@@ -1,6 +1,6 @@
 <template>
-  <select :name="name" class="box">
-    <option v-for="option in options" :value="option" :selected="option === selected" @click="(e) => handleSelect(option)">
+  <select :name="name" class="box" v-model="selected">
+    <option v-for="option in options" :value="option" @click="() => handleSelect(option)">
         {{ option.label }}
     </option>
   </select>
