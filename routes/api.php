@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn() => response()->json([
+Route::get('/info', fn() => response()->json([
     'data' => [
         'name' => config('app.name'),
         'version' => config('app.version'),
