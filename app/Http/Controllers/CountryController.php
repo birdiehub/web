@@ -23,7 +23,7 @@ class CountryController extends Controller
 
     public function all(Request $request) : CountryCollection
     {
-        $this->authorize("viewCountries", $this->_class);
+        // $this->authorize("viewCountries", $this->_class);
 
         $pages = $request->get("pages", 10);
         $model = $this->_service->model();

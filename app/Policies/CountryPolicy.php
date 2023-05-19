@@ -13,8 +13,7 @@ class CountryPolicy
 
     public function viewCountries(User $user): bool
     {
-        // return $user->hasPermissionTo('view-countries-list');
-        return true;
+        return $user->hasPermissionTo('view-countries-list');
     }
 
     public function viewCountry(User $user): bool
