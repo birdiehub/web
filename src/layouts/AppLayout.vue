@@ -47,7 +47,7 @@ export default {
       ]).then(() => {
           this.loaded = true;
           // this.reload();
-          this.createNotification({content: `Welcome, ${this.me.first_name} ${this.me.last_name}!`});
+          this.createNotification({content: `${this.$translator.translate('app.notifications.welcome')}, ${this.me.first_name} ${this.me.last_name}!`});
       });
   },
   methods: {
