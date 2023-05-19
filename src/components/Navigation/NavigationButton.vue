@@ -1,6 +1,6 @@
 <template>
     <router-link :to="route" class="no-text-decoration">
-        <TextButton :content="name" :class="{ 'selected': currentRouteName === name }" class="box nav-button"/>
+        <TextButton :content="content" :class="{ 'selected': currentRouteName === name }" class="box nav-button"/>
     </router-link>
 </template>
 
@@ -15,7 +15,8 @@ export default {
     },
     props: {
         route: String,
-        name: String
+        name: String,
+        content: String
     },
     computed: {
         currentRouteName() {
