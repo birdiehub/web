@@ -5,6 +5,7 @@
 <script>
 
 import Dropdown from "@/components/Form/Dropdown.vue";
+import {mapActions} from "vuex";
 
 export default {
     name: "SelectLanguage",
@@ -23,7 +24,11 @@ export default {
             return this.languageOptions().find((option) => option.value === language);
         },
         handleSelectedLanguage(lang) {
+            const previousLanguage = this.$translator.language();
             this.$translator.setLanguage(lang.value);
+            if (previousLanguage !== this.$translator.language()) {
+                location.reload();
+            }
         }
     }
 }
