@@ -1,15 +1,16 @@
 <template>
   <div id="authentication-layout">
       <Notifications :fixed="true"/>
+      <header class="header-wrapper">
+          <TransparentLogo :titleTxt="`Header bar Logo`" :width="`10%`"/>
+          <div class="auth-nav flex-gap-row">
+              <NavigationButton route="/auth/login" name="Login"/>
+              <NavigationButton route="/auth/register" name="Register"/>
+          </div>
+      </header>
       <div class="flex-center-row auth-wrapper">
-          <div class="flex-gap-col">
-              <div class="auth-nav flex-gap-row">
-                  <NavigationButton route="/auth/login" name="Login"/>
-                  <NavigationButton route="/auth/register" name="Register"/>
-              </div>
-              <div class="auth-action box">
-                  <router-view name="Authentication"/>
-              </div>
+          <div class="auth-action box">
+              <router-view name="Authentication"/>
           </div>
       </div>
   </div>
@@ -20,10 +21,12 @@
 
 import NavigationButton from "@/components/Navigation/NavigationButton.vue";
 import Notifications from "@/components/Notification/Notifications.vue";
+import TransparentLogo from "@/components/Logo/TransparentLogo.vue";
 
 export default {
     name: "AuthenticationLayout",
     components: {
+        TransparentLogo,
         Notifications,
         NavigationButton
     }
@@ -43,14 +46,26 @@ export default {
 
   .auth-wrapper {
       width: 100%;
-      height: 100%;
+      height: calc(100vh - 4rem);
   }
 
   .auth-action {
-    min-width: 40vw;
-    min-height: 60vh;
+    width: 50%;
+    height: calc(80% - 2rem); // 2rem padding..
     overflow: auto;
     padding: 1rem;
+  }
+
+  .header-wrapper {
+      height: 4rem;
+      display: flex;
+      flex: auto;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: var(--border);
+      box-shadow: var(--box-shadow);
+      padding: 0 1rem;
+      background-color: var(--color-background);
   }
 
 </style>
