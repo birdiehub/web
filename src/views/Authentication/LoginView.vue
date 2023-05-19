@@ -1,5 +1,6 @@
 <template>
   <form id="login-view" class="flex-gap-col">
+      <h1>Use your Birdie account</h1>
       <div class="form-fields">
           <label for="username">Username</label>
           <input v-model="username" type="text" id="username" name="username" required autocomplete="off" placeholder="Enter username"/>
