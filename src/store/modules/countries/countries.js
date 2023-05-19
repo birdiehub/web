@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     async fetchCountries({ commit }) {
-        await get(`countries?pages=1000&sort=code,asc`, (json) => commit('setCountries', json.data));
+        return get(`countries?pages=1000&sort=code,asc`, (json) => commit('setCountries', json.data));
     }
 }
 
