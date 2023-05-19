@@ -1,5 +1,5 @@
 <template>
-  <HeaderContent :title="`Dashboard`"/>
+  <HeaderContent :title="this.$translator.translate('app.views.dashboard.title')"/>
   <main class="main-content">
 
   </main>
@@ -16,9 +16,8 @@ import NotificationItem from "@/components/Notification/NotificationItem.vue";
 
 export default {
   name: "DashboardView",
-  components: {NotificationItem, ShortcutTile, TextTile, Icon, HeaderContent},
-  computed: {
-    ...mapGetters(['me'])
+  components: {
+      HeaderContent
   },
   methods: {
   }
