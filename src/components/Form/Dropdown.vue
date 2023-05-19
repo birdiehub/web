@@ -1,7 +1,7 @@
 <template>
   <select :name="name" class="box">
     <option v-for="option in options" :value="option" :selected="option === selected" @click="selected = option">
-        {{ option.name }}
+        {{ option.text }}
     </option>
   </select>
 </template>
