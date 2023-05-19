@@ -13,4 +13,4 @@ app.use(router);
 app.use(store);
 app.mount("#app");
 
-export { API, router };
+export { API };
