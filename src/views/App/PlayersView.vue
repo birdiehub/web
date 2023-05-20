@@ -1,7 +1,8 @@
 <template>
     <HeaderContent :title="this.$translator.translate('app.views.players.title')"/>
     <load v-if="!loaded"/>
-    <main v-if="loaded" class="main-content">
+    <main v-if="loaded" class="main-content flex-gap-col">
+        <PlayersTable :items="this.players"/>
         <PageBar :lastPage="this.meta.last_page" :currentPage="this.meta.current_page" @changePage="(newPage) => {this.page = newPage}"/>
     </main>
 </template>
@@ -11,10 +12,12 @@ import HeaderContent from "@/components/Header/HeaderContent.vue";
 import {mapActions} from "vuex";
 import Load from "@/components/Load/Load.vue";
 import PageBar from "@/components/Pages/PageBar.vue";
+import PlayersTable from "@/components/Table/PlayersTable.vue";
 
 export default {
     name: "PlayersView",
     components: {
+        PlayersTable,
         PageBar,
         Load,
         HeaderContent
