@@ -1,9 +1,15 @@
 <template>
     <HeaderContent :title="this.$translator.translate('app.views.players.title')"/>
     <load v-if="!loaded"/>
-    <div class="filter">
-        <label for="page-size">Show</label>
-        <Dropdown :name="`Select page size`" :options="pageSizeOptions()" :select="defaultPageSize()" @select="(newPageSize) => {this.pageSize = newPageSize.value}"/>
+    <div class="filter-sort flex-gap-row">
+        <div>
+            <label for="page-size">{{ this.$translator.translate('app.views.players.filter.show') }}</label>
+            <Dropdown id="page-size" :name="`Select page size`" :options="pageSizeOptions()" :select="defaultPageSize()" @select="(newPageSize) => {this.pageSize = newPageSize.value}"/>
+        </div>
+        <div>
+            <label for="sort-direction">{{ this.$translator.translate('app.views.players.filter.sort') }}</label>
+            <Dropdown id="sort-direction" :name="`Select sort`" :options="sortOptions()" :select="defaultSort()" @select="(newSort) => {this.sort = newSort.value}"/>
+        </div>
     </div>
     <main v-if="loaded" class="main-content flex-gap-col">
         <PlayersTable :items="this.players"/>
@@ -42,13 +48,44 @@ export default {
             const sizes = [10, 20, 50, 100];
             return sizes.map((size) => {
                 return {
-                    label: `${size} records`,
+                    label: `${size} ${this.$translator.translate('app.views.players.filter.show_records')}`,
                     value: size
                 }
             });
         },
         defaultPageSize() {
             return this.pageSizeOptions().find((option) => option.value === this.pageSize);
+        },
+        sortOptions(){
+            return [
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.rank_f_to_l'),
+                    value: "rank,asc"
+                },
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.rank_l_to_f'),
+                    value: "rank,desc"
+                },
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.first_name_a_to_z'),
+                    value: "first_name,asc"
+                },
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.first_name_z_to_a'),
+                    value: "first_name,desc"
+                },
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.last_name_a_to_z'),
+                    value: "last_name,asc"
+                },
+                {
+                    label: this.$translator.translate('app.views.players.filter.sort_options.last_name_z_to_a'),
+                    value: "last_name,desc"
+                }
+            ]
+        },
+        defaultSort() {
+            return this.sortOptions().find((option) => option.value === this.sort);
         }
     },
     async created() {
@@ -85,5 +122,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.filter-sort {
+    margin-bottom: 1rem;
+    flex-direction: row-reverse;
+    gap: 2rem;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+            margin: 0;
+        }
+
+    }
+
+}
 
 </style>
