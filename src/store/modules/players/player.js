@@ -4,7 +4,7 @@ import translator from "@/lang";
 const actions = {
     async fetchPlayer({ commit }, params) {
         const { id } = params;
-        return get(`players/${id}?language=${translator.language()}`, (json) => json);
+        return get(`players/${id}?language=${translator.language()}`, (json) => json.data);
     }
 }
 
