@@ -2,10 +2,10 @@
     <table>
         <thead>
         <tr>
-            <th>Rank</th>
-            <th>Headshot</th>
-            <th>Name</th>
-            <th>Country</th>
+            <th>{{ this.$translator.translate('app.views.players.table.rank') }}</th>
+            <th>{{ this.$translator.translate('app.views.players.table.headshot') }}</th>
+            <th>{{ this.$translator.translate('app.views.players.table.name') }}</th>
+            <th>{{ this.$translator.translate('app.views.players.table.country') }}</th>
         </tr>
         </thead>
         <tbody>
