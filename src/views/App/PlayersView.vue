@@ -41,6 +41,8 @@ export default {
             await this.fetchPlayers({page: this.page, sort: this.sort, pageSize: this.pageSize}).then((json) => {
                 this.players = json.data;
                 this.meta = json.meta;
+                if (this.meta.current_page > this.meta.last_page)
+                    this.page = this.meta.last_page;
                 this.loaded = true;
             });
         },
