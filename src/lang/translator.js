@@ -1,15 +1,21 @@
 import {loadFromStorage, saveToStorage} from "@/assets/js/data-connector/local-storage-abstractor";
 
-class Translator {
+export class Translator {
     constructor(translations){
         this.translations = translations;
         this.clientLanguages = Object.keys(translations);
-        fetch('http://homestead.golf/api/languages')
+        this.serverLanguages = ["en", "de", "es", "fr", "it", "nl"];
+        /*
+        *
+        * fetch('http://homestead.golf/api/languages')
             .then(response => response.json())
             .then(json => {
                 this.serverLanguages = json.data;
             });
+        *
+        * */
     }
+
 
     languages() {
         // return languages that are supported by both client and server
