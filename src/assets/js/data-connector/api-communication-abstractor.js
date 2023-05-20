@@ -60,6 +60,10 @@ function errorNotification(response) {
            store.dispatch('createNotification', {content: error.cause, type: `error`});
        } else if (typeof error.cause === "object") {
            for (const cause in error.cause) {
+               if (!Array.isArray(error.cause[cause])) {
+                   store.dispatch('createNotification', {content: error.cause[cause], type: `error`});
+                   continue;
+               }
                for (const message of error.cause[cause]) {
                    store.dispatch('createNotification', {content: message, type: `error`});
                }
