@@ -7,6 +7,7 @@ import AuthenticationLayout from "@/layouts/AuthenticationLayout.vue";
 import LoginView from "@/views/Authentication/LoginView.vue";
 import RegisterView from "@/views/Authentication/RegisterView.vue";
 import PlayersView from "@/views/App/PlayersView.vue";
+import PlayerView from "@/views/App/PlayerView.vue";
 
 async function routeGuard(to, from, next) {
   await store.dispatch('isAuthenticated').then((isAuthenticated) => {
@@ -45,6 +46,16 @@ const routes = [
         name: 'Players',
         components: {
           App: PlayersView
+        },
+        meta: {
+          protected: true
+        }
+      },
+      {
+        path: '/players/:id',
+        name: 'Player',
+        components: {
+          App: PlayerView
         },
         meta: {
           protected: true
