@@ -1,6 +1,6 @@
 <template>
   <div class="tab-nav flex-gap-row">
-      <Tab v-for="tab in tabs" :data-tab="tab.name" :id="tab.name" :text="tab.name" @click="currentTab = tab" :class="{active: currentTab.index === tab.index}"/>
+      <Tab v-for="tab in tabs" :data-tab="tab.name" :id="tab.name" :text="tab.name" @click="() => changeTab(tab)" :class="{active: currentTab.index === tab.index}"/>
   </div>
 </template>
 
@@ -19,6 +19,12 @@ export default {
     return {
       currentTab: this.tabs[0]
     };
+  },
+  methods: {
+    changeTab(tab) {
+      this.currentTab = tab;
+      this.$emit("changeTab", tab);
+    }
   }
 };
 
