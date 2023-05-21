@@ -5,10 +5,40 @@
     </div>
     <main v-if="loaded" class="main-content">
         <div class="player-basic-info box flex-gap-row">
-            <img :src="this.player.headshot ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" :alt="this.player.full_name"/>
-            <div>
-                <div>
-                    <p>DOB: {{ this.player?.birthday }}</p>
+            <img v-if="this.player.headshot" class="headshot" :src="this.player.headshot" :alt="this.player.full_name"/>
+            <div class="basic-info-text-wrapper width-100 flex-space-between-col">
+                <div class="basic-info-text-top flex-space-between-row width-100">
+                    <div v-if="this.player.country" class="country flex-gap-row flex-center-row">
+                        <img :src="this.player.country?.flag" :alt="this.player.country?.name"/>
+                        <p>{{ this.player.country.name }}</p>
+                    </div>
+                    <div class="socials flex-gap-row">
+                        <a class="no-text-decoration" v-for="social in this.player.socials" :href="social.url">
+                            <img :src="socialIconPath(social.channel)" :alt="social.channel"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="basic-info-text-bottom flex-space-between-row">
+                    <div>
+                        <h3 class="important">AGE</h3>
+                        <p>{{ age() }} ({{ birthDateText() }})</p>
+                    </div>
+                    <div>
+                        <h3 class="important">HEIGHT</h3>
+                        <p>{{ this.player?.height_imperial ?? 'N/A' }} • {{ this.player?.height_meters ? this.player?.height_meters + 'm' : 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <h3 class="important">WEIGHT</h3>
+                        <p>{{ this.player?.weight_imperial ? this.player?.weight_imperial + 'lbs' : 'N/A' }} • {{ this.player?.weight_kilograms ? this.player?.weight_kilograms + 'kg' : 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <h3 class="important">TURNED PRO</h3>
+                        <p>{{ this.player?.turned_pro ?? 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <h3 class="important">COLLEGE</h3>
+                        <p>{{ this.player.college ?? 'N/A' }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,6 +70,25 @@ export default {
                 this.$router.push('/players');
             });
         },
+        birthDate() {
+            return new Date(this.player?.birth_date);
+        },
+        age() {
+            const today = new Date();
+            return parseInt(today.getFullYear() - this.birthDate().getFullYear());
+        },
+        birthDateText(){
+            return this.birthDate().toLocaleDateString(
+                this.$translator.language(),
+                {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+        },
+        socialIconPath(filename) {
+            return require('@/assets/media/socials/' + filename + '.png');
+        }
     },
     data() {
         return {
@@ -67,26 +116,42 @@ export default {
 <style scoped lang="scss">
 
 .player-basic-info {
-    background-color: var(--color-secondary);
-    height: 30vh;
+    padding: 0;
 
-    * {
-        color: var(--color-white);
+    .headshot {
+        width: auto;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        object-fit: contain;
+        box-sizing: border-box;
     }
 
-    img {
-        flex: 1 1 20%;
-        width: 100%;
-        height: 100%;
-        transform: scale(0.8);
-        border-radius: 50%;
-        margin: 0 auto;
-        display: block;
+    .basic-info-text-wrapper {
+        padding: 2rem;
     }
 
-    > div {
-        flex: 1 1 80%;
-        display: flex;
+    .country {
+        img {
+            width: 4rem;
+            height: 4rem;
+        }
+
+        p {
+            font-size: 2rem;
+        }
+    }
+
+    .socials {
+        img {
+            width: 3rem;
+            height: 3rem;
+        }
+    }
+
+    .basic-info-text-bottom {
+        p {
+            font-size: 1rem;
+        }
     }
 
 }
