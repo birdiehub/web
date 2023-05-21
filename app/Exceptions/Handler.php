@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
         }
         // Authentication
         elseif ($e instanceof \Illuminate\Auth\AuthenticationException) {
-            return Response::error($e->getMessage(), 403);
+            return Response::error($e->getMessage(), 401);
         }
         // Authorization: Roles and Permissions
         elseif ($e instanceof \Spatie\Permission\Exceptions\UnauthorizedException || $e instanceof \Illuminate\Auth\Access\AuthorizationException) {
