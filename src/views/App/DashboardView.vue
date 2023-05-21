@@ -1,7 +1,7 @@
 <template>
   <HeaderContent :title="this.$translator.translate('app.views.dashboard.title')"/>
   <main class="main-content">
-
+      <h2 class="important">{{ this.$translator.translate('app.coming_soon') }}</h2>
   </main>
 </template>
 
@@ -27,15 +27,11 @@ export default {
 <style scoped lang="scss">
 
 .main-content {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 9rem);
-  grid-gap: 2.5rem;
-  grid-template-areas:
-    ". . . ."
-    ". bigtile bigtile bigtile"
-    ". bigtile bigtile bigtile";
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
 }
 
 </style>
