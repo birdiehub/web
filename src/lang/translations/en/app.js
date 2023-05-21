@@ -1,5 +1,6 @@
 
 export default {
+    "coming_soon": "Coming Soon",
     "notifications": {
         "welcome": "Welcome"
     },
@@ -32,6 +33,9 @@ export default {
                 "show": "Show",
                 "show_records": "Records"
             }
+        },
+        "player": {
+            "title": "Player",
         }
     },
     "next": "Next",

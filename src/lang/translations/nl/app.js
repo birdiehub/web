@@ -1,6 +1,7 @@
 
 
 export default {
+    "coming_soon": "Komt binnenkort",
     "notifications": {
         "welcome": "Welkom"
     },
@@ -33,6 +34,9 @@ export default {
                 "show": "Toon",
                 "show_records": "Rijen",
             }
+        },
+        "player": {
+            "title": "Speler",
         }
     },
     "next": "Volgende",
