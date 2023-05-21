@@ -3,7 +3,7 @@
     <div v-if="loaded">
         <HeaderContent :title="this.player.full_name"/>
     </div>
-    <main v-if="loaded" class="main-content">
+    <main v-if="loaded" class="main-content flex-gap-col">
         <div class="player-basic-info box flex-gap-row">
             <img v-if="this.player.headshot" class="headshot" :src="this.player.headshot" :alt="this.player.full_name"/>
             <div class="basic-info-text-wrapper width-100 flex-space-between-col">
@@ -42,6 +42,56 @@
                 </div>
             </div>
         </div>
+        <div class="player-details-wrapper">
+            <TabBar :tabs="tabs" @changeTab="(tab) => this.currentTab = tab"/>
+            <div v-if="currentTab.name === `Stats`" class="player-stats flex-gap-col">
+                <div class="flex-gap-row career-earnings">
+                    <h3>CAREER EARNINGS: </h3>
+                    <p>{{ this.player?.career_earnings ?? 'N/A' }}</p>
+                </div>
+                <div class="stats-table">
+                    <header class="stats-table-header">
+                        <h2>Leaderboard</h2>
+                    </header>
+                    <main class="stats-table-body">
+                        <div class="stats-table-row flex-space-between-row">
+                            <div class="stats-table-cell">
+                                <h3>Current Rank</h3>
+                                <p>{{ this.player?.leaderboard.rank }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Last Week Rank</h3>
+                                <p>{{ this.player?.leaderboard.last_week_rank }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Last Year Rank</h3>
+                                <p>{{ this.player?.leaderboard.end_last_year_rank }}</p>
+                            </div>
+                        </div>
+                        <div class="stats-table-row flex-space-between-row">
+                            <div class="stats-table-cell">
+                                <h3>Points Total</h3>
+                                <p>{{ this.player?.leaderboard.points_total }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Points Won</h3>
+                                <p class="points-won">{{ this.player?.leaderboard.points_won }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Points Lost</h3>
+                                <p class="points-lost">{{ this.player?.leaderboard.points_lost }}</p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+            <div v-if="currentTab.name === `Highlights`" class="player-highlights">
+
+            </div>
+            <div v-if="currentTab.name === `About`" class="player-about">
+
+            </div>
+        </div>
     </main>
 </template>
 
@@ -50,10 +100,12 @@
 import {mapActions} from "vuex";
 import Load from "@/components/Load/Load.vue";
 import HeaderContent from "@/components/Header/HeaderContent.vue";
+import TabBar from "@/components/Tab/TabBar.vue";
 
 export default {
     name: "PlayerView",
     components: {
+        TabBar,
         HeaderContent,
         Load
     },
@@ -94,6 +146,12 @@ export default {
         return {
             loaded: false,
             player: {},
+            tabs: [
+                { name:'Stats', index: 0 },
+                { name: 'Highlights', index: 1 },
+                { name:'About', index: 2 },
+            ],
+            currentTab: { name:'Stats', index: 0 }
         }
     },
     created() {
@@ -152,6 +210,63 @@ export default {
         p {
             font-size: 1rem;
         }
+    }
+}
+
+.player-stats {
+
+    gap: 2rem;
+
+}
+
+.career-earnings {
+    align-items: center;
+    h3 {
+        font-size: 1.5rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+}
+
+.stats-table {
+
+    .stats-table-header {
+        border-bottom: solid 0.2rem var(--color-secondary);
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .stats-table-row {
+        border-bottom: var(--border);
+    }
+
+    .stats-table-cell {
+        flex: 1 1 33%;
+
+        h3 {
+            margin: 0.5rem 0;
+            text-transform: uppercase;
+            font-size: 1.15rem;
+            color: var(--color-text);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+            font-weight: bold;
+        }
+
+        .points-won {
+            color: var(--color-green);
+        }
+
+        .points-lost {
+            color: var(--color-red);
+        }
+
     }
 
 }
