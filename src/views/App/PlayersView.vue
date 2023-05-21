@@ -91,6 +91,8 @@ export default {
         }
     },
     async created() {
+        this.page = this.$route.query.page || 1;
+        this.$router.push({query: {page: this.page}});
         await this.loadPlayers();
     },
     data() {
@@ -107,6 +109,7 @@ export default {
         page: {
             handler: async function (value) {
                 await this.loadPlayers();
+                this.$router.push({query: {page: this.page}});
             }
         },
         sort: {
