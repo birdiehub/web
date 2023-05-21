@@ -1,5 +1,5 @@
-import { post, get } from "@/assets/js/data-connector/api-communication-abstractor";
-import { saveToStorage} from "@/assets/js/data-connector/local-storage-abstractor";
+import { post, get } from "@/assets/js/data-connector/http";
+import { saveToStorage} from "@/assets/js/data-connector/local-storage/local-storage-abstractor";
 import router from '@/router';
 import translator from "@/lang";
 

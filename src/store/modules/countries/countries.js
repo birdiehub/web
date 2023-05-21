@@ -1,4 +1,4 @@
-import { get } from "@/assets/js/data-connector/api-communication-abstractor";
+import { get } from "@/assets/js/data-connector/http";
 import translator from "@/lang";
 
 const state = {
