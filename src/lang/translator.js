@@ -1,4 +1,4 @@
-import {loadFromStorage, saveToStorage} from "@/assets/js/data-connector/local-storage-abstractor";
+import {loadFromStorage, saveToStorage} from "@/assets/js/data-connector/local-storage/local-storage-abstractor";
 
 export class Translator {
     constructor(translations){
