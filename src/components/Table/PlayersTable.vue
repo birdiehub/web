@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr v-for="item in this.items">
+            <tr v-for="item in this.items" @click="this.$router.push(`/players/${item.id}`)">
                 <td>{{ item.rank }}</td>
                 <td>
                     <img class="cell-image" :src="item.headshot ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt=""/>
