@@ -24,7 +24,7 @@ class AccessController extends Controller
 
         return Response::json(["data" => [
             "roles" => $user->getRoleNames(),
-            "permissions" => $user->getPermissionNames()
+            "permissions" => $user->getAllPermissions()->pluck("name")
         ]]);
     }
 
