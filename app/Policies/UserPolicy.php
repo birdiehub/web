@@ -69,9 +69,20 @@ class UserPolicy
         return $user->hasPermissionTo('create-users');
     }
 
-    public function viewUserAccess(User $user): bool
+    public function viewUserAccess(User $user, User $other): bool
     {
-        return $user->hasPermissionTo('view-user-access');
+        if ($user->hasPermissionTo('view-user-access')) {
+            return true;
+        }
+        return $this->viewOwnUserAccess($user, $other);
+    }
+
+    public function viewOwnUserAccess(User $user, User $other): bool
+    {
+        if ($user->hasPermissionTo('view-own-user-access')) {
+            return $user->id === $other->id;
+        }
+        return false;
     }
 
     public function grantUserPermission(User $user, string $permission): bool

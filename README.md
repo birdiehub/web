@@ -195,7 +195,7 @@ Please read the [Policy](#policies) section to view all the application permissi
 - `super-admin`: Has all permissions and cannot be deleted.
 - `admin`: Manages user access; View, edit or delete users, roles; Inherits `editor`.
 - `editor`: View, edit or delete countries, players; Inherits `viewer`.
-- `viewer`: View countries, players; View, edit or delete own user.
+- `viewer`: View countries, players; View (access), edit or delete own user.
 
 > When a user is **registered**, the `viewer` role is assigned to the user.
 
@@ -398,6 +398,7 @@ _Permissions handled by the policy:_
 - `edit-own-user`
 - `delete-own-user`
 - `view-user-access`
+- `view-own-user-access`
 - `grant-user-permissions`
 - `revoke-user-permissions`
 - `grant-user-roles`

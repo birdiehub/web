@@ -19,9 +19,9 @@ class AccessController extends Controller
 
     public function list($userId): JsonResponse
     {
-        $this->authorize("viewUserAccess", $this->_class);
-
         $user = $this->_service->find($userId);
+        $this->authorize("viewUserAccess", $user);
+
         return Response::json(["data" => [
             "roles" => $user->getRoleNames(),
             "permissions" => $user->getPermissionNames()
