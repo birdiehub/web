@@ -1,7 +1,7 @@
 <template>
     <Load v-if="!loaded"/>
     <div v-if="loaded">
-        <HeaderContent :title="this.player.full_name"/>
+        <HeaderContent :title="this.player.first_name + ' ' + this.player.last_name"/>
     </div>
     <main v-if="loaded" class="main-content flex-gap-col">
         <div class="player-basic-info box flex-gap-row">
