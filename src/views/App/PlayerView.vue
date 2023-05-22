@@ -20,23 +20,23 @@
                 </div>
                 <div class="basic-info-text-bottom flex-space-between-row">
                     <div>
-                        <h3 class="important">AGE</h3>
+                        <h3 class="important">{{ this.$translator.translate('app.views.player.age') }}</h3>
                         <p>{{ age() }} ({{ birthDateText() }})</p>
                     </div>
                     <div>
-                        <h3 class="important">HEIGHT</h3>
+                        <h3 class="important">{{ this.$translator.translate('app.views.player.height') }}</h3>
                         <p>{{ this.player?.height_imperial ?? 'N/A' }} • {{ this.player?.height_meters ? this.player?.height_meters + 'm' : 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">WEIGHT</h3>
+                        <h3 class="important">{{ this.$translator.translate('app.views.player.weight') }}</h3>
                         <p>{{ this.player?.weight_imperial ? this.player?.weight_imperial + 'lbs' : 'N/A' }} • {{ this.player?.weight_kilograms ? this.player?.weight_kilograms + 'kg' : 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">TURNED PRO</h3>
+                        <h3 class="important">{{ this.$translator.translate('app.views.player.turned_pro') }}</h3>
                         <p>{{ this.player?.turned_pro ?? 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">COLLEGE</h3>
+                        <h3 class="important">{{ this.$translator.translate('app.views.player.college') }}</h3>
                         <p>{{ this.player.college ?? 'N/A' }}</p>
                     </div>
                 </div>
@@ -44,81 +44,81 @@
         </div>
         <div class="player-details-wrapper">
             <TabBar :tabs="tabs" @changeTab="(tab) => this.currentTab = tab"/>
-            <div v-if="currentTab.name === `Stats`" class="player-stats flex-gap-col">
+            <div v-if="currentTab.name === this.$translator.translate('app.views.player.stats')" class="player-stats flex-gap-col">
                 <div class="box career-earnings">
-                    <h3>Earnings </h3>
+                    <h3>{{ this.$translator.translate('app.views.player.earnings') }} </h3>
                     <p>{{ this.player?.career_earnings ?? 'N/A' }}</p>
                 </div>
                 <div class="stats-table box">
                     <header class="stats-table-header">
-                        <h2>Leaderboard</h2>
+                        <h2>{{ this.$translator.translate('app.views.player.leaderboard') }}</h2>
                     </header>
                     <main class="stats-table-body">
                         <div class="stats-table-row flex-space-between-row">
                             <div class="stats-table-cell">
-                                <h3>Current Rank</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.current_rank') }}</h3>
                                 <p>{{ this.player?.leaderboard.rank }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Last Week Rank</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.last_week_rank') }}</h3>
                                 <p>{{ this.player?.leaderboard.last_week_rank }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Last Year Rank</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.last_year_rank') }}</h3>
                                 <p>{{ this.player?.leaderboard.end_last_year_rank }}</p>
                             </div>
                         </div>
                         <div class="stats-table-row flex-space-between-row">
                             <div class="stats-table-cell">
-                                <h3>Points Total</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.points_total') }}</h3>
                                 <p>{{ this.player?.leaderboard.points_total }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Points Won</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.points_won') }}</h3>
                                 <p class="points-won">{{ this.player?.leaderboard.points_won }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Points Lost</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.points_lost') }}</h3>
                                 <p class="points-lost">{{ this.player?.leaderboard.points_lost }}</p>
                             </div>
                         </div>
                     </main>
                 </div>
             </div>
-            <div v-if="currentTab.name === `Highlights`" class="player-highlights">
+            <div v-if="currentTab.name === this.$translator.translate('app.views.player.highlights')" class="player-highlights">
                 <div class="stats-table box">
                     <header class="stats-table-header">
-                        <h2>Snapshots</h2>
+                        <h2>{{ this.$translator.translate('app.views.player.snapshots') }}</h2>
                     </header>
                     <main class="stats-table-body">
                         <div class="stats-table-row flex-space-between-row" v-for="snapshot in this.player?.snapshots">
                             <div class="stats-table-cell">
-                                <h3>Title</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.title') }}</h3>
                                 <p>{{ snapshot.title }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Value</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.value') }}</h3>
                                 <p>{{ snapshot.value ?? 'N/A' }}</p>
                             </div>
                             <div class="stats-table-cell">
-                                <h3>Description</h3>
+                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.description') }}</h3>
                                 <p>{{ snapshot.description ?? 'N/A' }}</p>
                             </div>
                         </div>
                     </main>
                 </div>
             </div>
-            <div v-if="currentTab.name === `About`" class="player-about flex-gap-col">
+            <div v-if="currentTab.name === this.$translator.translate('app.views.player.about')" class="player-about flex-gap-col">
                 <div class="player-bio box">
-                    <h3>Bio</h3>
+                    <h3>{{ this.$translator.translate('app.views.player.bio') }}</h3>
                     <p>{{ this.player?.bio ?? 'N/A' }}</p>
                 </div>
                 <div class="player-family box">
-                    <h3>Family</h3>
+                    <h3>{{ this.$translator.translate('app.views.player.family') }}</h3>
                     <p>{{ this.player?.family ?? 'N/A' }}</p>
                 </div>
                 <div class="player-education box">
-                    <h3>Education</h3>
+                    <h3>{{ this.$translator.translate('app.views.player.education') }}</h3>
                     <p>{{ this.player?.degree ?? 'N/A' }} at {{ this.player?.college ?? 'N/A' }}</p>
                 </div>
             </div>
@@ -178,11 +178,11 @@ export default {
             loaded: false,
             player: {},
             tabs: [
-                { name:'Stats', index: 0 },
-                { name: 'Highlights', index: 1 },
-                { name:'About', index: 2 },
+                { name: this.$translator.translate('app.views.player.stats'), index: 0 },
+                { name: this.$translator.translate('app.views.player.highlights'), index: 1 },
+                { name:this.$translator.translate('app.views.player.about'), index: 2 },
             ],
-            currentTab: { name:'Stats', index: 0 }
+            currentTab: { name: this.$translator.translate('app.views.player.stats'), index: 0 }
         }
     },
     created() {
@@ -240,6 +240,9 @@ export default {
     .basic-info-text-bottom {
         p {
             font-size: 1rem;
+        }
+        h3 {
+            text-transform: uppercase;
         }
     }
 }
