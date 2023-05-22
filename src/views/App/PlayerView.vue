@@ -21,7 +21,7 @@
                 <div class="basic-info-text-bottom flex-space-between-row">
                     <div>
                         <h3 class="important">{{ this.$translator.translate('app.views.player.age') }}</h3>
-                        <p>{{ age() }} ({{ birthDateText() }})</p>
+                        <p>{{ this.birthDate() ? age() + ' (' +  birthDateText() + ')' : 'N/A'}}</p>
                     </div>
                     <div>
                         <h3 class="important">{{ this.$translator.translate('app.views.player.height') }}</h3>
@@ -57,29 +57,29 @@
                         <div class="stats-table-row flex-space-between-row">
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.current_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard.rank }}</p>
+                                <p>{{ this.player?.leaderboard?.rank ?? 'N/A' }}</p>
                             </div>
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.last_week_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard.last_week_rank }}</p>
+                                <p>{{ this.player?.leaderboard?.last_week_rank ?? 'N/A' }}</p>
                             </div>
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.last_year_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard.end_last_year_rank }}</p>
+                                <p>{{ this.player?.leaderboard?.end_last_year_rank ?? 'N/A' }}</p>
                             </div>
                         </div>
                         <div class="stats-table-row flex-space-between-row">
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.points_total') }}</h3>
-                                <p>{{ this.player?.leaderboard.points_total }}</p>
+                                <p>{{ this.player?.leaderboard?.points_total ?? 'N/A' }}</p>
                             </div>
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.points_won') }}</h3>
-                                <p class="points-won">{{ this.player?.leaderboard.points_won }}</p>
+                                <p class="points-won">{{ this.player?.leaderboard?.points_won ?? 'N/A' }}</p>
                             </div>
                             <div class="stats-table-cell">
                                 <h3>{{ this.$translator.translate('app.views.player.points_lost') }}</h3>
-                                <p class="points-lost">{{ this.player?.leaderboard.points_lost }}</p>
+                                <p class="points-lost">{{ this.player?.leaderboard?.points_lost ?? 'N/A' }}</p>
                             </div>
                         </div>
                     </main>
@@ -154,13 +154,16 @@ export default {
             });
         },
         birthDate() {
+            if(!this.player?.birth_date) return null;
             return new Date(this.player?.birth_date);
         },
         age() {
             const today = new Date();
+            if(!this.birthDate()) return null;
             return parseInt(today.getFullYear() - this.birthDate().getFullYear());
         },
         birthDateText(){
+            if(!this.birthDate()) return null;
             return this.birthDate().toLocaleDateString(
                 this.$translator.language(),
                 {
