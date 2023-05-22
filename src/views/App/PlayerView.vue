@@ -45,11 +45,11 @@
         <div class="player-details-wrapper">
             <TabBar :tabs="tabs" @changeTab="(tab) => this.currentTab = tab"/>
             <div v-if="currentTab.name === `Stats`" class="player-stats flex-gap-col">
-                <div class="flex-gap-row career-earnings">
-                    <h3>CAREER EARNINGS: </h3>
+                <div class="box career-earnings">
+                    <h3>Earnings </h3>
                     <p>{{ this.player?.career_earnings ?? 'N/A' }}</p>
                 </div>
-                <div class="stats-table">
+                <div class="stats-table box">
                     <header class="stats-table-header">
                         <h2>Leaderboard</h2>
                     </header>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div v-if="currentTab.name === `Highlights`" class="player-highlights">
-                <div class="stats-table">
+                <div class="stats-table box">
                     <header class="stats-table-header">
                         <h2>Snapshots</h2>
                     </header>
@@ -269,7 +269,7 @@ export default {
         }
     }
 
-    .stats-table-row {
+    .stats-table-row:not(:last-child) {
         border-bottom: var(--border);
     }
 
