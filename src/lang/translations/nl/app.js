@@ -62,6 +62,28 @@ export default {
             "bio": "Biografie",
             "family": "Familie",
             "education": "Opleiding",
+        },
+        "create_player": {
+            "title": "Maak Speler",
+            "info": "Deze pagina bestaat enkel om aan de eisen van de opdracht te voldoen. In de werkelijke applicatie is het niet mogelijk om een speler aan te maken, omdat de spelers data van een externe officiele API komt.",
+            "fields": {
+                "first_name": {
+                    "label": "Voornaam",
+                    "placeholder": "Geef voornaam in"
+                },
+                "last_name": {
+                    "label": "Achternaam",
+                    "placeholder": "Geef achternaam in"
+                },
+                "gender": {
+                    "label": "Geslacht",
+                    "placeholder": "Selecteer geslacht"
+                },
+                "country": {
+                    "label": "Land",
+                    "placeholder": "Selecteer land"
+                },
+            }
         }
     },
     "next": "Volgende",

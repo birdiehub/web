@@ -61,6 +61,28 @@ export default {
             "bio": "Bio",
             "family": "Family",
             "education": "Education",
+        },
+        "create_player": {
+            "title": "Create Player",
+            "info": "This page only exists to fulfill the requirements of the assignment. In the actual application it is not possible to create a player, because the players data comes from an external official API.",
+            "fields": {
+                "first_name": {
+                    "label": "First Name",
+                    "placeholder": "Enter first name"
+                },
+                "last_name": {
+                    "label": "Last Name",
+                    "placeholder": "Enter last name"
+                },
+                "gender": {
+                    "label": "Gender",
+                    "placeholder": "Select Gender"
+                },
+                "country": {
+                    "label": "Country",
+                    "placeholder": "Select Country"
+                },
+            }
         }
     },
     "next": "Next",
