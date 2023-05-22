@@ -4,14 +4,6 @@ import router from '@/router';
 import translator from "@/lang";
 
 
-const state = {
-    me: undefined
-};
-
-const getters = {
-    me: (state) => state.me
-};
-
 const actions = {
     async login({ commit }, credentials) {
         await post(`auth/login?language=${translator.language()}`, credentials,(json) =>  {
@@ -34,18 +26,10 @@ const actions = {
     async isAuthenticated({ commit }) {
         return get(`auth/validate?language=${translator.language()}`,() =>  true, () =>  false);
     },
-    async fetchMe({ commit }) {
-        await get(`auth/me?language=${translator.language()}`,(json) => commit('setMe', json.data));
-    }
+
 };
 
-const mutations = {
-    setMe: (state, user) => (state.me = user)
-};
 
 export default {
-    state,
-    getters,
-    actions,
-    mutations
+    actions
 };
