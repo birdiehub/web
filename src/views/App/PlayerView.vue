@@ -2,6 +2,11 @@
     <Load v-if="!loaded"/>
     <div v-if="loaded">
         <HeaderContent :title="this.player.first_name + ' ' + this.player.last_name"/>
+        <TextIconButton :content="this.$translator.translate('app.delete_player')"
+                        :icon="`delete`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
+                        class="delete-button"
+                        @click="this.removePlayer()"
+                        v-if="this.canDeletePlayer"/>
     </div>
     <main v-if="loaded" class="main-content flex-gap-col">
         <div class="player-basic-info box flex-gap-row">
@@ -132,16 +137,18 @@ import {mapActions} from "vuex";
 import Load from "@/components/Load/Load.vue";
 import HeaderContent from "@/components/Header/HeaderContent.vue";
 import TabBar from "@/components/Tab/TabBar.vue";
+import TextIconButton from "@/components/Button/TextIconButton.vue";
 
 export default {
     name: "PlayerView",
     components: {
+        TextIconButton,
         TabBar,
         HeaderContent,
         Load
     },
     methods: {
-        ...mapActions(['fetchPlayer']),
+        ...mapActions(['fetchPlayer', 'meHasPermissions', 'deletePlayer']),
         loadPlayer() {
             this.loaded = false;
             const playerId = this.$route.params.id;
@@ -174,6 +181,15 @@ export default {
         },
         socialIconPath(filename) {
             return require('@/assets/media/socials/' + filename + '.png');
+        },
+        removePlayer() {
+            this.deletePlayer(this.player.id);
+        },
+        hasPermissions(permissions) {
+            this.meHasPermissions(permissions).then((hasPermissions) => {
+                this.canDeletePlayer = hasPermissions;
+                this.canEditPlayer = hasPermissions;
+            });
         }
     },
     data() {
@@ -185,10 +201,12 @@ export default {
                 { name: this.$translator.translate('app.views.player.highlights'), index: 1 },
                 { name:this.$translator.translate('app.views.player.about'), index: 2 },
             ],
-            currentTab: { name: this.$translator.translate('app.views.player.stats'), index: 0 }
+            currentTab: { name: this.$translator.translate('app.views.player.stats'), index: 0 },
+            canDeletePlayer: false,
+            canEditPlayer: false
         }
     },
-    created() {
+    async created() {
         // watch the params of the route to fetch the data again
         this.$watch(
             () => this.$route.params,
@@ -198,7 +216,8 @@ export default {
             // fetch the data when the view is created and the data is
             // already being observed
             { immediate: true }
-        )
+        );
+        await this.hasPermissions(['edit-players', 'delete-players']);
     }
 }
 
@@ -206,6 +225,11 @@ export default {
 
 
 <style scoped lang="scss">
+
+.delete-button {
+    background-color: var(--color-red);
+    margin-bottom: 1rem;
+}
 
 .player-basic-info {
     padding: 0;

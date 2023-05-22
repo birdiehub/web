@@ -85,6 +85,7 @@ export default {
             }
         }
     },
+    "delete_player": "Delete Player",
     "next": "Next",
     "previous": "Previous",
 };

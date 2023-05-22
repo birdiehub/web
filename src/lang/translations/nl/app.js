@@ -86,6 +86,7 @@ export default {
             }
         }
     },
+    "delete_player": "Verwijder Speler",
     "next": "Volgende",
     "previous": "Vorige",
 };
