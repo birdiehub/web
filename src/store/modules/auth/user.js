@@ -25,7 +25,7 @@ const actions = {
 
         });
     },
-    meHasPermissions({ state }, target) {
+    async meHasPermissions({ state }, target) {
         if (state.mePermissions === undefined) return false;
         return target.length === 0 || target.every(value => state.mePermissions.includes(value));
     },
