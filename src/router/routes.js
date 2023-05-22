@@ -5,6 +5,7 @@ import PlayerView from "@/views/App/PlayerView.vue";
 import AuthenticationLayout from "@/layouts/AuthenticationLayout.vue";
 import LoginView from "@/views/Authentication/LoginView.vue";
 import RegisterView from "@/views/Authentication/RegisterView.vue";
+import CreatePlayerView from "@/views/App/CreatePlayerView.vue";
 
 export const routes = [
     {
@@ -48,6 +49,19 @@ export const routes = [
                     protected: true,
                     permissions: [
                         'view-players-details'
+                    ]
+                }
+            },
+            {
+                path: '/players/create',
+                name: 'Create Player',
+                components: {
+                    App: CreatePlayerView
+                },
+                meta: {
+                    protected: true,
+                    permissions: [
+                        'create-players'
                     ]
                 }
             }
