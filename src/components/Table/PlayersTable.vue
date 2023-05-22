@@ -14,7 +14,7 @@
                 <td>
                     <img class="cell-image" :src="item.headshot ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" alt=""/>
                 </td>
-                <td>{{ item.full_name }}</td>
+                <td>{{ item.first_name + ' ' + item.last_name }}</td>
                 <td>
                     <div v-if="item.country" class="country-cell">
                         <img class="cell-image" :src="item.country?.flag" alt="">
