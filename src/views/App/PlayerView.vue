@@ -86,10 +86,41 @@
                 </div>
             </div>
             <div v-if="currentTab.name === `Highlights`" class="player-highlights">
-
+                <div class="stats-table">
+                    <header class="stats-table-header">
+                        <h2>Snapshots</h2>
+                    </header>
+                    <main class="stats-table-body">
+                        <div class="stats-table-row flex-space-between-row" v-for="snapshot in this.player?.snapshots">
+                            <div class="stats-table-cell">
+                                <h3>Title</h3>
+                                <p>{{ snapshot.title }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Value</h3>
+                                <p>{{ snapshot.value ?? 'N/A' }}</p>
+                            </div>
+                            <div class="stats-table-cell">
+                                <h3>Description</h3>
+                                <p>{{ snapshot.description ?? 'N/A' }}</p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
             </div>
-            <div v-if="currentTab.name === `About`" class="player-about">
-
+            <div v-if="currentTab.name === `About`" class="player-about flex-gap-col">
+                <div class="player-bio box">
+                    <h3>Bio</h3>
+                    <p>{{ this.player?.bio ?? 'N/A' }}</p>
+                </div>
+                <div class="player-family box">
+                    <h3>Family</h3>
+                    <p>{{ this.player?.family ?? 'N/A' }}</p>
+                </div>
+                <div class="player-education box">
+                    <h3>Education</h3>
+                    <p>{{ this.player?.degree ?? 'N/A' }} at {{ this.player?.college ?? 'N/A' }}</p>
+                </div>
             </div>
         </div>
     </main>
