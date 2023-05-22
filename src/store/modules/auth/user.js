@@ -3,14 +3,14 @@ import translator from "@/lang";
 
 const state = {
     me: undefined,
-    permissions: undefined,
-    roles: undefined
+    mePermissions: undefined,
+    meRoles: undefined
 };
 
 const getters = {
     me: (state) => state.me,
-    mePermissions: (state) => state.permissions,
-    meRoles: (state) => state.roles,
+    mePermissions: (state) => state.mePermissions,
+    meRoles: (state) => state.meRoles,
 };
 
 const actions = {
@@ -24,13 +24,17 @@ const actions = {
             });
 
         });
-    }
+    },
+    meHasPermissions({ state }, target) {
+        if (state.mePermissions === undefined) return false;
+        return target.length === 0 || target.every(value => state.mePermissions.includes(value));
+    },
 };
 
 const mutations = {
     setMe: (state, user) => (state.me = user),
-    setMePermissions: (state, permissions) => (state.permissions = permissions),
-    setMeRoles: (state, roles) => (state.roles = roles)
+    setMePermissions: (state, permissions) => (state.mePermissions = permissions),
+    setMeRoles: (state, roles) => (state.meRoles = roles)
 };
 
 export default {
