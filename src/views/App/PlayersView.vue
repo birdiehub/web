@@ -1,15 +1,21 @@
 <template>
     <HeaderContent :title="this.$translator.translate('app.views.players.title')"/>
     <load v-if="!loaded"/>
-    <div class="filter-sort flex-gap-row">
-        <div>
-            <label for="page-size">{{ this.$translator.translate('app.views.players.filter.show') }}</label>
-            <Dropdown id="page-size" :name="`Select page size`" :options="pageSizeOptions()" :select="defaultPageSize()" @select="(newPageSize) => {this.pageSize = newPageSize.value}"/>
+    <div class="flex-space-between-row filter-sort-create-player">
+        <div class="filter-sort flex-gap-row">
+            <div>
+                <label for="page-size">{{ this.$translator.translate('app.views.players.filter.show') }}</label>
+                <Dropdown id="page-size" :name="`Select page size`" :options="pageSizeOptions()" :select="defaultPageSize()" @select="(newPageSize) => {this.pageSize = newPageSize.value}"/>
+            </div>
+            <div>
+                <label for="sort-direction">{{ this.$translator.translate('app.views.players.filter.sort') }}</label>
+                <Dropdown id="sort-direction" :name="`Select sort`" :options="sortOptions()" :select="defaultSort()" @select="(newSort) => {this.sort = newSort.value}"/>
+            </div>
         </div>
-        <div>
-            <label for="sort-direction">{{ this.$translator.translate('app.views.players.filter.sort') }}</label>
-            <Dropdown id="sort-direction" :name="`Select sort`" :options="sortOptions()" :select="defaultSort()" @select="(newSort) => {this.sort = newSort.value}"/>
-        </div>
+        <TextIconButton :content="this.$translator.translate('app.views.create_player.title')"
+                        :icon="`create`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`"
+                        @click="this.$router.push('/players/create')"
+                        v-if="this.canCreatePlayer"/>
     </div>
     <main v-if="loaded" class="main-content flex-gap-col">
         <PlayersTable :items="this.players"/>
@@ -19,15 +25,17 @@
 
 <script>
 import HeaderContent from "@/components/Header/HeaderContent.vue";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Load from "@/components/Load/Load.vue";
 import PageBar from "@/components/Pages/PageBar.vue";
 import PlayersTable from "@/components/Table/PlayersTable.vue";
 import Dropdown from "@/components/Form/Dropdown.vue";
+import TextIconButton from "@/components/Button/TextIconButton.vue";
 
 export default {
     name: "PlayersView",
     components: {
+        TextIconButton,
         Dropdown,
         PlayersTable,
         PageBar,
@@ -35,7 +43,7 @@ export default {
         HeaderContent
     },
     methods: {
-        ...mapActions(['fetchPlayers']),
+        ...mapActions(['fetchPlayers', 'meHasPermissions']),
         async loadPlayers() {
             this.loaded = false;
             await this.fetchPlayers({page: this.page, sort: this.sort, pageSize: this.pageSize}).then((json) => {
@@ -88,12 +96,18 @@ export default {
         },
         defaultSort() {
             return this.sortOptions().find((option) => option.value === this.sort);
+        },
+        hasPermissions(permissions) {
+            this.meHasPermissions(permissions).then((hasPermissions) => {
+                this.canCreatePlayer = hasPermissions;
+            });
         }
     },
     async created() {
         this.page = this.$route.query.page || 1;
         this.$router.push({query: {page: this.page}});
         await this.loadPlayers();
+        await this.hasPermissions(['create-players']);
     },
     data() {
         return {
@@ -102,7 +116,8 @@ export default {
             loaded: false,
             page: 1,
             sort: "rank,asc",
-            pageSize: 20
+            pageSize: 20,
+            canCreatePlayer: false
         }
     },
     watch: {
@@ -128,9 +143,12 @@ export default {
 
 <style scoped lang="scss">
 
+.filter-sort-create-player {
+    flex-direction: row-reverse;
+}
+
 .filter-sort {
     margin-bottom: 1rem;
-    flex-direction: row-reverse;
     gap: 2rem;
 
     > div {
