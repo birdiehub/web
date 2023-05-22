@@ -8,7 +8,9 @@
           <input v-model="credentials.password" type="password" id="password" name="password" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.password.placeholder')"/>
       </div>
       <div class="bottom-buttons">
-          <TextIconButton :content="this.$translator.translate('auth.login')" :icon="`login`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`" @click="clickedLogin"/>
+          <TextIconButton :content="this.$translator.translate('auth.login')"
+                          :icon="`login`" :width="`fit-content`" :height="`2rem`"
+                          :flexDirection="`row-reverse`" @click="clickedLogin"/>
           <a href="#/auth/register">{{ this.$translator.translate('auth.redirect_to_register') }}</a>
       </div>
   </form>

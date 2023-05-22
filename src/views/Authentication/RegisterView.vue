@@ -68,7 +68,9 @@
             </div>
         </div>
         <div class="bottom-buttons">
-            <TextIconButton :content="this.$translator.translate('auth.register')" :icon="`create`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`" @click="clickedRegister"/>
+            <TextIconButton :content="this.$translator.translate('auth.register')"
+                            :icon="`create`" :width="`fit-content`" :height="`2rem`"
+                            :flexDirection="`row-reverse`" @click="clickedRegister"/>
             <a href="#/auth/login">{{ this.$translator.translate('auth.redirect_to_login') }}</a>
         </div>
     </form>

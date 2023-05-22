@@ -32,7 +32,9 @@
                 </div>
             </div>
             <div class="bottom-buttons">
-                <TextIconButton :content="this.$translator.translate('app.views.create_player.title')" :icon="`create`" :width="`8.5rem`" :height="`2rem`" :flexDirection="`row-reverse`" @click="createPlayer"/>
+                <TextIconButton :content="this.$translator.translate('app.views.create_player.title')"
+                                :icon="`create`" :width="`fit-content`" :height="`2rem`"
+                                :flexDirection="`row-reverse`" @click="createPlayer"/>
             </div>
         </form>
     </main>
