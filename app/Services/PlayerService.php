@@ -6,7 +6,6 @@ use App\Models\Player;
 use App\Validators\Validator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class PlayerService extends Service
 {
@@ -53,8 +52,8 @@ class PlayerService extends Service
     public function create($data): Model
     {
         Validator::standalone($data, array_merge($this->_baseRules,  [
-            'first_name' => ['required', 'string', Rule::unique('players','first_name')->where('last_name',$data['last_name'])], // first_name and last_name are unique together
-            'last_name' => ['required', 'string', Rule::unique('players','last_name')->where('first_name',$data['first_name'])], // first_name and last_name are unique together
+            'first_name' => ['required', 'string'], // first_name and last_name should be unique together
+            'last_name' => ['required', 'string'], // first_name and last_name should be unique together
             'gender' => ['required', 'array'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
         ]));
