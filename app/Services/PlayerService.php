@@ -15,7 +15,7 @@ class PlayerService extends Service
         'full_name' => ['string'],
         'headshot' => ['string'],
         'is_amateur' => ['boolean'],
-        'birth_date' => ['datetime'],
+        'birth_date' => ['date'],
         'turned_pro' => ['integer'],
         'college' => ['string'],
         'graduation_year' => ['integer'],
