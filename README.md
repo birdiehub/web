@@ -41,6 +41,17 @@ Framework: Laravel 9.19
 - [PHP 8.0](http://php.net/downloads.php)
 - [Laravel Framework ^9.x](https://laravel.com/docs/9.x/installation)
 
+### Before Installation
+copy the `.env.example` file to `.env` and fill in the required values
+````dotenv
+DB_HOST=<database-host>
+DB_PORT=<database-port>
+DB_USERNAME=<database-username>
+DB_PASSWORD=<database-password>
+````
+
+Other values like `APP_KEY` and `JWT_SECRET` are generated during the installation process.
+
 ### Installation
 1. Clone the repository
 2. Install the dependencies with `composer install`
