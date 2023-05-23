@@ -106,6 +106,14 @@ class GolfSeeder extends Seeder
             if ($details['personal'] != null) {
                 $model->setTranslation('bio', 'en', implode("\n", $details['personal']));
             }
+
+            // Manually set some translations for Scottie Scheffler in dutch
+            if ($player['firstName'] === 'Scottie' && $player['lastName'] === 'Scheffler') {
+                $model->setTranslation('gender', 'nl', 'M');
+                $model->setTranslation('family', 'nl', 'Vrouw, Meredith');
+                $model->setTranslation('degree', 'nl', 'Financien');
+                $model->setTranslation('bio', 'nl', 'Scottie Scheffler is een Amerikaanse professionele golfer die op de PGA Tour speelt. Hij was de lage amateur op de US Open 2017.');
+            }
         }
 
         $other = Player::where('first_name', $model->first_name)
