@@ -2,11 +2,18 @@
     <Load v-if="!loaded"/>
     <div v-if="loaded">
         <HeaderContent :title="this.player.first_name + ' ' + this.player.last_name"/>
-        <TextIconButton :content="this.$translator.translate('app.delete_player')"
-                        :icon="`delete`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
-                        class="delete-button"
-                        @click="this.removePlayer()"
-                        v-if="this.canDeletePlayer"/>
+        <div class="flex-gap-row">
+            <TextIconButton :content="this.$translator.translate('app.delete_player')"
+                            :icon="`delete`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
+                            class="delete-button"
+                            @click="this.removePlayer()"
+                            v-if="this.canDeletePlayer"/>
+            <TextIconButton :content="this.$translator.translate('app.edit_player')"
+                            :icon="`edit`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
+                            class="edit-button"
+                            @click="this.$router.push(`/players/${this.player.id}/edit`)"
+                            v-if="this.canEditPlayer"/>
+        </div>
     </div>
     <main v-if="loaded" class="main-content flex-gap-col">
         <div class="player-basic-info box flex-gap-row">
@@ -228,6 +235,11 @@ export default {
 
 .delete-button {
     background-color: var(--color-red);
+    margin-bottom: 1rem;
+}
+
+.edit-button {
+    background-color: var(--color-purple);
     margin-bottom: 1rem;
 }
 

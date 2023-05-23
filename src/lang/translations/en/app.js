@@ -83,9 +83,32 @@ export default {
                     "placeholder": "Select Country"
                 },
             }
+        },
+        "edit_player": {
+            "title": "Edit Player",
+            "info": "This page only exists to fulfill the requirements of the assignment. In the actual application it is not possible to edit a player, because the players data comes from an external official API.",
+            "fields": {
+                "first_name": {
+                    "label": "First Name",
+                    "placeholder": "Enter first name"
+                },
+                "last_name": {
+                    "label": "Last Name",
+                    "placeholder": "Enter last name"
+                },
+                "gender": {
+                    "label": "Gender",
+                    "placeholder": "Select Gender"
+                },
+                "country": {
+                    "label": "Country",
+                    "placeholder": "Select Country"
+                }
+            }
         }
     },
     "delete_player": "Delete Player",
+    "edit_player": "Edit Player",
     "next": "Next",
     "previous": "Previous",
 };

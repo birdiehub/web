@@ -84,9 +84,32 @@ export default {
                     "placeholder": "Selecteer land"
                 },
             }
+        },
+        "edit_player": {
+            "title": "Bewerk Speler",
+            "info": "Deze pagina bestaat enkel om aan de eisen van de opdracht te voldoen. In de werkelijke applicatie is het niet mogelijk om een speler aan te maken, omdat de spelers data van een externe officiele API komt.",
+            "fields": {
+                "first_name": {
+                    "label": "Voornaam",
+                    "placeholder": "Geef voornaam in"
+                },
+                "last_name": {
+                    "label": "Achternaam",
+                    "placeholder": "Geef achternaam in"
+                },
+                "gender": {
+                    "label": "Geslacht",
+                    "placeholder": "Selecteer geslacht"
+                },
+                "country": {
+                    "label": "Land",
+                    "placeholder": "Selecteer land"
+                },
+            }
         }
     },
     "delete_player": "Verwijder Speler",
+    "edit_player": "Bewerk Speler",
     "next": "Volgende",
     "previous": "Vorige",
 };
