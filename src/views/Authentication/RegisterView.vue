@@ -1,77 +1,73 @@
 <template>
     <form id="register-view" class="flex-gap-col">
-        <h1>{{ this.$translator.translate('auth.register_title') }}</h1>
+        <h1>
+            {{ this.$translator.translate('auth.views.register.title') }}
+        </h1>
         <div class="form-fields">
             <div class="flex-gap-col field-separator">
                 <div class="width-100">
-                    <label for="username">{{ this.$translator.translate('auth.fields.username.label') }}</label>
-                    <input v-model="user.username" type="text" id="username" name="username" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.username.placeholder')"/>
+                    <UsernameInput v-model:value="user.username"/>
                 </div>
                 <div class="">
                     <div class="flex-gap-row">
                         <div class="width-100">
-                            <label for="password">{{ this.$translator.translate('auth.fields.password.label') }}</label>
-                            <input v-model="user.password" type="password" id="password" name="password" required autocomplete="off"  min="8" max="255" :placeholder="this.$translator.translate('auth.fields.password.placeholder')"/>
+                            <PasswordInput v-model:value="user.password"/>
                         </div>
                         <div class="width-100">
-                            <label for="confirm-password">{{ this.$translator.translate('auth.fields.confirm_password.label') }}</label>
-                            <input v-model="confirm_password" type="password" id="confirm-password" name="password" required autocomplete="off"  min="8" max="255" :placeholder="this.$translator.translate('auth.fields.confirm_password.placeholder')"/>
+                            <ConfirmPasswordInput v-model:value="confirm_password"/>
                         </div>
                     </div>
-                    <p class="field-info">{{ this.$translator.translate('auth.fields.password.info') }}</p>
+                    <p class="field-info">
+                        {{ this.$translator.translate('global.fields.password.info') }}
+                    </p>
                 </div>
             </div>
             <div class="field-separator flex-gap-col">
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="first_name">{{ this.$translator.translate('auth.fields.first_name.label') }}</label>
-                        <input v-model="user.first_name" type="text" id="first_name" name="first_name" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.first_name.placeholder')"/>
+                        <FirstNameInput v-model:value="user.first_name"/>
                     </div>
                     <div class="width-100">
-                        <label for="last_name">{{ this.$translator.translate('auth.fields.last_name.label') }}</label>
-                        <input v-model="user.last_name" type="text" id="last_name" name="last_name" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.last_name.placeholder')"/>
+                        <LastNameInput v-model:value="user.last_name"/>
                     </div>
                 </div>
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="email">{{ this.$translator.translate('auth.fields.email.label') }}</label>
-                        <input v-model="user.email" type="email" id="email" name="email" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.email.placeholder')"/>
+                        <EmailInput v-model:value="user.email"/>
                     </div>
                     <div class="width-100">
-                        <label for="phone">{{ this.$translator.translate('auth.fields.phone.label') }}</label>
-                        <input v-model="user.phone" type="text" id="phone" name="phone" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.phone.placeholder')"/>
+                        <PhoneInput v-model:value="user.phone"/>
                     </div>
                 </div>
             </div>
             <div class="flex-gap-col">
                 <div class="width-100">
-                    <label for="address">{{ this.$translator.translate('auth.fields.address.label') }}</label>
-                    <input v-model="user.address" type="text" id="address" name="address" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.address.placeholder')"/>
+                    <AddressInput v-model:value="user.address"/>
                 </div>
                 <div class="flex-gap-row">
 
                     <div :style="{'width': `60%`}">
-                        <label for="city">{{ this.$translator.translate('auth.fields.city.label') }}</label>
-                        <input v-model="user.city" type="text" id="city" name="city" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.city.placeholder')"/>
+                        <CityInput v-model:value="user.city"/>
                     </div>
                     <div :style="{'width': `20%`}">
-                        <label for="zip">{{ this.$translator.translate('auth.fields.zip.label') }}</label>
-                        <input v-model="user.zip" type="text" id="zip" name="zip" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.zip.placeholder')"/>
+                        <ZipInput v-model:value="user.zip"/>
                     </div>
                     <div :style="{'width': `20%`}">
-                        <label for="country">{{ this.$translator.translate('auth.fields.country.label') }}</label>
-                        <Dropdown :options="countryOptions()"
-                                  @select="(selected) => this.user.country_id = selected.value.id"
-                                  id="country" name="country" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.country.placeholder')"/>
+                        <CountryDropdown @select="(country) => user.country_id = country.value.id"/>
                     </div>
                 </div>
             </div>
         </div>
         <div class="bottom-buttons">
-            <TextIconButton :content="this.$translator.translate('auth.register')"
-                            :icon="`create`" :width="`fit-content`" :height="`2rem`"
-                            :flexDirection="`row-reverse`" @click="clickedRegister"/>
-            <a href="#/auth/login">{{ this.$translator.translate('auth.redirect_to_login') }}</a>
+            <TextIconButton :content="this.$translator.translate('global.actions.register')"
+                            :icon="`create`"
+                            :width="`fit-content`"
+                            :height="`2rem`"
+                            :flexDirection="`row-reverse`"
+                            @click="clickedRegister"/>
+            <a href="#/auth/login">
+                {{ this.$translator.translate('auth.views.register.redirect_to_login') }}
+            </a>
         </div>
     </form>
 </template>
@@ -79,12 +75,36 @@
 <script>
 import TextIconButton from "@/components/Button/TextIconButton.vue";
 import {mapActions, mapGetters} from "vuex";
-import Dropdown from "@/components/Form/Dropdown.vue";
+import Dropdown from "@/components/Form/Dropdown/Dropdown.vue";
 import Load from "@/components/Load/Load.vue";
+import Input from "@/components/Form/Input/Input.vue";
+import UsernameInput from "@/components/Form/Input/UsernameInput.vue";
+import PasswordInput from "@/components/Form/Input/PasswordInput.vue";
+import ConfirmPasswordInput from "@/components/Form/Input/ConfirmPasswordInput.vue";
+import FirstNameInput from "@/components/Form/Input/FirstNameInput.vue";
+import LastNameInput from "@/components/Form/Input/LastNameInput.vue";
+import EmailInput from "@/components/Form/Input/EmailInput.vue";
+import PhoneInput from "@/components/Form/Input/PhoneInput.vue";
+import AddressInput from "@/components/Form/Input/AddressInput.vue";
+import CityInput from "@/components/Form/Input/CityInput.vue";
+import ZipInput from "@/components/Form/Input/ZipInput.vue";
+import CountryDropdown from "@/components/Form/Dropdown/CountryDropdown.vue";
 
 export default {
     name: "RegisterView",
     components: {
+        CountryDropdown,
+        ZipInput,
+        CityInput,
+        AddressInput,
+        PhoneInput,
+        EmailInput,
+        LastNameInput,
+        FirstNameInput,
+        ConfirmPasswordInput,
+        PasswordInput,
+        UsernameInput,
+        Input,
         Load,
         Dropdown,
         TextIconButton
@@ -100,18 +120,7 @@ export default {
                 return;
             }
             this.register(this.user);
-        },
-        countryOptions() {
-            return this.countries.map(country => {
-                return {
-                    value: country,
-                    label: country.name
-                }
-            });
         }
-    },
-    computed: {
-        ...mapGetters(['countries'])
     },
     data() {
         return {

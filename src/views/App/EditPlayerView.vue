@@ -7,27 +7,21 @@
             <div class="flex-gap-col">
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="first_name">{{ this.$translator.translate('app.views.edit_player.fields.first_name.label') }}</label>
-                        <input v-model="player.first_name" type="text" id="first_name" name="first_name" autocomplete="off" :placeholder="this.$translator.translate('app.views.edit_player.fields.first_name.placeholder')"/>
+                        <FirstNameInput v-model:value="player.first_name" required/>
                     </div>
                     <div class="width-100">
-                        <label for="last_name">{{ this.$translator.translate('app.views.edit_player.fields.last_name.label') }}</label>
-                        <input v-model="player.last_name" type="text" id="last_name" name="last_name" autocomplete="off" :placeholder="this.$translator.translate('app.views.edit_player.fields.last_name.placeholder')"/>
+                        <LastNameInput v-model:value="player.last_name" required/>
                     </div>
                 </div>
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="country">{{ this.$translator.translate('app.views.edit_player.fields.country.label') }}</label>
-                        <Dropdown :options="countryOptions()"
-                                  @select="(selected) => this.player.country_id = selected.value.id"
-                                  :select="countryOptions().find((option) => option.value.id === player.country.id)"
-                                  id="country" name="country" autocomplete="off"
-                                  placeholder="this.$translator.translate('app.views.edit_player.fields.country.placeholder')"/>
+                        <CountryDropdown @select="(country) => player.country_id = country.value.id"
+                                         :selectCountryId="player.country.id"/>
                     </div>
                 </div>
             </div>
             <div class="bottom-buttons">
-                <TextIconButton :content="this.$translator.translate('app.views.edit_player.title')"
+                <TextIconButton :content="this.$translator.translate('global.actions.edit')"
                                 :icon="`edit`" :width="`fit-content`" :height="`2rem`"
                                 :flexDirection="`row-reverse`" @click="changePlayer"/>
             </div>
@@ -40,22 +34,22 @@
 import HeaderContent from "@/components/Header/HeaderContent.vue";
 import Load from "@/components/Load/Load.vue";
 import InfoBox from "@/components/Info/InfoBox.vue";
-import Dropdown from "@/components/Form/Dropdown.vue";
+import Dropdown from "@/components/Form/Dropdown/Dropdown.vue";
 import {mapActions, mapGetters} from "vuex";
 import TextIconButton from "@/components/Button/TextIconButton.vue";
+import CountryDropdown from "@/components/Form/Dropdown/CountryDropdown.vue";
+import FirstNameInput from "@/components/Form/Input/FirstNameInput.vue";
+import LastNameInput from "@/components/Form/Input/LastNameInput.vue";
 
 export default {
     name: "EditPlayerView",
-    components: {TextIconButton, Dropdown, InfoBox, Load, HeaderContent},
+    components: {LastNameInput, FirstNameInput, CountryDropdown, TextIconButton, Dropdown, InfoBox, Load, HeaderContent},
     data() {
         return {
             player: undefined,
             originalPlayer: undefined,
             loaded: false
         }
-    },
-    computed: {
-        ...mapGetters(['countries'])
     },
     methods: {
         ...mapActions(['fetchPlayer', 'editPlayer']),
@@ -70,14 +64,6 @@ export default {
                 this.loaded = true;
             }).catch(() => {
                 this.$router.push('/players');
-            });
-        },
-        countryOptions() {
-            return this.countries.map((country) => {
-                return {
-                    label: country.name,
-                    value: country
-                }
             });
         },
         async changePlayer() {

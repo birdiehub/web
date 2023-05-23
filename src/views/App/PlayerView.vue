@@ -3,13 +3,19 @@
     <div v-if="loaded">
         <HeaderContent :title="this.player.first_name + ' ' + this.player.last_name"/>
         <div class="flex-gap-row">
-            <TextIconButton :content="this.$translator.translate('app.delete_player')"
-                            :icon="`delete`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
+            <TextIconButton :content="this.$translator.translate('global.actions.delete')"
+                            :icon="`delete`"
+                            :width="`fit-content`"
+                            :height="`2rem`"
+                            :flexDirection="`row-reverse`"
                             class="delete-button"
                             @click="this.removePlayer()"
                             v-if="this.canDeletePlayer"/>
-            <TextIconButton :content="this.$translator.translate('app.edit_player')"
-                            :icon="`edit`" :width="`fit-content`" :height="`2rem`" :flexDirection="`row-reverse`"
+            <TextIconButton :content="this.$translator.translate('global.actions.edit')"
+                            :icon="`edit`"
+                            :width="`fit-content`"
+                            :height="`2rem`"
+                            :flexDirection="`row-reverse`"
                             class="edit-button"
                             @click="this.$router.push(`/players/${this.player.id}/edit`)"
                             v-if="this.canEditPlayer"/>
@@ -32,23 +38,23 @@
                 </div>
                 <div class="basic-info-text-bottom flex-space-between-row">
                     <div>
-                        <h3 class="important">{{ this.$translator.translate('app.views.player.age') }}</h3>
+                        <h3 class="important">{{ this.$translator.translate('global.entities.player.attributes.age') }}</h3>
                         <p>{{ this.birthDate() ? age() + ' (' +  birthDateText() + ')' : 'N/A'}}</p>
                     </div>
                     <div>
-                        <h3 class="important">{{ this.$translator.translate('app.views.player.height') }}</h3>
+                        <h3 class="important">{{ this.$translator.translate('global.entities.player.attributes.height') }}</h3>
                         <p>{{ this.player?.height_imperial ?? 'N/A' }} • {{ this.player?.height_meters ? this.player?.height_meters + 'm' : 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">{{ this.$translator.translate('app.views.player.weight') }}</h3>
+                        <h3 class="important">{{ this.$translator.translate('global.entities.player.attributes.weight') }}</h3>
                         <p>{{ this.player?.weight_imperial ? this.player?.weight_imperial + 'lbs' : 'N/A' }} • {{ this.player?.weight_kilograms ? this.player?.weight_kilograms + 'kg' : 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">{{ this.$translator.translate('app.views.player.turned_pro') }}</h3>
+                        <h3 class="important">{{ this.$translator.translate('global.entities.player.attributes.turned_pro') }}</h3>
                         <p>{{ this.player?.turned_pro ?? 'N/A' }}</p>
                     </div>
                     <div>
-                        <h3 class="important">{{ this.$translator.translate('app.views.player.college') }}</h3>
+                        <h3 class="important">{{ this.$translator.translate('global.entities.player.attributes.college') }}</h3>
                         <p>{{ this.player.college ?? 'N/A' }}</p>
                     </div>
                 </div>
@@ -56,81 +62,27 @@
         </div>
         <div class="player-details-wrapper">
             <TabBar :tabs="tabs" @changeTab="(tab) => this.currentTab = tab"/>
-            <div v-if="currentTab.name === this.$translator.translate('app.views.player.stats')" class="player-stats flex-gap-col">
+            <div v-if="currentTab.name === this.$translator.translate('global.miscellaneous.statistics')" class="player-stats flex-gap-col">
                 <div class="box career-earnings">
-                    <h3>{{ this.$translator.translate('app.views.player.earnings') }} </h3>
+                    <h3>{{ this.$translator.translate('global.entities.player.attributes.earnings') }} </h3>
                     <p>{{ this.player?.career_earnings ?? 'N/A' }}</p>
                 </div>
-                <div class="stats-table box">
-                    <header class="stats-table-header">
-                        <h2>{{ this.$translator.translate('app.views.player.leaderboard') }}</h2>
-                    </header>
-                    <main class="stats-table-body">
-                        <div class="stats-table-row flex-space-between-row">
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.current_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard?.rank ?? 'N/A' }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.last_week_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard?.last_week_rank ?? 'N/A' }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.last_year_rank') }}</h3>
-                                <p>{{ this.player?.leaderboard?.end_last_year_rank ?? 'N/A' }}</p>
-                            </div>
-                        </div>
-                        <div class="stats-table-row flex-space-between-row">
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.points_total') }}</h3>
-                                <p>{{ this.player?.leaderboard?.points_total ?? 'N/A' }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.points_won') }}</h3>
-                                <p class="points-won">{{ this.player?.leaderboard?.points_won ?? 'N/A' }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.points_lost') }}</h3>
-                                <p class="points-lost">{{ this.player?.leaderboard?.points_lost ?? 'N/A' }}</p>
-                            </div>
-                        </div>
-                    </main>
-                </div>
+                <LeaderboardTable :leaderboard="this.player?.leaderboard"/>
             </div>
-            <div v-if="currentTab.name === this.$translator.translate('app.views.player.highlights')" class="player-highlights">
-                <div class="stats-table box">
-                    <header class="stats-table-header">
-                        <h2>{{ this.$translator.translate('app.views.player.snapshots') }}</h2>
-                    </header>
-                    <main class="stats-table-body">
-                        <div class="stats-table-row flex-space-between-row" v-for="snapshot in this.player?.snapshots">
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.title') }}</h3>
-                                <p>{{ snapshot.title }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.value') }}</h3>
-                                <p>{{ snapshot.value ?? 'N/A' }}</p>
-                            </div>
-                            <div class="stats-table-cell">
-                                <h3>{{ this.$translator.translate('app.views.player.snapshots_table.description') }}</h3>
-                                <p>{{ snapshot.description ?? 'N/A' }}</p>
-                            </div>
-                        </div>
-                    </main>
-                </div>
+            <div v-if="currentTab.name === this.$translator.translate('global.miscellaneous.highlights')" class="player-highlights">
+                <SnapshotsTable :snapshots="this.player?.snapshots"/>
             </div>
-            <div v-if="currentTab.name === this.$translator.translate('app.views.player.about')" class="player-about flex-gap-col">
+            <div v-if="currentTab.name === this.$translator.translate('global.miscellaneous.about')" class="player-about flex-gap-col">
                 <div class="player-bio box">
-                    <h3>{{ this.$translator.translate('app.views.player.bio') }}</h3>
+                    <h3>{{ this.$translator.translate('global.entities.player.attributes.bio') }}</h3>
                     <p>{{ this.player?.bio ?? 'N/A' }}</p>
                 </div>
                 <div class="player-family box">
-                    <h3>{{ this.$translator.translate('app.views.player.family') }}</h3>
+                    <h3>{{ this.$translator.translate('global.entities.player.attributes.family') }}</h3>
                     <p>{{ this.player?.family ?? 'N/A' }}</p>
                 </div>
                 <div class="player-education box">
-                    <h3>{{ this.$translator.translate('app.views.player.education') }}</h3>
+                    <h3>{{ this.$translator.translate('global.entities.player.attributes.degree') }}</h3>
                     <p>{{ this.player?.degree ?? 'N/A' }} at {{ this.player?.college ?? 'N/A' }}</p>
                 </div>
             </div>
@@ -145,10 +97,14 @@ import Load from "@/components/Load/Load.vue";
 import HeaderContent from "@/components/Header/HeaderContent.vue";
 import TabBar from "@/components/Tab/TabBar.vue";
 import TextIconButton from "@/components/Button/TextIconButton.vue";
+import LeaderboardTable from "@/components/Table/LeaderboardTable.vue";
+import SnapshotsTable from "@/components/Table/SnapshotsTable.vue";
 
 export default {
     name: "PlayerView",
     components: {
+        SnapshotsTable,
+        LeaderboardTable,
         TextIconButton,
         TabBar,
         HeaderContent,
@@ -204,11 +160,11 @@ export default {
             loaded: false,
             player: {},
             tabs: [
-                { name: this.$translator.translate('app.views.player.stats'), index: 0 },
-                { name: this.$translator.translate('app.views.player.highlights'), index: 1 },
-                { name:this.$translator.translate('app.views.player.about'), index: 2 },
+                { name: this.$translator.translate('global.miscellaneous.statistics'), index: 0 },
+                { name: this.$translator.translate('global.miscellaneous.highlights'), index: 1 },
+                { name:this.$translator.translate('global.miscellaneous.about'), index: 2 },
             ],
-            currentTab: { name: this.$translator.translate('app.views.player.stats'), index: 0 },
+            currentTab: { name: this.$translator.translate('global.miscellaneous.statistics'), index: 0 },
             canDeletePlayer: false,
             canEditPlayer: false
         }
@@ -300,48 +256,6 @@ export default {
     p {
         font-size: 1.5rem;
     }
-}
-
-.stats-table {
-
-    .stats-table-header {
-        border-bottom: solid 0.2rem var(--color-secondary);
-        h2 {
-            font-size: 1.5rem;
-        }
-    }
-
-    .stats-table-row:not(:last-child) {
-        border-bottom: var(--border);
-    }
-
-    .stats-table-cell {
-        flex: 1 1 33%;
-
-        h3 {
-            margin: 0.5rem 0;
-            text-transform: uppercase;
-            font-size: 1.15rem;
-            color: var(--color-text);
-        }
-
-        p {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            color: var(--color-secondary);
-            font-weight: bold;
-        }
-
-        .points-won {
-            color: var(--color-green);
-        }
-
-        .points-lost {
-            color: var(--color-red);
-        }
-
-    }
-
 }
 
 </style>

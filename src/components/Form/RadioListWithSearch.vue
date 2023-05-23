@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import RadioList from "@/components/Form/RadioList.vue";
+import RadioList from "@/components/Form/RadioList/RadioList.vue";
 import {containsQuery} from "@/assets/js/helper";
 
 export default {

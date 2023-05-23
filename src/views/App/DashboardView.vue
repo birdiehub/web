@@ -1,7 +1,7 @@
 <template>
   <HeaderContent :title="this.$translator.translate('app.views.dashboard.title')"/>
   <main class="main-content">
-      <h2 class="important">{{ this.$translator.translate('app.coming_soon') }}</h2>
+      <h2 class="important">{{ this.$translator.translate('global.miscellaneous.coming_soon') }}</h2>
   </main>
 </template>
 

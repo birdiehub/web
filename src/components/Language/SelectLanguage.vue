@@ -4,7 +4,7 @@
 
 <script>
 
-import Dropdown from "@/components/Form/Dropdown.vue";
+import Dropdown from "@/components/Form/Dropdown/Dropdown.vue";
 import {mapActions} from "vuex";
 
 export default {

@@ -1,8 +1,8 @@
 <template>
   <nav class="navigation-items-wrapper">
     <ul>
-      <li><NavigationItem :route="`/dashboard`" :name="`Dashboard`" :content="this.$translator.translate('app.nav.dashboard')" :icon="`home`"/></li>
-      <li><NavigationItem :route="`/players`" :name="`Players`" :content="this.$translator.translate('app.nav.players')" :icon="`person`"/></li>
+      <li><NavigationItem :route="`/dashboard`" :name="`Dashboard`" :content="this.$translator.translate('global.navigation.dashboard')" :icon="`home`"/></li>
+      <li><NavigationItem :route="`/players`" :name="`Players`" :content="this.$translator.translate('global.entities.player.plural')" :icon="`person`"/></li>
     </ul>
   </nav>
 </template>

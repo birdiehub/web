@@ -6,33 +6,24 @@
             <div class="flex-gap-col">
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="first_name">{{ this.$translator.translate('app.views.create_player.fields.first_name.label') }}</label>
-                        <input v-model="player.first_name" type="text" id="first_name" name="first_name" required autocomplete="off" :placeholder="this.$translator.translate('app.views.create_player.fields.first_name.placeholder')"/>
+                        <FirstNameInput v-model:value="player.first_name" required/>
                     </div>
                     <div class="width-100">
-                        <label for="last_name">{{ this.$translator.translate('app.views.create_player.fields.last_name.label') }}</label>
-                        <input v-model="player.last_name" type="text" id="last_name" name="last_name" required autocomplete="off" :placeholder="this.$translator.translate('app.views.create_player.fields.last_name.placeholder')"/>
+                        <LastNameInput v-model:value="player.last_name" required/>
                     </div>
                 </div>
                 <div class="flex-gap-row">
                     <div class="width-100">
-                        <label for="gender">{{ this.$translator.translate('app.views.create_player.fields.gender.label') }}</label>
-                        <Dropdown :options="genderOptions()"
-                                  @select="(selected) => this.player.gender = selected.value"
-                                  id="gender" name="gender" required autocomplete="off"
-                                  :placeholder="this.$translator.translate('app.views.create_player.fields.gender.placeholder')"/>
+                        <GenderDropdown @select="(selected) => this.player.gender = selected.value"/>
                     </div>
                     <div class="width-100">
-                        <label for="country">{{ this.$translator.translate('app.views.create_player.fields.country.label') }}</label>
-                        <Dropdown :options="countryOptions()"
-                                  @select="(selected) => this.player.country_id = selected.value.id"
-                                  id="country" name="country" required autocomplete="off"
-                                  placeholder="this.$translator.translate('app.views.create_player.fields.country.placeholder')"/>
+                        <CountryDropdown @select="(country) => player.country_id = country.value.id"
+                                        :selectCountryId="player.country_id"/>
                     </div>
                 </div>
             </div>
             <div class="bottom-buttons">
-                <TextIconButton :content="this.$translator.translate('app.views.create_player.title')"
+                <TextIconButton :content="this.$translator.translate('global.actions.create')"
                                 :icon="`create`" :width="`fit-content`" :height="`2rem`"
                                 :flexDirection="`row-reverse`" @click="createPlayer"/>
             </div>
@@ -45,13 +36,19 @@
 import HeaderContent from "@/components/Header/HeaderContent.vue";
 import Load from "@/components/Load/Load.vue";
 import InfoBox from "@/components/Info/InfoBox.vue";
-import Dropdown from "@/components/Form/Dropdown.vue";
+import Dropdown from "@/components/Form/Dropdown/Dropdown.vue";
 import {mapGetters} from "vuex";
 import TextIconButton from "@/components/Button/TextIconButton.vue";
+import FirstNameInput from "@/components/Form/Input/FirstNameInput.vue";
+import LastNameInput from "@/components/Form/Input/LastNameInput.vue";
+import CountryDropdown from "@/components/Form/Dropdown/CountryDropdown.vue";
+import GenderDropdown from "@/components/Form/Dropdown/GenderDropdown.vue";
 
 export default {
     name: "CreatePlayerView",
-    components: {TextIconButton, Dropdown, InfoBox, Load, HeaderContent},
+    components: {
+        GenderDropdown,
+        CountryDropdown, LastNameInput, FirstNameInput, TextIconButton, Dropdown, InfoBox, Load, HeaderContent},
     data() {
         return {
             player: {
@@ -63,33 +60,8 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['countries'])
     },
     methods: {
-        countryOptions() {
-            return this.countries.map((country) => {
-                return {
-                    label: country.name,
-                    value: country
-                }
-            });
-        },
-        genderOptions() {
-          const genders = {
-              "male": { "en": "M", "de": "M", "fr": "H", "it": "U", "es": "H", "nl": "M" },
-              "female": { "en": "F", "de": "W", "fr": "F", "it": "D", "es": "M", "nl": "V" }
-          }
-          return [
-              {
-                  label: genders["male"][this.$translator.language()],
-                  value: genders["male"]
-              },
-              {
-                  label: genders["female"][this.$translator.language()],
-                  value: genders["female"]
-              }
-          ]
-        },
         async createPlayer() {
             await this.$store.dispatch('createPlayer', this.player);
         }

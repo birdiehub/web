@@ -1,17 +1,22 @@
 <template>
   <form id="login-view" class="flex-gap-col">
-      <h1>{{ this.$translator.translate('auth.login_title') }}</h1>
+      <h1>
+          {{ this.$translator.translate('auth.views.login.title') }}
+      </h1>
       <div class="form-fields">
-          <label for="username">{{ this.$translator.translate('auth.fields.username.label') }}</label>
-          <input v-model="credentials.username" type="text" id="username" name="username" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.username.placeholder')"/>
-          <label for="password">{{ this.$translator.translate('auth.fields.password.label') }}</label>
-          <input v-model="credentials.password" type="password" id="password" name="password" required autocomplete="off" :placeholder="this.$translator.translate('auth.fields.password.placeholder')"/>
+          <UsernameInput v-model:value="credentials.username" />
+          <PasswordInput v-model:value="credentials.password" />
       </div>
       <div class="bottom-buttons">
-          <TextIconButton :content="this.$translator.translate('auth.login')"
-                          :icon="`login`" :width="`fit-content`" :height="`2rem`"
-                          :flexDirection="`row-reverse`" @click="clickedLogin"/>
-          <a href="#/auth/register">{{ this.$translator.translate('auth.redirect_to_register') }}</a>
+          <TextIconButton :content="this.$translator.translate('global.actions.login')"
+                          :icon="`login`"
+                          :width="`fit-content`"
+                          :height="`2rem`"
+                          :flexDirection="`row-reverse`"
+                          @click="clickedLogin"/>
+          <a href="#/auth/register">
+              {{ this.$translator.translate('auth.views.login.redirect_to_register') }}
+          </a>
       </div>
   </form>
 </template>
@@ -19,10 +24,14 @@
 <script>
 import TextIconButton from "@/components/Button/TextIconButton.vue";
 import {mapActions} from "vuex";
+import UsernameInput from "@/components/Form/Input/UsernameInput.vue";
+import PasswordInput from "@/components/Form/Input/PasswordInput.vue";
 
 export default {
     name: "LoginView",
     components: {
+        PasswordInput,
+        UsernameInput,
         TextIconButton
     },
     methods: {
