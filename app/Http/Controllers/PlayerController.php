@@ -23,7 +23,7 @@ class PlayerController extends Controller
 
     public function all(Request $request)
     {
-        $this->authorize('viewPlayers', $this->_class);
+        // $this->authorize('viewPlayers', $this->_class);
 
         $pages = $request->get("pages", 10);
         $sort = $request->get("sort", "id,asc");

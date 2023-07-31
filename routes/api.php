@@ -33,6 +33,8 @@ Route::get('/languages', fn() => response()->json([
     'data' =>  ['en', 'de', 'es', 'fr', 'it', 'nl']
 ]));
 
+Route::get('/players', [PlayerController::class, 'all']);
+
 Route::get('/countries', [CountryController::class, 'all']);
 
 Route::post('/auth/register', [AuthenticationController::class, "register"]);
@@ -78,7 +80,6 @@ Route::middleware('auth:api')->group(function() {
     Route::delete('/countries/{id}', [CountryController::class, 'delete'])->where('id', '[0-9]+');
 
     // Players
-    Route::get('/players', [PlayerController::class, 'all']);
     Route::post('/players', [PlayerController::class, 'create']);
     Route::get('/players/{id}', [PlayerController::class, 'get'])->where('id', '[0-9]+');
     Route::put('/players/{id}', [PlayerController::class, 'update'])->where('id', '[0-9]+');
