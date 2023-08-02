@@ -9,6 +9,6 @@ services:
       MYSQL_USER: homestead
       MYSQL_PASSWORD: secret
     ports:
-      - "33061:3306"
+      - "4001:3306"
     volumes:
       - /databases/mysql:/var/lib/mysql
