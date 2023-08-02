@@ -7,6 +7,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,8 @@ Route::get('/languages', fn() => response()->json([
 Route::get('/players', [PlayerController::class, 'all']);
 
 Route::get('/countries', [CountryController::class, 'all']);
+
+Route::get('/tours', [TourController::class, 'all']);
 
 Route::post('/auth/register', [AuthenticationController::class, "register"]);
 Route::post('/auth/login', [AuthenticationController::class, "login"]);
