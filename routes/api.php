@@ -8,6 +8,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,9 @@ Route::get('/players', [PlayerController::class, 'all']);
 Route::get('/countries', [CountryController::class, 'all']);
 
 Route::get('/tours', [TourController::class, 'all']);
+
+Route::get('/tours/{id}/tournaments', [TournamentController::class, 'all'])->where('id', '[0-9]+');
+Route::get('/tours/{tourId}/tournaments/{tournamentId}', [TournamentController::class, 'get'])->where(['tourId' => '[0-9]+', 'tournamentId' => '[0-9]+']);
 
 Route::post('/auth/register', [AuthenticationController::class, "register"]);
 Route::post('/auth/login', [AuthenticationController::class, "login"]);
