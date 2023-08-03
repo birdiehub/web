@@ -29,21 +29,6 @@ npm run build
 ```
 
 
-### Test Users:
-With the following users you can test the different roles of the application.
-> These users can do more on the API than on the client.   
-> This is because the client is not fully implemented yet.
-- `test-viewer` can only view players and player details.
-- `test-editor` can view, create, edit and delete players.
-- `test-admin` same as `test-editor`
-
-| Username    | Password  |
-|-------------|-----------|
-| test-admin  | BluePeach |
-| test-editor | BluePeach |
-| test-viewer | BluePeach |
-
-
 ### Languages
 - [English](#english)
 - [Dutch](#dutch)
