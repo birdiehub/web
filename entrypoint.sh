@@ -3,28 +3,6 @@
 # Abort on any error (including if wait-for-it fails).
 set -e
 
-# Remove existing files (for fresh install)
-rm -rf vendor
-rm -f composer.lock
-rm -rf node_modules
-rm -f package-lock.json
-rm -f .env
-
-# Create new .env file
-cp .env.example .env
-
-# Install Composer dependencies
-composer install
-
-# Install NPM dependencies
-npm install
-
-# Generate the application key
-php artisan key:generate
-
-# Generate the JWT secret with
-php artisan jwt:secret
-
 # set environment variables
 # - APP_URL
 if [ -n "$APP_URL" ]; then
@@ -67,3 +45,6 @@ php artisan config:cache
 #     ./wait-for-it.sh "$DB_HOST:$DB_PORT"
 #     php artisan migrate --seed
 # fi
+
+# Run the main container command
+exec "$@"

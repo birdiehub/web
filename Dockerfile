@@ -35,14 +35,29 @@ RUN apt-get -y install nodejs
 # Set working directory
 WORKDIR /var/www
 
-# Give execution permissions to scripts
-# COPY ./wait-for-it.sh ./wait-for-it.sh
-# COPY ./entrypoint.sh ./entrypoint.sh
+# Remove existing files (for fresh install)
+RUN rm -rf vendor
+RUN rm -f composer.lock
+RUN rm -rf node_modules
+RUN rm -f package-lock.json
+RUN rm -f .env
 
-# RUN chmod +x ./wait-for-it.sh
-# RUN chmod +x ./entrypoint.sh
+# Create new .env file
+RUN cp .env.example .env
+
+# Install library dependencies
+RUN composer install
+RUN npm install
+
+# Generate the application key
+RUN php artisan key:generate
+
+# Generate the JWT secret with
+RUN php artisan jwt:secret
 
 # Include entrypoint script
 ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["php-fpm"]
 
 USER $user
