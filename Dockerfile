@@ -35,29 +35,7 @@ RUN apt-get -y install nodejs
 # Set working directory
 WORKDIR /var/www
 
-# Remove existing files (for fresh install)
-RUN rm -rf vendor
-RUN rm -f composer.lock
-RUN rm -rf node_modules
-RUN rm -f package-lock.json
-RUN rm -f .env
-
-# Create new .env file
-RUN cp .env.example .env
-
-# Install library dependencies
-RUN composer install
-RUN npm install
-
-# Generate the application key
-RUN php artisan key:generate
-
-# Generate the JWT secret with
-RUN php artisan jwt:secret
-
 # Include entrypoint script
 ENTRYPOINT ["./entrypoint.sh"]
-
-CMD ["php-fpm"]
 
 USER $user
