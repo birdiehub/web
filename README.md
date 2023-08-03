@@ -1,5 +1,5 @@
-# Golf API
-Codebase Docs  
+# Birdie API
+Birdie Docs  
 > Version: 1.0.0  
 > Author: [Thibo Verbeerst](http://thiboverbeerst.com)
 
@@ -7,29 +7,53 @@ Codebase Docs
 
 ## Table of Contents
 
-- [Description](#description)
-- [Get Started](#get-started)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-- [Framework Requirements](#framework-requirements)
-- [Language & Translations](#language-translations)
-- [Authentication](#authentication)
-- [Access Control](#access-control)
-  - [Permissions](#permissions)
-  - [Roles](#roles)
-- [Laravel Architecture](#laravel-architecture)
-  - [Models](#models)
-  - [Resources](#resources)
-  - [Controllers](#controllers)
-  - [Services](#services)
-  - [Validators](#validators)
-  - [Database Seeders](#database-seeders)
-  - [Database Factories](#database-factories)
-  - [Migration Files](#migration-files)
-  - [Routes](#routes)
-  - [Middleware](#middleware)
-  - [Policies](#policies)
-  - [Exceptions](#exceptions)
+- [Birdie API](#birdie-api)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Get Started](#get-started)
+    - [Requirements](#requirements)
+    - [Before Installation](#before-installation)
+    - [Installation](#installation)
+  - [Framework Requirements](#framework-requirements)
+  - [Language \& Translations](#language--translations)
+  - [Authentication](#authentication)
+  - [Access Control](#access-control)
+    - [Permissions](#permissions)
+    - [Roles](#roles)
+  - [Laravel Architecture](#laravel-architecture)
+    - [Models](#models)
+      - [User](#user)
+      - [Permission](#permission)
+      - [Role](#role)
+      - [Country](#country)
+      - [Player](#player)
+      - [Snapshot](#snapshot)
+      - [Social](#social)
+      - [Leaderboard](#leaderboard)
+    - [Resources](#resources)
+    - [Controllers](#controllers)
+    - [Services](#services)
+    - [Validators](#validators)
+    - [Database Seeders](#database-seeders)
+    - [Database Factories](#database-factories)
+    - [Migration Files](#migration-files)
+    - [Routes](#routes)
+    - [Middleware](#middleware)
+    - [Policies](#policies)
+        - [User Policy](#user-policy)
+        - [Permission Policy](#permission-policy)
+        - [Role Policy](#role-policy)
+        - [Country Policy](#country-policy)
+        - [Player Policy](#player-policy)
+    - [Exceptions](#exceptions)
+        - [General](#general)
+        - [Invalid Arguments](#invalid-arguments)
+        - [Invalid Routes](#invalid-routes)
+        - [Authentication](#authentication-1)
+        - [Authorization (Access Control)](#authorization-access-control)
+        - [Validation](#validation)
+        - [Not Found Models](#not-found-models)
+        - [Not Yet Implemented](#not-yet-implemented)
 
 ## Description
 Monolithic Architecture  
@@ -55,49 +79,12 @@ Other values like `APP_KEY` and `JWT_SECRET` are generated during the installati
 ### Installation
 1. Clone the repository
 2. Install the dependencies with `composer install`
-3. Copy the `.env.example` file to `.env` and fill in the required values
-4. Run the migrations with `php artisan migrate`
-5. Run the seeder with `php artisan db:seed`
-6. Generate the application key with `php artisan key:generate`
-7. Generate the JWT secret with `php artisan jwt:secret`
-
-### Test Users
-These users are used for development and testing purposes.  
-In production, these users should be removed.  
-The seeder will create 4 test users with the following credentials:
-##### test-super-admin
-Role: super-admin
-````json
-{
-    "username": "test-super-admin",
-    "password": "BluePeach"
-}
-````
-##### test-admin
-Role: admin
-````json
-{
-    "username": "test-admin",
-    "password": "BluePeach"
-}
-````
-##### test-editor
-Role: editor
-````json
-{
-    "username": "test-editor",
-    "password": "BluePeach"
-}
-````
-##### test-viewer
-Role: viewer  
-Note: default role for new registered users
-````json
-{
-    "username": "test-viewer",
-    "password": "BluePeach"
-}
-````
+3. Install the node dependencies with `npm install`
+4. Copy the `.env.example` file to `.env` and fill in the required values
+5. Run the migrations with `php artisan migrate`
+6. Run the seeder with `php artisan db:seed`
+7. Generate the application key with `php artisan key:generate`
+8. Generate the JWT secret with `php artisan jwt:secret`
 
 
 ## Framework Requirements
@@ -330,7 +317,7 @@ They are located in the `database/seeders` directory.
 - `DatabaseSeeder`: Seeds the database with the default data. (Calls the other seeders)
 - `AccessControlSeeder`: Seeds the database with the permissions, roles and some test users.
 - `CountrySeeder`: Seeds the database with the countries.
-- `GolfSeeder`: Seeds the database with the golf data.  
+- `GolfPlayerSeeder`: Seeds the database with the golf data.  
 
 To seed the database, run the following command:
 ````php

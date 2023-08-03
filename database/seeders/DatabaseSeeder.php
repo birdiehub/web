@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountrySeeder::class,
             AccessControlSeeder::class,
-            GolfSeeder::class,
+            GolfPlayerSeeder::class,
             GolfTournamentSeeder::class
         ]);
     }

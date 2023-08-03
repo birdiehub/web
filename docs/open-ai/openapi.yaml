@@ -1,0 +1,2403 @@
+openapi: 3.0.3
+info:
+  title: Golf API
+  description: "API about world ranked and professional Golf Players. Note language query parameter is optional and will default to 'en' if not provided."
+  version: 1.0.0
+servers:
+  - url: 'http://homestead.golf/'
+    description: Local
+paths:
+
+  /api/info:
+    get:
+      summary: Get API information
+      description: Get information about the API
+      tags:
+        - Info
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Golf API
+                      version:
+                        type: string
+                        example: 1.0.0
+                      language:
+                        type: string
+                        example: en
+                      fallback_language:
+                        type: string
+                        example: en
+  /api/languages:
+    get:
+      summary: Get all supported languages
+      description: Get all supported languages
+      tags:
+        - Info
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+                      example: en
+
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      description: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        description: User data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/login:
+    post:
+      summary: Login a user
+      description: Login a user
+      tags:
+        - Authentication
+      requestBody:
+        description: User data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: 'The username of the user, used for login. Must be unique.'
+                  minLength: 4
+                  maxLength: 255
+                  example: "johndoe"
+                password:
+                  type: string
+                  description: 'The password of the user, used for login.'
+                  minLength: 8
+                  maxLength: 255
+                  example: "password"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/logout:
+    post:
+      summary: Logout a user
+      description: Logout a user
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/refresh:
+    post:
+      summary: Refresh a user token
+      description: Refresh a user token
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/validate:
+    get:
+      summary: Validate a user token
+      description: Validate a user token
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/me:
+    get:
+      summary: Get the authenticated user
+      description: Get the authenticated user
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/users:
+    get:
+      summary: Get all users
+      description: "Get all users. Permission: view-users-list"
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pages
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a new user
+      description: "Create a new user. Permission: create-users"
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: User data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/users/{id}:
+    get:
+      summary: Get a user
+      description: "Get a user. Permission: view-users-details"
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update a user
+      description: "Update a user. Permission: edit-users"
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: User data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a user
+      description: "Delete a user. Permission: delete-users"
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/permissions:
+    get:
+      summary: Get all permissions
+      description: "Get all permissions. Permission: view-permissions-list"
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionsResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/permissions/{name}:
+    get:
+      summary: Get a permission
+      description: "Get a permission. Permission: view-permissions-details"
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: Permission name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/roles:
+    get:
+      summary: Get all roles
+      description: "Get all roles. Permission: view-roles-list"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a new role
+      description: "Create a new role. Permission: create-roles"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Role data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRole'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/roles/{name}:
+    get:
+      summary: Get a role
+      description: "Get a role. Permission: view-roles-details"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a role
+      description: "Delete a role. Permission: delete-roles"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: name
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/roles/{roleName}/permissions/{permissionName}:
+    put:
+      summary: Add a permission to a role
+      description: "Add a permission to a role. Permission: grant-role-permissions"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: roleName
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+        - name: permissionName
+          in: path
+          description: Permission name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Remove a permission from a role
+      description: "Remove a permission from a role. Permission: revoke-role-permissions"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: roleName
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+        - name: permissionName
+          in: path
+          description: Permission name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/users/{id}/access:
+    get:
+      summary: Get user access
+      description: "Get user access. Permission: view-user-access"
+      tags:
+        - Access Control
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccessResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/users/{userId}/roles/{roleName}:
+    get:
+      summary: Add a role to a user
+      description: "Add a role to a user. Permission: grant-user-roles"
+      tags:
+        - Access Control
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+        - name: roleName
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Remove a role from a user
+      description: "Remove a role from a user. Permission: revoke-user-roles"
+      tags:
+        - Access Control
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+        - name: roleName
+          in: path
+          description: Role name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/users/{userId}/permissions/{permissionName}:
+    get:
+      summary: Add a permission to a user
+      description: "Add a permission to a user. Permission: grant-user-permissions"
+      tags:
+        - Access Control
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+        - name: permissionName
+          in: path
+          description: Permission name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Remove a permission from a user
+      description: "Remove a permission from a user. Permission: revoke-user-permissions"
+      tags:
+        - Access Control
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+        - name: permissionName
+          in: path
+          description: Permission name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/countries:
+    get:
+      summary: Get countries
+      description: "Get countries. Permission: view-countries-list"
+      tags:
+        - Countries
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pages
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 10
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 1
+        - name: sort
+          in: query
+          description: "Sort by field. Format: field_name,asc|desc"
+          required: false
+          schema:
+            type: string
+            enum: ["id", "code"]
+            default: "id,asc"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountriesResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a country
+      description: "Create a country. Permission: create-countries"
+      tags:
+        - Countries
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Country data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCountry'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/countries/{id}:
+    get:
+      summary: Get a country
+      description: "Get a country. Permission: view-countries-details"
+      tags:
+        - Countries
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Country ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update a country
+      description: "Update a country. Permission: edit-countries"
+      tags:
+        - Countries
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Country ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Country data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCountry'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a country
+      description: "Delete a country. Permission: delete-countries"
+      tags:
+        - Countries
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Country ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/players:
+    get:
+      summary: Get players
+      description: "Get players. Permission: view-players-list"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: pages
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 10
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 1
+        - name: sort
+          in: query
+          description: "Sort by field. Format: field_name,asc|desc"
+          required: false
+          schema:
+            type: string
+            enum: ["id", "first_name", "last_name", "rank"]
+            default: "id,asc"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayersResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a player
+      description: "Create a player. Permission: create-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Player data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayer'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/players/{id}:
+    get:
+      summary: Get a player
+      description: "Get a player. Permission: view-players-details"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update a player
+      description: "Update a player. Permission: edit-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Player data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlayer'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a player
+      description: "Delete a player. Permission: delete-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/players/{id}/socials:
+    post:
+      summary: Create a player social
+      description: "Create a player social. Permission: edit-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Player social data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSocial'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/players/{playerId}/socials/{socialId}:
+    delete:
+      summary: Delete a player social
+      description: "Delete a player social. Permission: edit-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: playerId
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+        - name: socialId
+          in: path
+          description: Player social ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/players/{id}/snapshots:
+    post:
+      summary: Create a player snapshot
+      description: "Create a player snapshot. Permission: edit-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Player snapshot data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSnapshot'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/players/{playerId}/snapshots/{snapshotId}:
+    delete:
+      summary: Delete a player snapshot
+      description: "Delete a player snapshot. Permission: edit-players"
+      tags:
+        - Players
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: playerId
+          in: path
+          description: Player ID
+          required: true
+          schema:
+            type: integer
+        - name: snapshotId
+          in: path
+          description: Player snapshot ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  
+  /api/tours:
+    get:
+      summary: Get all tours
+      description: "Get all tours."
+      tags:
+        - Tours
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToursResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/tours/{id}/tournaments:
+    get:
+      summary: Get all tournaments for a tour
+      description: "Get all tournaments for a tour."
+      tags:
+        - Tournaments
+      parameters:
+        - name: id
+          in: path
+          description: Tour ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentsResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/tours/{tourId}/tournaments/{tournamentId}:
+    get:
+      summary: Get a tournament for a tour
+      description: "Get a tournament for a tour."
+      tags:
+        - Tournaments
+      parameters:
+        - name: tourId
+          in: path
+          description: Tour ID
+          required: true
+          schema:
+            type: integer
+        - name: tournamentId
+          in: path
+          description: Tournament ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentResponse'
+        '400':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          description: 'The username of the user, used for login. Must be unique.'
+          minLength: 4
+          maxLength: 255
+          example: "johndoe"
+        first_name:
+          type: string
+          description: 'The first name of the user'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the user'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the user'
+          example: "John Doe"
+        email:
+          type: string
+          description: 'The email of the user. Not used for login.'
+          format: email
+          example: "john_doe@mail.com"
+        phone:
+          type: string
+          description: 'The phone number of the user'
+          example: "+1 555 555 5555"
+        address:
+          type: string
+          description: 'The address of the user'
+          example: "123 Main St."
+        city:
+          type: string
+          description: 'The city of the user'
+          example: "New York"
+        zip:
+          type: string
+          description: 'The zip code of the user'
+          example: "10001"
+        country:
+          $ref: '#/components/schemas/CountryResource'
+    UserCollection:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          username:
+            type: string
+            description: 'The username of the user, used for login. Must be unique.'
+            minLength: 4
+            maxLength: 255
+            example: "johndoe"
+          first_name:
+            type: string
+            description: 'The first name of the user'
+            example: "John"
+          last_name:
+            type: string
+            description: 'The last name of the user'
+            example: "Doe"
+          full_name:
+            type: string
+            description: 'The full name of the user'
+            example: "John Doe"
+    UsersResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserCollection'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    UserResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResource'
+    CreateUser:
+      type: object
+      required:
+        - username
+        - password
+        - first_name
+        - last_name
+        - full_name
+        - email
+        - phone
+        - address
+        - city
+        - zip
+        - country_id
+      properties:
+        username:
+          type: string
+          description: 'The username of the user, used for login. Must be unique.'
+          minLength: 4
+          maxLength: 255
+          example: "johndoe"
+        password:
+          type: string
+          description: 'The password of the user, used for login.'
+          minLength: 8
+          maxLength: 255
+          example: "password"
+        first_name:
+          type: string
+          description: 'The first name of the user'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the user'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the user'
+          example: "John Doe"
+        email:
+          type: string
+          description: 'The email of the user. Not used for login.'
+          format: email
+          example: "john_doe@mail.com"
+        phone:
+          type: string
+          description: 'The phone number of the user'
+          example: "+1 555 555 5555"
+        address:
+          type: string
+          description: 'The address of the user'
+          example: "123 Main St."
+        city:
+          type: string
+          description: 'The city of the user'
+          example: "New York"
+        zip:
+          type: string
+          description: 'The zip code of the user'
+          example: "10001"
+        country_id:
+          type: integer
+          description: 'The id of the country of the user'
+          example: 1
+    UpdateUser:
+      type: object
+      properties:
+        username:
+          type: string
+          description: 'The username of the user, used for login. Must be unique.'
+          minLength: 4
+          maxLength: 255
+          example: "johndoe"
+        password:
+          type: string
+          description: 'The password of the user, used for login.'
+          minLength: 8
+          maxLength: 255
+          example: "password"
+        first_name:
+          type: string
+          description: 'The first name of the user'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the user'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the user'
+          example: "John Doe"
+        email:
+          type: string
+          description: 'The email of the user. Not used for login.'
+          format: email
+          example: "john_doe@mail.com"
+        phone:
+          type: string
+          description: 'The phone number of the user'
+          example: "+1 555 555 5555"
+        address:
+          type: string
+          description: 'The address of the user'
+          example: "123 Main St."
+        city:
+          type: string
+          description: 'The city of the user'
+          example: "New York"
+        zip:
+          type: string
+          description: 'The zip code of the user'
+          example: "10001"
+        country_id:
+          type: integer
+          description: 'The id of the country of the user'
+          example: 1
+
+    PermissionResource:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'The name of the permission. Must be unique.'
+          example: "create-users"
+        description:
+          type: string
+          description: 'The description of the permission.'
+          example: "Create users"
+        group:
+          type: string
+          description: 'The group of the permission.'
+          example: "users"
+    PermissionCollection:
+      type: array
+      items:
+        type: string
+        description: 'The name of the permission. Is unique.'
+        example: "create-users"
+    PermissionsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PermissionCollection'
+    PermissionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PermissionResource'
+
+    RoleResource:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'The name of the role. Must be unique.'
+          example: "admin"
+        permissions:
+          $ref: '#/components/schemas/PermissionCollection'
+    RoleCollection:
+      type: array
+      items:
+        type: string
+        description: 'The name of the role. Is unique.'
+        example: "admin"
+    RolesResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RoleCollection'
+    RoleResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RoleResource'
+    CreateRole:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: 'The name of the role. Must be unique.'
+          example: "admin"
+
+    UserAccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            roles:
+              $ref: '#/components/schemas/RoleCollection'
+            permissions:
+              $ref: '#/components/schemas/PermissionCollection'
+
+    CountryResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        code:
+          type: string
+          description: 'The code of the country. Must be unique.'
+          minLength: 2
+          maxLength: 2
+          example: US
+        name:
+          type: string
+          description: 'The name of the country. Translatable field.'
+          example: "United States"
+        flag:
+          type: string
+          description: 'The flag of the country.'
+          example: "https://www.countryflags.io/us/flat/64.png"
+    CountryCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/CountryResource'
+    CountriesResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CountryCollection'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    CountryResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CountryResource'
+    CreateCountry:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          description: 'The code of the country. Must be unique.'
+          minLength: 2
+          maxLength: 2
+          example: US
+        name:
+          type: object
+          description: 'The name of the country. Translatable field. Translations created with object keys'
+          properties:
+            en:
+              type: string
+              description: 'The name of the country in English.'
+              example: "United States"
+            fr:
+              type: string
+              description: 'The name of the country in French.'
+              example: "États-Unis"
+    UpdateCountry:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          description: 'The code of the country. Must be unique.'
+          minLength: 2
+          maxLength: 2
+          example: US
+        name:
+          type: object
+          description: 'The name of the country. Translatable field. Translations created with object keys'
+          properties:
+            en:
+              type: string
+              description: 'The name of the country in English.'
+              example: "United States"
+            fr:
+              type: string
+              description: 'The name of the country in French.'
+              example: "États-Unis"
+
+    PlayerResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          description: 'The first name of the player. Must be unique with last name.'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the player. Must be unique with first name.'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the player'
+          example: "John Doe"
+        headshot:
+          type: string
+          description: 'The headshot (picture) of the player'
+          example: "http://homestead.golf/storage/players/1/headshot.jpg"
+        is_amateur:
+          type: integer
+          description: 'The amateur status of the player. Is either 0 or 1.'
+          example: 1
+        birth_date:
+          type: string
+          description: 'The birth date of the player'
+          format: date
+          example: '1996-06-21 00:00:00'
+        turned_pro:
+          type: integer
+          description: 'The year the player turned pro'
+          example: 2018
+        college:
+          type: string
+          description: 'The college the player attended'
+          example: "University of Florida"
+        graduation_year:
+          type: integer
+          description: 'The year the player graduated from college'
+          example: 2018
+        career_earnings:
+          type: string
+          description: 'The career earnings of the player'
+          example: "$34,624,721"
+        height_imperial:
+          type: string
+          description: 'The height of the player in imperial units'
+          example: "6' 1\""
+        height_meters:
+          type: string
+          description: 'The height of the player in meters'
+          example: "1.85"
+        weight_imperial:
+          type: string
+          description: 'The weight of the player in imperial units'
+          example: "185 lbs"
+        weight_kilograms:
+          type: string
+          description: 'The weight of the player in kilograms'
+          example: "84 kg"
+        gender:
+          type: string
+          description: 'The gender of the player. Translatable field'
+          example: "M"
+        bio:
+          type: string
+          description: 'The biography of the player. Translatable field'
+          example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+        degree:
+          type: string
+          description: 'The degree of the player. Translatable field'
+          example: "Finance"
+        family:
+          type: string
+          description: 'The family of the player. Translatable field'
+          example: "Wife, Meredith. Children, Sam, Charlie"
+        country:
+          $ref: '#/components/schemas/CountryResource'
+        socials:
+          $ref: '#/components/schemas/SocialCollection'
+        snapshots:
+          $ref: '#/components/schemas/SnapshotCollection'
+        leaderboard:
+          $ref: '#/components/schemas/LeaderboardResource'
+    PlayerCollection:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          first_name:
+            type: string
+            description: 'The first name of the player. Must be unique with last name.'
+            example: "John"
+          last_name:
+            type: string
+            description: 'The last name of the player. Must be unique with first name.'
+            example: "Doe"
+          full_name:
+            type: string
+            description: 'The full name of the player'
+            example: "John Doe"
+          headshot:
+            type: string
+            description: 'The headshot (picture) of the player'
+            example: "http://homestead.golf/storage/players/1/headshot.jpg"
+          gender:
+            type: string
+            description: 'The gender of the player. Translatable field'
+            example: "M"
+          country:
+            $ref: '#/components/schemas/CountryResource'
+          rank:
+            type: integer
+            description: 'The rank of the player'
+            example: 1
+    PlayersResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PlayerCollection'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    PlayerResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PlayerResource'   
+    CreatePlayer:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - country_id
+        - gender
+      properties:
+        first_name:
+          type: string
+          description: 'The first name of the player. Must be unique with last name.'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the player. Must be unique with first name.'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the player'
+          example: "John Doe"
+        headshot:
+          type: string
+          description: 'The headshot (picture) of the player'
+          example: "http://homestead.golf/storage/players/1/headshot.jpg"
+        is_amateur:
+          type: integer
+          description: 'The amateur status of the player. Is either 0 or 1.'
+          example: 1
+        birth_date:
+          type: string
+          description: 'The birth date of the player'
+          format: date
+          example: '1996-06-21 00:00:00'
+        turned_pro:
+          type: integer
+          description: 'The year the player turned pro'
+          example: 2018
+        college:
+          type: string
+          description: 'The college the player attended'
+          example: "University of Florida"
+        graduation_year:
+          type: integer
+          description: 'The year the player graduated from college'
+          example: 2018
+        career_earnings:
+          type: string
+          description: 'The career earnings of the player'
+          example: "$34,624,721"
+        height_imperial:
+          type: string
+          description: 'The height of the player in imperial units'
+          example: "6' 1\""
+        height_meters:
+          type: string
+          description: 'The height of the player in meters'
+          example: "1.85"
+        weight_imperial:
+          type: string
+          description: 'The weight of the player in imperial units'
+          example: "185 lbs"
+        weight_kilograms:
+          type: string
+          description: 'The weight of the player in kilograms'
+          example: "84 kg"
+        gender:
+          type: object
+          description: 'The gender of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "M"
+            fr:
+              type: string
+              example: "H"
+        bio:
+          type: object
+          description: 'The biography of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+            fr:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+        degree:
+          type: object
+          description: 'The degree of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Finance"
+            fr:
+              type: string
+              example: "Finance"
+        family:
+          type: object
+          description: 'The family of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Wife Meredith, daughter Emery, son Colt"
+            fr:
+              type: string
+              example: "Femme Meredith, fille Emery, fils Colt"
+        country_id:
+          type: integer
+          description: 'The country id of the player'
+          example: 1      
+    UpdatePlayer:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: 'The first name of the player. Must be unique with last name.'
+          example: "John"
+        last_name:
+          type: string
+          description: 'The last name of the player. Must be unique with first name.'
+          example: "Doe"
+        full_name:
+          type: string
+          description: 'The full name of the player'
+          example: "John Doe"
+        headshot:
+          type: string
+          description: 'The headshot (picture) of the player'
+          example: "http://homestead.golf/storage/players/1/headshot.jpg"
+        is_amateur:
+          type: integer
+          description: 'The amateur status of the player. Is either 0 or 1.'
+          example: 1
+        birth_date:
+          type: string
+          description: 'The birth date of the player'
+          format: date
+          example: '1996-06-21 00:00:00'
+        turned_pro:
+          type: integer
+          description: 'The year the player turned pro'
+          example: 2018
+        college:
+          type: string
+          description: 'The college the player attended'
+          example: "University of Florida"
+        graduation_year:
+          type: integer
+          description: 'The year the player graduated from college'
+          example: 2018
+        career_earnings:
+          type: string
+          description: 'The career earnings of the player'
+          example: "$34,624,721"
+        height_imperial:
+          type: string
+          description: 'The height of the player in imperial units'
+          example: "6' 1\""
+        height_meters:
+          type: string
+          description: 'The height of the player in meters'
+          example: "1.85"
+        weight_imperial:
+          type: string
+          description: 'The weight of the player in imperial units'
+          example: "185 lbs"
+        weight_kilograms:
+          type: string
+          description: 'The weight of the player in kilograms'
+          example: "84 kg"
+        gender:
+          type: object
+          description: 'The gender of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "M"
+            fr:
+              type: string
+              example: "H"
+        bio:
+          type: object
+          description: 'The biography of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+            fr:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+        degree:
+          type: object
+          description: 'The degree of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Finance"
+            fr:
+              type: string
+              example: "Finance"
+        family:
+          type: object
+          description: 'The family of the player. Translatable field'
+          properties:
+            en:
+              type: string
+              example: "Wife Meredith, daughter Emery, son Colt"
+            fr:
+              type: string
+              example: "Femme Meredith, fille Emery, fils Colt"
+        country_id:
+          type: integer
+          description: 'The country id of the player'
+          example: 1      
+
+    SocialResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        channel:
+          type: string
+          description: 'The channel of the social media.'
+          example: "twitter"
+        url:
+          type: string
+          description: 'The url of the social media.'
+          example: "https://twitter.com/johndoe"
+    SocialCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/SocialResource'
+    CreateSocial:
+      type: object
+      required:
+        - channel
+        - url
+      properties:
+        channel:
+          type: string
+          description: 'The channel of the social media.'
+          example: "twitter"
+        url:
+          type: string
+          description: 'The url of the social media.'
+          example: "https://twitter.com/johndoe"
+
+    SnapshotResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          description: 'The title of the snapshot. Translatable field.'
+          example: "Last Win"
+        value:
+          type: string
+          description: 'The value of the snapshot. Translatable field.'
+          example: "The Masters"
+        description:
+          type: string
+          description: 'The description of the snapshot. Translatable field.'
+          example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+    SnapshotCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/SnapshotResource'
+    CreateSnapshot:
+      type: object
+      required:
+        - title
+        - value
+        - description
+      properties:
+        title:
+          type: object
+          description: 'The title of the snapshot. Translatable field.'
+          properties:
+            en:
+              type: string
+              example: "Last Win"
+            fr:
+              type: string
+              example: "Dernière victoire"
+        value:
+          type: object
+          description: 'The value of the snapshot. Translatable field.'
+          properties:
+            en:
+              type: string
+              example: "The Masters"
+            fr:
+              type: string
+              example: "The Masters"
+        description:
+          type: object
+          description: 'The description of the snapshot. Translatable field.'
+          properties:
+            en:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+            fr:
+              type: string
+              example: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu aliquet lacinia, nisl nunc aliquam urna, vitae aliquam nisl nunc eu nisl."
+
+    LeaderboardResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        weekend_date:
+          type: string
+          description: 'The weekend date of the leaderboard.'
+          example: "2023-04-09"
+        rank:
+          type: integer
+          description: 'The rank of the player.'
+          example: 34
+        last_week_rank:
+          type: integer
+          description: 'The last week rank of the player.'
+          example: 23
+        end_last_year_rank:
+          type: integer
+          description: 'The end last year rank of the player.'
+          example: 12
+        is_tied:
+          type: integer
+          description: 'The tied status of the player. Is either 0 or 1.'
+          example: 0
+        points_lost:
+          type: string
+          description: 'The points lost of the player.'
+          example: "-1,234"
+        points_won:
+          type: string
+          description: 'The points won of the player.'
+          example: "1,234"
+        points_total:
+          type: string
+          description: 'The points total of the player.'
+          example: "4,234"
+        points_average:
+          type: string
+          description: 'The points average of the player.'
+          example: "67.34"
+        divisor_actual:
+          type: integer
+          description: 'The divisor actual used to calculate the points average of the player.'
+          example: 44
+        divisor_applied:
+          type: integer
+          description: 'The divisor applied used to calculate the points average of the player.'
+          example: 35
+
+    TourResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          description: 'The name of the tour.'
+          example: "PGA Tour"
+    TourCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/TourResource'
+    ToursResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TourResource'
+
+    CourseResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          description: 'The name of the course.'
+          example: "Augusta National Golf Club"
+        address:
+          type: string
+          description: 'The address of the course.'
+          example: "2604 Washington Rd, Augusta, GA 30904, United States"
+        image:
+          type: string
+          description: 'The image of the course.'
+          example: "http://homestead.golf/storage/courses/1/1.jpg"
+
+    TournamentLeaderboardResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tournament_id:
+          type: integer
+          example: 1
+        player:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            first_name:
+              type: string
+              description: 'The first name of the player.'
+              example: "Tiger"
+            last_name:
+              type: string
+              description: 'The last name of the player.'
+              example: "Woods"
+            full_name:
+              type: string
+              description: 'The full name of the player.'
+              example: "Tiger Woods"
+            headshot:
+              type: string
+              description: 'The image of the player.'
+              example: "http://homestead.golf/storage/players/1/1.jpg"
+        rank:
+          type: integer
+          description: 'The rank of the player.'
+          example: 34
+        points_total:
+          type: string
+          description: 'The points total of the player.'
+          example: "4,234"
+    TournamentLeaderboardCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/TournamentLeaderboardResource'
+
+    TournamentResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tour:
+          $ref: '#/components/schemas/TourResource'
+        name:
+          type: string
+          description: 'The name of the tournament.'
+          example: "The Masters"
+        year: 
+          type: integer
+          description: 'The year of the tournament.'
+          example: 2023
+        course: 
+          $ref: '#/components/schemas/CourseResource'
+        start_date:
+          type: string
+          description: 'The start date of the tournament.'
+          example: "2023-04-06"
+        end_date:
+          type: string
+          description: 'The end date of the tournament.'
+          example: "2023-04-09"
+        leaderboard:
+          $ref: '#/components/schemas/TournamentLeaderboardCollection'
+    TournamentCollection:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          tour:
+            $ref: '#/components/schemas/TourResource'
+          name:
+            type: string
+            description: 'The name of the tournament.'
+            example: "The Masters"
+          year: 
+            type: integer
+            description: 'The year of the tournament.'
+            example: 2023
+          course: 
+            $ref: '#/components/schemas/CourseResource'
+          start_date:
+            type: string
+            description: 'The start date of the tournament.'
+            example: "2023-04-06"
+          end_date:
+            type: string
+            description: 'The end date of the tournament.'
+            example: "2023-04-09"
+    TournamentsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TournamentCollection'
+    TournamentResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TournamentResource'
+
+    Meta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        from:
+          type: integer
+          example: 1
+        last_page:
+          type: integer
+          example: 1
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                example: http://homestead.golf/api/countries?page=1
+              label:
+                type: string
+                example: 1
+              active:
+                type: boolean
+                example: true
+        path:
+          type: string
+          example: http://homestead.golf/api/countries
+        per_page:
+          type: integer
+          example: 15
+        to:
+          type: integer
+          example: 1
+        total:
+          type: integer
+          example: 1
+    Links:
+      type: object
+      properties:
+        first:
+          type: string
+          example: http://homestead.golf/api/countries?page=1
+        last:
+          type: string
+          example: http://homestead.golf/api/countries?page=1
+        prev:
+          type: string
+          example: null
+        next:
+          type: string
+          example: null
+
+    ErrorResponse:
+      type: object
+      properties:
+        failure:
+          type: integer
+          description: 'The failure status code of the response.'
+          example: 400
+        cause:
+          type: string
+          description: 'The cause of the failure. Note: returns an object when validation fails.'
+          example: "The given data was invalid."
+    TokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: 'The token of the user.'
+          example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cL2hvbWVzdGVhZC5nb2xmL2FwaVwvYXV0aFwvbG9"
+    OkResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 'The message of the response.'
+          example: "Ok"
+
+tags:
+  - name: Info
+  - name: Authentication
+  - name: Users
+  - name: Access Control
+  - name: Roles
+  - name: Permissions
+  - name: Countries
+  - name: Players
+    description: "Player data can only be trusted by official Golf organizations."
+  - name: Tours
+  - name: Tournaments

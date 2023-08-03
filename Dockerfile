@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.2-fpm
 
 # Arguments defined in docker-compose.yml
 ARG user
@@ -32,8 +32,11 @@ RUN mkdir -p /home/$user/.composer && \
 WORKDIR /var/www
 
 # Give execution permissions to scripts
-RUN chmod +x ./wait-for-it.sh
-RUN chmod +x ./entrypoint.sh
+# COPY ./wait-for-it.sh ./wait-for-it.sh
+# COPY ./entrypoint.sh ./entrypoint.sh
+
+# RUN chmod +x ./wait-for-it.sh
+# RUN chmod +x ./entrypoint.sh
 
 # Include entrypoint script
 ENTRYPOINT ["./entrypoint.sh"]

@@ -38,11 +38,6 @@ class AccessControlSeeder extends Seeder
         foreach ($this->_roles as $role) {
             $model = Role::create(["name" => $role["name"]]);
             $model->syncPermissions($this->permissions($role));
-
-            User::factory()->create([
-                'username' => 'test-' . $role["name"],
-                'password' => 'BluePeach'
-            ])->assignRole($model);
         }
     }
 

@@ -1,0 +1,1396 @@
+{
+	"info": {
+		"_postman_id": "c78611d4-65bf-4071-86a7-26a2461648ec",
+		"name": "Golf API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17176780"
+	},
+	"item": [
+		{
+			"name": "Countries",
+			"item": [
+				{
+					"name": "Country",
+					"item": [
+						{
+							"name": "Country",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/countries/:id?language=nl",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"countries",
+										":id"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "nl"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Country",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/countries/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"countries",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Country",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": {\r\n        \"en\": \"Test K3\",\r\n        \"nl\": \"Test Land\",\r\n        \"fr\": \"Test Payee\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/countries/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"countries",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Countries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/countries?pages=10&page=1&language=nl&sort=id,asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"countries"
+							],
+							"query": [
+								{
+									"key": "pages",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "language",
+									"value": "nl"
+								},
+								{
+									"key": "sort",
+									"value": "id,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Country",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"XX\",\r\n    \"name\": {\r\n        \"en\": \"Test Country\",\r\n        \"nl\": \"Test Land\",\r\n        \"fr\": \"Test Payee\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/countries",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Players",
+			"item": [
+				{
+					"name": "Player",
+					"item": [
+						{
+							"name": "Snapshots",
+							"item": [
+								{
+									"name": "Player Snapshot",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"title\": {\r\n        \"en\": \"Favourite Player\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/players/:id/snapshots",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"players",
+												":id",
+												"snapshots"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Player Snapshot",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/players/:playerId/snapshots/:snapshotId",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"players",
+												":playerId",
+												"snapshots",
+												":snapshotId"
+											],
+											"variable": [
+												{
+													"key": "playerId",
+													"value": null
+												},
+												{
+													"key": "snapshotId",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Socials",
+							"item": [
+								{
+									"name": "Player Social",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"channel\": \"facebook\",\r\n    \"url\": \"fb.com/stone\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/players/:id/socials",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"players",
+												":id",
+												"socials"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Player Social",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/players/:playerId/socials/:socialId",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"players",
+												":playerId",
+												"socials",
+												":socialId"
+											],
+											"variable": [
+												{
+													"key": "playerId",
+													"value": null
+												},
+												{
+													"key": "socialId",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Player",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/players/:id?language=nl",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"players",
+										":id"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "nl"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Player",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"tt\",\r\n    \"last_name\": \"ff\",\r\n    \"country_id\": 3,\r\n    \"gender\": {\r\n        \"en\": \"M\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/players/:id?language=de",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"players",
+										":id"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "de"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Player",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/players/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"players",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Players",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/players?language=nl&pages=20&sort=rank,asc&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"players"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "nl"
+								},
+								{
+									"key": "pages",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "rank,asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Player",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"tt\",\r\n    \"last_name\": \"ff\",\r\n    \"country_id\": 3,\r\n    \"gender\": {\r\n        \"en\": \"M\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/players",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/:id?language=de",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "de"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"DUSTYMAN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/:id?language=de",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "de"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users?pages=100&page=1&language=nl",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "pages",
+									"value": "100"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "language",
+									"value": "nl"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test-1\",\r\n    \"password\": \"BluePeach\",\r\n    \"first_name\": \"Thibo\",\r\n    \"last_name\": \"Verbeerst\",\r\n    \"email\": \"contact@thiboverbeerst.com\",\r\n    \"phone\": \"+32 471 72 15 98\",\r\n    \"address\": \"Haandeput 11\",\r\n    \"city\": \"Meulebeke\",\r\n    \"zip\": \"8760\",\r\n    \"country_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test-viewer\",\r\n    \"password\": \"BluePeach\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login?language=nl",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "nl"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"test-2\",\r\n    \"password\": \"GodMadeGirls\",\r\n    \"first_name\": \"Thibo\",\r\n    \"last_name\": \"Verbeerst\",\r\n    \"email\": \"contact@thiboverbeerst.com\",\r\n    \"phone\": \"+32 471 72 15 98\",\r\n    \"address\": \"Haandeput 11\",\r\n    \"city\": \"Meulebeke\",\r\n    \"zip\": \"9933\",\r\n    \"country_id\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/validate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/me?language=nl",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "nl"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Access Control",
+			"item": [
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "Permission",
+							"item": [
+								{
+									"name": "Permission",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/permissions/:permissionName",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"permissions",
+												":permissionName"
+											],
+											"variable": [
+												{
+													"key": "permissionName",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Permissions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/permissions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"permissions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "Role",
+							"item": [
+								{
+									"name": "Permissions",
+									"item": [
+										{
+											"name": "Role Permission",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{base_url}}/roles/:roleName/permissions/:permissionName",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"roles",
+														":roleName",
+														"permissions",
+														":permissionName"
+													],
+													"variable": [
+														{
+															"key": "roleName",
+															"value": null
+														},
+														{
+															"key": "permissionName",
+															"value": null
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Role Permission",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{base_url}}/roles/:roleName/permissions/:permissionName",
+													"host": [
+														"{{base_url}}"
+													],
+													"path": [
+														"roles",
+														":roleName",
+														"permissions",
+														":permissionName"
+													],
+													"variable": [
+														{
+															"key": "roleName",
+															"value": null
+														},
+														{
+															"key": "permissionName",
+															"value": null
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Role",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles/:roleName",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												":roleName"
+											],
+											"variable": [
+												{
+													"key": "roleName",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Role",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/roles/:roleName",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"roles",
+												":roleName"
+											],
+											"variable": [
+												{
+													"key": "roleName",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Roles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/roles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Roles",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"tester\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/roles",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Access",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/:id/access",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								":id",
+								"access"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Role",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/:userId/roles/:roleName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								":userId",
+								"roles",
+								":roleName"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": null
+								},
+								{
+									"key": "roleName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/:userId/roles/:roleName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								":userId",
+								"roles",
+								":roleName"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": null
+								},
+								{
+									"key": "roleName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Permission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/:userId/permissions/:permissionName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								":userId",
+								"permissions",
+								":permissionName"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": null
+								},
+								{
+									"key": "permissionName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Permission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/:userId/permissions/:permissionName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								":userId",
+								"permissions",
+								":permissionName"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "1"
+								},
+								{
+									"key": "permissionName",
+									"value": "grant-role-permissions"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tour",
+			"item": [
+				{
+					"name": "Tournaments",
+					"item": [
+						{
+							"name": "Tournament",
+							"item": [
+								{
+									"name": "Tournament",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/tours/:tourId/tournaments/:tournamentId?language=en",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"tours",
+												":tourId",
+												"tournaments",
+												":tournamentId"
+											],
+											"query": [
+												{
+													"key": "language",
+													"value": "en"
+												}
+											],
+											"variable": [
+												{
+													"key": "tourId",
+													"value": "7"
+												},
+												{
+													"key": "tournamentId",
+													"value": "951"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Tournaments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tours/:id/tournaments?language=en&year=2019",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tours",
+										":id",
+										"tournaments"
+									],
+									"query": [
+										{
+											"key": "language",
+											"value": "en"
+										},
+										{
+											"key": "year",
+											"value": "2019"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tours",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tours"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Languages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/languages",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"languages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info"
+					],
+					"query": [
+						{
+							"key": "language",
+							"value": "de",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"",
+					"const baseUrl = pm.collectionVariables.get(\"base_url\");",
+					"const url = `${baseUrl}/auth/login`;",
+					"",
+					"// Set the request body",
+					"const requestBody = {",
+					"  username: \"test-editor\",",
+					"  password: \"BluePeach\"",
+					"};",
+					"",
+					"const postRequest = {",
+					"  url: url,",
+					"  method: 'POST',",
+					"  header: {",
+					"    \"Content-Type\": \"application/json\"",
+					"  },",
+					"  body: {",
+					"    mode: 'application/json',",
+					"    raw: JSON.stringify(requestBody)",
+					"  }",
+					"};",
+					"",
+					"pm.sendRequest(postRequest, function (err, res) {",
+					"    var responseJson = res.json();",
+					"    // console.log(responseJson);",
+					"    pm.environment.set('token', responseJson['token']);",
+					"});",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://birdie.nerdclub.io/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vaG9tZXN0ZWFkLmdvbGYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODI2ODE3NzUsImV4cCI6MTY4MjY4NTM3NSwibmJmIjoxNjgyNjgxNzc1LCJqdGkiOiJmOGFuY0NXZE5KQUZ2aE9WIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.CQV1jEUmNdbPmrdLa2nRClbT0D--Z1RNwPhd-WMISaM",
+			"type": "string"
+		}
+	]
+}

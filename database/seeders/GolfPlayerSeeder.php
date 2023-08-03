@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 
-class GolfSeeder extends Seeder
+class GolfPlayerSeeder extends Seeder
 {
 
 

@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "Golf API.",
+    "description": "Birdie API.",
     "keywords": ["golf", "api", "laravel"],
     "license": "MIT",
     "require": {

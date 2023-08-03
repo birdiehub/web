@@ -3,12 +3,21 @@
 # Abort on any error (including if wait-for-it fails).
 set -e
 
-# Remove existing vendor and composer.lock (optional if you want to start fresh on each container run)
-rm -rf vendor composer.lock
+# Remove existing files (for fresh install)
+rm -rf vendor
+rm -f composer.lock
+rm -rf node_modules
+rm -f package-lock.json
+rm -f .env
+
+# Create new .env file
+cp .env.example .env
 
 # Install Composer dependencies
 composer install
 
+# Install NPM dependencies
+npm install
 
 # Generate the application key
 php artisan key:generate
