@@ -30,10 +30,6 @@ php artisan jwt:secret
 if [ -n "$APP_URL" ]; then
     sed -i "s/APP_URL=.*/APP_URL=$APP_URL/" ./.env
 fi
-# - DB_CONNECTION
-if [ -n "$DB_CONNECTION" ]; then
-    sed -i "s/DB_CONNECTION=.*/DB_CONNECTION=$DB_CONNECTION/" ./.env
-fi
 # - DB_HOST
 if [ -n "$DB_HOST" ]; then
     sed -i "s/DB_HOST=.*/DB_HOST=$DB_HOST/" ./.env
