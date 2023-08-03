@@ -1212,11 +1212,11 @@
 											"variable": [
 												{
 													"key": "tourId",
-													"value": "7"
+													"value": "1"
 												},
 												{
 													"key": "tournamentId",
-													"value": "951"
+													"value": "7"
 												}
 											]
 										}
@@ -1253,7 +1253,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "7"
+											"value": "1"
 										}
 									]
 								}
