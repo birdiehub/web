@@ -1,0 +1,304 @@
+{
+    "countries": [
+        {
+            "code": "US",
+            "en": "United States",
+            "de": "Vereinigte Staaten",
+            "es": "Estados Unidos",
+            "fr": "États-Unis",
+            "nl": "Verenigde Staten",
+            "it": "Stati Uniti",
+            "flag": "https://instantwebtools.net/images/flags/svg/US.svg"
+        },
+        {
+            "code": "CA",
+            "en": "Canada",
+            "de": "Kanada",
+            "es": "Canadá",
+            "fr": "Canada",
+            "nl": "Canada",
+            "it": "Canada",
+            "flag": "https://instantwebtools.net/images/flags/svg/CA.svg"
+        },
+        {
+            "code": "MX",
+            "en": "Mexico",
+            "de": "Mexiko",
+            "es": "México",
+            "fr": "Mexique",
+            "nl": "Mexico",
+            "it": "Messico",
+            "flag": "https://instantwebtools.net/images/flags/svg/MX.svg"
+        },
+        {
+            "code": "BR",
+            "en": "Brazil",
+            "de": "Brasilien",
+            "es": "Brasil",
+            "fr": "Brésil",
+            "nl": "Brazilië",
+            "it": "Brasile",
+            "flag": "https://instantwebtools.net/images/flags/svg/BR.svg"
+        },
+        {
+            "code": "GB",
+            "en": "United Kingdom",
+            "de": "Vereinigtes Königreich",
+            "es": "Reino Unido",
+            "fr": "Royaume-Uni",
+            "nl": "Verenigd Koninkrijk",
+            "it": "Regno Unito",
+            "flag": "https://instantwebtools.net/images/flags/svg/GB.svg"
+        },
+        {
+            "code": "FR",
+            "en": "France",
+            "de": "Frankreich",
+            "es": "Francia",
+            "fr": "France",
+            "nl": "Frankrijk",
+            "it": "Francia",
+            "flag": "https://instantwebtools.net/images/flags/svg/FR.svg"
+        },
+        {
+            "code": "DE",
+            "en": "Germany",
+            "de": "Deutschland",
+            "es": "Alemania",
+            "fr": "Allemagne",
+            "nl": "Duitsland",
+            "it": "Germania",
+            "flag": "https://instantwebtools.net/images/flags/svg/DE.svg"
+        },
+        {
+            "code": "IT",
+            "en": "Italy",
+            "de": "Italien",
+            "es": "Italia",
+            "fr": "Italie",
+            "nl": "Italië",
+            "it": "Italia",
+            "flag": "https://instantwebtools.net/images/flags/svg/IT.svg"
+        },
+        {
+            "code": "ES",
+            "en": "Spain",
+            "de": "Spanien",
+            "es": "España",
+            "fr": "Espagne",
+            "nl": "Spanje",
+            "it": "Spagna",
+            "flag": "https://instantwebtools.net/images/flags/svg/ES.svg"
+        },
+        {
+            "code": "PT",
+            "en": "Portugal",
+            "de": "Portugal",
+            "es": "Portugal",
+            "fr": "Portugal",
+            "nl": "Portugal",
+            "it": "Portogallo",
+            "flag": "https://instantwebtools.net/images/flags/svg/PT.svg"
+        },
+        {
+            "code": "BE",
+            "en": "Belgium",
+            "de": "Belgien",
+            "es": "Bélgica",
+            "fr": "Belgique",
+            "nl": "België",
+            "it": "Belgio",
+            "flag": "https://instantwebtools.net/images/flags/svg/BE.svg"
+        },
+        {
+            "code": "NL",
+            "en": "Netherlands",
+            "de": "Niederlande",
+            "es": "Países Bajos",
+            "fr": "Pays-Bas",
+            "nl": "Nederland",
+            "it": "Paesi Bassi",
+            "flag": "https://instantwebtools.net/images/flags/svg/NL.svg"
+        },
+        {
+            "code": "SE",
+            "en": "Sweden",
+            "de": "Schweden",
+            "es": "Suecia",
+            "fr": "Suède",
+            "nl": "Zweden",
+            "it": "Svezia",
+            "flag": "https://instantwebtools.net/images/flags/svg/SE.svg"
+        },
+        {
+            "code": "NO",
+            "en": "Norway",
+            "de": "Norwegen",
+            "es": "Noruega",
+            "fr": "Norvège",
+            "nl": "Noorwegen",
+            "it": "Norvegia",
+            "flag": "https://instantwebtools.net/images/flags/svg/NO.svg"
+        },
+        {
+            "code": "DK",
+            "en": "Denmark",
+            "de": "Dänemark",
+            "es": "Dinamarca",
+            "fr": "Danemark",
+            "nl": "Denemarken",
+            "it": "Danimarca",
+            "flag": "https://instantwebtools.net/images/flags/svg/DK.svg"
+        },
+        {
+            "code": "FI",
+            "en": "Finland",
+            "de": "Finnland",
+            "es": "Finlandia",
+            "fr": "Finlande",
+            "nl": "Finland",
+            "it": "Finlandia",
+            "flag": "https://instantwebtools.net/images/flags/svg/FI.svg"
+        },
+        {
+            "code": "CH",
+            "en": "Switzerland",
+            "de": "Schweiz",
+            "es": "Suiza",
+            "fr": "Suisse",
+            "nl": "Zwitserland",
+            "it": "Svizzera",
+            "flag": "https://instantwebtools.net/images/flags/svg/CH.svg"
+        },
+        {
+            "code": "AT",
+            "en": "Austria",
+            "de": "Österreich",
+            "es": "Austria",
+            "fr": "Autriche",
+            "nl": "Oostenrijk",
+            "it": "Austria",
+            "flag": "https://instantwebtools.net/images/flags/svg/AT.svg"
+        },
+        {
+            "code": "CZ",
+            "en": "Czech Republic",
+            "de": "Tschechische Republik",
+            "es": "República Checa",
+            "fr": "République tchèque",
+            "nl": "Tsjechië",
+            "it": "Repubblica Ceca",
+            "flag": "https://instantwebtools.net/images/flags/svg/CZ.svg"
+        },
+        {
+            "code": "HU",
+            "en": "Hungary",
+            "de": "Ungarn",
+            "es": "Hungría",
+            "fr": "Hongrie",
+            "nl": "Hongarije",
+            "it": "Ungheria",
+            "flag": "https://instantwebtools.net/images/flags/svg/HU.svg"
+        },
+        {
+            "code": "PL",
+            "en": "Poland",
+            "de": "Polen",
+            "es": "Polonia",
+            "fr": "Pologne",
+            "nl": "Polen",
+            "it": "Polonia",
+            "flag": "https://instantwebtools.net/images/flags/svg/PL.svg"
+        },
+        {
+            "code": "GR",
+            "en": "Greece",
+            "de": "Griechenland",
+            "es": "Grecia",
+            "fr": "Grèce",
+            "nl": "Griekenland",
+            "it": "Grecia",
+            "flag": "https://instantwebtools.net/images/flags/svg/GR.svg"
+        },
+        {
+            "code": "RU",
+            "en": "Russia",
+            "de": "Russland",
+            "es": "Rusia",
+            "fr": "Russie",
+            "nl": "Rusland",
+            "it": "Russia",
+            "flag": "https://instantwebtools.net/images/flags/svg/RU.svg"
+        },
+        {
+            "code": "JP",
+            "en": "Japan",
+            "de": "Japan",
+            "es": "Japón",
+            "fr":"Japon",
+            "nl": "Japan",
+            "it": "Giappone",
+            "flag": "https://instantwebtools.net/images/flags/svg/JP.svg"
+        },
+        {
+            "code": "KR",
+            "en": "South Korea",
+            "de": "Südkorea",
+            "es": "Corea del Sur",
+            "fr": "Corée du Sud",
+            "nl": "Zuid-Korea",
+            "it": "Corea del Sud",
+            "flag": "https://instantwebtools.net/images/flags/svg/KR.svg"
+        },
+        {
+            "code": "CN",
+            "en": "China",
+            "de": "China",
+            "es": "China",
+            "fr": "Chine",
+            "nl": "China",
+            "it": "Cina",
+            "flag": "https://instantwebtools.net/images/flags/svg/CN.svg"
+        },
+        {
+            "code": "IN",
+            "en": "India",
+            "de": "Indien",
+            "es": "India",
+            "fr": "Inde",
+            "nl": "India",
+            "it": "India",
+            "flag": "https://instantwebtools.net/images/flags/svg/IN.svg"
+        },
+        {
+            "code": "AU",
+            "en": "Australia",
+            "de": "Australien",
+            "es": "Australia",
+            "fr": "Australie",
+            "nl": "Australië",
+            "it": "Australia",
+            "flag": "https://instantwebtools.net/images/flags/svg/AU.svg"
+        },
+        {
+            "code": "NZ",
+            "en": "New Zealand",
+            "de": "Neuseeland",
+            "es": "Nueva Zelanda",
+            "fr": "Nouvelle-Zélande",
+            "nl": "Nieuw-Zeeland",
+            "it": "Nuova Zelanda",
+            "flag": "https://instantwebtools.net/images/flags/svg/NZ.svg"
+        },
+        {
+            "code": "AR",
+            "en": "Argentina",
+            "de": "Argentinien",
+            "es": "Argentina",
+            "fr": "Argentine",
+            "nl": "Argentinië",
+            "it": "Argentina",
+            "flag": "https://instantwebtools.net/images/flags/svg/AR.svg"
+        }
+    ]
+}
