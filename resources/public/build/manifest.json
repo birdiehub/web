@@ -1,0 +1,26 @@
+{
+  "assets/media/loading.gif": {
+    "file": "assets/loading-75ac7220.gif",
+    "src": "assets/media/loading.gif"
+  },
+  "assets/media/logo.png": {
+    "file": "assets/logo-b20e4c00.png",
+    "src": "assets/media/logo.png"
+  },
+  "main.css": {
+    "file": "assets/main-12776f98.css",
+    "src": "main.css"
+  },
+  "main.js": {
+    "assets": [
+      "assets/loading-75ac7220.gif",
+      "assets/logo-b20e4c00.png"
+    ],
+    "css": [
+      "assets/main-12776f98.css"
+    ],
+    "file": "assets/main-af861f74.js",
+    "isEntry": true,
+    "src": "main.js"
+  }
+}
