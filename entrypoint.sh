@@ -65,7 +65,12 @@ if [ -n "$DB_HOST" ] && [ -n "$DB_PORT" ]; then
     php artisan migrate --seed
 fi
 
+# Build Vue app
+npm run build
+
 # Run the main container command
+# Docker container must have a continues process running (else it will exit)
+# No continues command? Use tail -f /dev/null
 php-fpm &
 
 wait
